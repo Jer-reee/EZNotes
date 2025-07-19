@@ -28,12 +28,40 @@
       z-index: 2;
     }
     .header {
-      text-align: center;
       padding: 0 0 1rem 0;
+    }
+    
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header-title {
       font-family: 'Montserrat', sans-serif;
       font-size: 2rem;
       letter-spacing: 2px;
       color: #6C63FF;
+    }
+    
+    .header-ai-btn {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
+      border: none;
+      border-radius: 0.8rem;
+      padding: 0.5rem 1rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+    }
+    
+    .header-ai-btn:hover {
+      background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
     .search-bar {
       display: flex;
@@ -51,6 +79,11 @@
       font-size: 1rem;
       background: transparent;
       padding: 0.5rem 0;
+    }
+    
+    .search-bar.has-content {
+      background: #f0f0ff;
+      border: 1px solid #6C63FF;
     }
     .filter-chips {
       display: flex;
@@ -102,19 +135,49 @@
     .sort-dropdown.show {
       display: block;
     }
-    .sort-option {
-      padding: 0.5rem 1rem;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
+    .sort-direction h4,
+    .sort-criteria h4 {
+      margin: 0 0 0.5rem 0;
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+    }
+    
+    .direction-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .direction-btn,
+    .criteria-btn {
+      flex: 1;
+      padding: 0.5rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 0.5rem;
+      background: #fff;
+      color: #333;
       cursor: pointer;
       font-size: 0.9rem;
-      color: #444;
-      transition: background 0.2s;
+      transition: all 0.2s;
     }
-    .sort-option:hover {
-      background: #f7f8fc;
+    
+    .direction-btn:hover,
+    .criteria-btn:hover {
+      border-color: #6C63FF;
+      background: #f0f0f0;
+    }
+    
+    .direction-btn.selected,
+    .criteria-btn.selected {
+      border-color: #6C63FF;
+      background: #6C63FF;
+      color: #fff;
+    }
+    
+    .sort-criteria {
+      border-top: 1px solid #e0e0e0;
+      padding-top: 1rem;
     }
     .notes-grid {
       display: grid;
@@ -196,11 +259,39 @@
       margin-top: 0.3rem;
       font-weight: 500;
     }
-    .note-card[data-urgency="1"] { background: #FFE6E6; border-left: 4px solid #FF4444; }
-    .note-card[data-urgency="2"] { background: #FFF2E6; border-left: 4px solid #FF8800; }
-    .note-card[data-urgency="3"] { background: #FFFBE6; border-left: 4px solid #FFCC00; }
-    .note-card[data-urgency="4"] { background: #E6FFE6; border-left: 4px solid #00CC44; }
-    .note-card[data-urgency="5"] { background: #E6F3FF; border-left: 4px solid #0066CC; }
+    .note-duration {
+      font-size: 0.8rem;
+      color: #666;
+      margin-top: 0.3rem;
+      font-weight: 500;
+    }
+    /* Importance-based color coding */
+    .note-card[data-importance="slightly"] { 
+      background: #e8f5e8; 
+      border-left: 4px solid #4caf50; 
+    }
+    .note-card[data-importance="moderately"] { 
+      background: #fff3e0; 
+      border-left: 4px solid #ff9800; 
+    }
+    .note-card[data-importance="very"] { 
+      background: #ffebee; 
+      border-left: 4px solid #f44336; 
+    }
+    
+    /* Dark mode importance colors */
+    body.dark-mode .note-card[data-importance="slightly"] { 
+      background: #1b5e20; 
+      border-left-color: #4caf50; 
+    }
+    body.dark-mode .note-card[data-importance="moderately"] { 
+      background: #e65100; 
+      border-left-color: #ff9800; 
+    }
+    body.dark-mode .note-card[data-importance="very"] { 
+      background: #b71c1c; 
+      border-left-color: #f44336; 
+    }
     .note-card.done {
       opacity: 0.7;
       background: #f0f0f0 !important;
@@ -236,13 +327,14 @@
       align-items: flex-end;
       justify-content: center;
       z-index: 100;
-      transition: opacity 0.4s;
       opacity: 1;
       pointer-events: auto;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .nav-island.hidden {
       opacity: 0;
       pointer-events: none;
+      transform: translateX(-50%) translateY(100px);
     }
     .bottom-nav {
       position: relative;
@@ -262,7 +354,6 @@
       border: none;
       font-size: 2rem;
       color: #e7a7c7;
-      transition: color 0.2s;
       cursor: pointer;
       outline: none;
       padding: 0 8px;
@@ -276,6 +367,7 @@
     .bottom-nav .nav-btn.settings {
       color: #4CAF50;
     }
+
     .fab {
       position: fixed;
       left: 50%;
@@ -294,8 +386,12 @@
       justify-content: center;
       cursor: pointer;
       z-index: 100;
-      transition: background 0.2s;
       outline: none;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .fab.hidden {
+      transform: translateX(-50%) translateY(100px);
     }
     .fab:active {
       background: #4d7fd6;
@@ -328,6 +424,91 @@
       flex-direction: column;
       gap: 1.1rem;
       animation: modalIn 0.25s cubic-bezier(.4,1.6,.6,1) 1;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    
+    @media (max-width: 768px) {
+      .modal {
+        width: 100vw;
+        height: 100vh;
+        max-height: 100vh;
+        border-radius: 0;
+        padding: 1rem;
+        margin: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+      
+      .modal-overlay {
+        align-items: stretch;
+        justify-content: stretch;
+      }
+      
+      .modal-btn-row {
+        position: sticky;
+        bottom: 0;
+        background: #fff;
+        padding: 1rem 0;
+        margin-top: auto;
+        border-top: 1px solid #e0e0e0;
+      }
+      
+      .floating-island {
+        margin: 1rem auto 0 auto;
+        padding: 1rem 0.8rem 1rem 0.8rem;
+        border-radius: 1.5rem;
+      }
+      
+      .notes-grid {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+      }
+      
+      .note-card {
+        min-height: 100px;
+        padding: 0.8rem;
+      }
+      
+      .nav-island {
+        width: 280px;
+        height: 80px;
+        bottom: 15px;
+      }
+      
+      .fab {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+      }
+      
+      .search-bar {
+        margin: 0 0 0.8rem 0;
+        padding: 0.4rem 0.8rem;
+      }
+      
+      .search-bar input {
+        font-size: 0.9rem;
+      }
+      
+      .filter-chips {
+        gap: 0.4rem;
+        margin: 0 0 1rem 0;
+      }
+      
+      .chip {
+        padding: 0.3rem 0.8rem;
+        font-size: 0.9rem;
+      }
+      
+      .calendar-window {
+        flex-direction: column;
+      }
+      
+    /* Calendar window uses the same nav island as main dashboard */
     }
     @keyframes modalIn {
       from { transform: translateY(40px) scale(0.98); opacity: 0; }
@@ -624,8 +805,17 @@
       box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 1.5px 8px rgba(0,0,0,0.2);
     }
     
-    body.dark-mode .header {
+    body.dark-mode .header-title {
       color: #64b5f6;
+    }
+    
+    body.dark-mode .header-ai-btn {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+      color: #64b5f6;
+    }
+    
+    body.dark-mode .header-ai-btn:hover {
+      background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
     }
     
     body.dark-mode .header span {
@@ -705,6 +895,8 @@
     body.dark-mode .fab:active {
       background: #455a64;
     }
+    
+
     
     body.dark-mode .modal {
       background: #2c3e50;
@@ -793,12 +985,28 @@
       border-color: #00ffff;
     }
     
-    body.dark-mode .sort-option {
+    body.dark-mode .direction-btn,
+    body.dark-mode .criteria-btn {
+      background: #2d3748;
+      color: #e0e0e0;
+      border-color: #4a5568;
+    }
+    
+    body.dark-mode .direction-btn:hover,
+    body.dark-mode .criteria-btn:hover {
+      border-color: #6C63FF;
+      background: #37474f;
+    }
+    
+    body.dark-mode .direction-btn.selected,
+    body.dark-mode .criteria-btn.selected {
+      border-color: #6C63FF;
+      background: #6C63FF;
       color: #fff;
     }
     
-    body.dark-mode .sort-option:hover {
-      background: #0f3460;
+    body.dark-mode .sort-criteria {
+      border-top-color: #4a5568;
     }
     body.dark-mode .note-card[data-urgency="1"] { background: #2D1B1B; border-left: 4px solid #FF4444; color: #fff; }
     body.dark-mode .note-card[data-urgency="2"] { background: #2D241B; border-left: 4px solid #FF8800; color: #fff; }
@@ -904,6 +1112,255 @@
       overflow: hidden;
     }
     
+    /* Calendar as separate window */
+    .calendar-window {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #fff;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    /* Ensure nav island stays visible in calendar view */
+    .calendar-window.active .nav-island {
+      display: flex !important;
+      z-index: 1001;
+      position: fixed !important;
+      bottom: 20px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+    
+    /* Ensure FAB (+ button) stays visible in calendar view */
+    .calendar-window.active .fab {
+      display: flex !important;
+      z-index: 1001;
+      position: fixed !important;
+      bottom: 20px !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
+    }
+    
+    .calendar-window.active {
+      display: flex;
+    }
+    
+    /* Calendar window uses the same nav island as main dashboard */
+    
+    /* Month/Year Selector Styles */
+    .month-year-selector {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #fff;
+      border-radius: 1rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      padding: 1.5rem;
+      z-index: 2000;
+      min-width: 300px;
+      max-width: 90vw;
+    }
+    
+    .month-year-selector.hidden {
+      display: none;
+    }
+    
+    .selector-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .selector-header h3 {
+      margin: 0;
+      color: #6C63FF;
+      font-size: 1.2rem;
+    }
+    
+    .close-selector-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #666;
+      padding: 0.2rem;
+      border-radius: 0.3rem;
+    }
+    
+    .close-selector-btn:hover {
+      background: #f0f0f0;
+    }
+    
+    .selector-content {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .year-selector, .month-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .year-selector label, .month-selector label {
+      font-weight: 500;
+      color: #333;
+    }
+    
+    .year-selector select, .month-selector select {
+      padding: 0.5rem;
+      border: 1px solid #ddd;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      background: #f8f9fa;
+    }
+    
+    .selector-buttons {
+      display: flex;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .selector-btn {
+      flex: 1;
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+    
+    .selector-btn:not(.cancel) {
+      background: #6C63FF;
+      color: #fff;
+    }
+    
+    .selector-btn.cancel {
+      background: #f0f0f0;
+      color: #666;
+    }
+    
+    .selector-btn:hover {
+      opacity: 0.9;
+    }
+    
+    /* Dark mode for selector */
+    body.dark-mode .month-year-selector {
+      background: #2c3e50;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .selector-header h3 {
+      color: #64b5f6;
+    }
+    
+    body.dark-mode .year-selector select, 
+    body.dark-mode .month-selector select {
+      background: #37474f;
+      border-color: #546e7a;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .selector-btn.cancel {
+      background: #37474f;
+      color: #b0bec5;
+    }
+    
+    /* Mobile-specific calendar layout */
+    @media (max-width: 768px) {
+      .calendar-modal {
+        flex-direction: column;
+      }
+      
+      .calendar-top-section {
+        height: 50vh; /* Reduced from 60vh to make calendar smaller */
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .calendar-top-section.compact {
+        height: 30vh; /* Even smaller when date is selected */
+      }
+      
+      .calendar-bottom-section {
+        height: 50vh; /* Increased from 40vh to give more space for notes */
+        background: #f8f9fa;
+        border-top: 1px solid #e0e0e0;
+        overflow-y: auto;
+        padding: 1rem;
+        transition: height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .calendar-bottom-section.expanded {
+        height: 70vh; /* Much larger when date is selected */
+        animation: expandSection 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      
+      .calendar-bottom-section.hidden {
+        display: none;
+      }
+    }
+      
+      .calendar-day {
+        min-height: 60px;
+        padding: 0.3rem;
+      }
+      
+      .calendar-day-number {
+        font-size: 0.8rem;
+        top: 0.3rem;
+        left: 0.3rem;
+      }
+      
+      .calendar-day-content {
+        margin-top: 1.5rem;
+        gap: 0.2rem;
+      }
+      
+      .calendar-task {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.4rem;
+      }
+      
+      .calendar-header {
+        margin: 1rem;
+        padding-bottom: 0.5rem;
+      }
+      
+      .calendar-title {
+        font-size: 1.2rem;
+      }
+      
+      .calendar-nav-btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .calendar-grid {
+        margin: 0 1rem 1rem 1rem;
+        gap: 0.5px;
+      }
+      
+      .calendar-day-header {
+        padding: 0.5rem 0.2rem;
+        font-size: 0.8rem;
+      }
+    }
+    
     .calendar-header {
       display: flex;
       justify-content: space-between;
@@ -911,7 +1368,18 @@
       margin: 2rem;
       padding-bottom: 1rem;
       border-bottom: 1px solid #eee;
+      position: relative;
     }
+    
+    .calendar-nav {
+      position: absolute;
+      top: 1rem;
+      right: 2rem;
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+
     
     .calendar-title {
       font-size: 1.5rem;
@@ -920,24 +1388,22 @@
       margin: 0;
     }
     
-    .calendar-nav {
-      display: flex;
-      gap: 1rem;
-    }
-    
     .calendar-nav-btn {
       background: #6C63FF;
       color: #fff;
       border: none;
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 0.8rem;
       border-radius: 0.5rem;
       cursor: pointer;
-      font-size: 0.9rem;
-      transition: background 0.2s;
+      font-size: 1.2rem;
+      font-weight: bold;
+      transition: all 0.2s;
+      min-width: 40px;
     }
     
     .calendar-nav-btn:hover {
       background: #574fd6;
+      transform: scale(1.05);
     }
     
     .calendar-grid {
@@ -1053,6 +1519,359 @@
     body.dark-mode .calendar-task.home { background: #2f0f1f; color: #f06292; }
     body.dark-mode .calendar-task.other { background: #1f1f1f; color: #9e9e9e; }
     
+    /* Dark mode for calendar window */
+    body.dark-mode .calendar-window {
+      background: #16213e;
+      color: #fff;
+    }
+    
+    body.dark-mode .calendar-window .calendar-bottom-section {
+      background: #0f3460;
+      border-top-color: #333;
+    }
+    
+    /* Calendar window uses the same nav island styling as main dashboard */
+    
+    /* AI Window Styles */
+    .ai-window {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: #fff;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    
+    .ai-window.active {
+      display: flex;
+    }
+    
+    .ai-header {
+      padding: 2rem;
+      border-bottom: 1px solid #eee;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+    
+    .ai-header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .ai-header-left {
+      text-align: left;
+    }
+    
+    .ai-home-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .ai-home-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .ai-title {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 0.5rem 0;
+      font-family: 'Montserrat', sans-serif;
+    }
+    
+    .ai-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+    
+    .ai-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+    
+    .ai-chat-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      max-width: 800px;
+      margin: 0 auto;
+      width: 100%;
+    }
+    
+    .ai-messages {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .ai-message {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    
+    .ai-message.ai-assistant {
+      flex-direction: row;
+    }
+    
+    .ai-message.ai-user {
+      flex-direction: row-reverse;
+    }
+    
+    .ai-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    
+    .ai-message.ai-assistant .ai-avatar {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+    
+    .ai-message.ai-user .ai-avatar {
+      background: #6C63FF;
+      color: #fff;
+    }
+    
+    .ai-text {
+      background: #f8f9fa;
+      padding: 1rem;
+      border-radius: 1rem;
+      max-width: 70%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .ai-message.ai-user .ai-text {
+      background: #6C63FF;
+      color: #fff;
+    }
+    
+    .ai-text p {
+      margin: 0 0 0.5rem 0;
+      line-height: 1.5;
+    }
+    
+    .ai-text p:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Markdown formatting for AI responses */
+    .ai-text h3 {
+      color: #6C63FF;
+      margin: 1rem 0 0.5rem 0;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+    
+    .ai-text h3:first-child {
+      margin-top: 0;
+    }
+    
+    .ai-text strong {
+      color: #6C63FF;
+      font-weight: 600;
+    }
+    
+    .ai-text ul {
+      margin: 0.5rem 0;
+      padding-left: 1.5rem;
+    }
+    
+    .ai-text li {
+      margin-bottom: 0.3rem;
+      line-height: 1.4;
+    }
+    
+    .ai-text ul {
+      margin: 0.5rem 0;
+      padding-left: 1.5rem;
+    }
+    
+    .ai-text li {
+      margin-bottom: 0.3rem;
+    }
+    
+    .ai-quick-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+    
+    .ai-action-btn {
+      background: rgba(108, 99, 255, 0.1);
+      color: #6C63FF;
+      border: 1px solid #6C63FF;
+      border-radius: 0.5rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-weight: 500;
+    }
+    
+    .ai-action-btn:hover {
+      background: #6C63FF;
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    
+    .ai-input-container {
+      padding: 1rem 0;
+      border-top: 1px solid #eee;
+    }
+    
+    .ai-input-wrapper {
+      display: flex;
+      gap: 0.5rem;
+      align-items: flex-end;
+    }
+    
+    .ai-input-wrapper textarea {
+      flex: 1;
+      border: 2px solid #e0e0e0;
+      border-radius: 1rem;
+      padding: 0.8rem;
+      font-size: 1rem;
+      resize: none;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+    
+    .ai-input-wrapper textarea:focus {
+      outline: none;
+      border-color: #6C63FF;
+    }
+    
+    .ai-send-btn {
+      background: #6C63FF;
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+    
+    .ai-send-btn:hover {
+      background: #574fd6;
+    }
+    
+    /* Dark Mode AI Styles */
+    body.dark-mode .ai-window {
+      background: #16213e;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .ai-header {
+      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    }
+    
+    body.dark-mode .ai-home-btn {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    
+    body.dark-mode .ai-home-btn:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+    
+    body.dark-mode .ai-text {
+      background: #37474f;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .ai-message.ai-user .ai-text {
+      background: #546e7a;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .ai-input-wrapper textarea {
+      background: #37474f;
+      border-color: #546e7a;
+      color: #e0e0e0;
+    }
+    
+    body.dark-mode .ai-input-wrapper textarea:focus {
+      border-color: #64b5f6;
+    }
+    
+    body.dark-mode .ai-send-btn {
+      background: #546e7a;
+    }
+    
+    body.dark-mode .ai-send-btn:hover {
+      background: #455a64;
+    }
+    
+    /* Mobile AI Styles */
+    @media (max-width: 768px) {
+      .ai-header {
+        padding: 1rem;
+      }
+      
+      .ai-header-content {
+        gap: 1rem;
+      }
+      
+      .ai-title {
+        font-size: 1.5rem;
+      }
+      
+      .ai-home-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+      
+      .ai-content {
+        padding: 0.5rem;
+      }
+      
+      .ai-text {
+        max-width: 85%;
+      }
+      
+      .ai-input-wrapper {
+        gap: 0.3rem;
+      }
+      
+      .ai-send-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+      }
+    }
+    
     /* Calendar task importance colors */
     .calendar-task[data-importance="1"] { 
       color: #4caf50 !important; 
@@ -1105,6 +1924,43 @@
       background: rgba(211, 47, 47, 0.2) !important;
       border-left: 3px solid #d32f2f !important;
     }
+    
+    /* Animated task items */
+    .detail-task-item {
+      transform: translateY(20px);
+      opacity: 0;
+      animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    .detail-task-item:nth-child(1) { animation-delay: 0.1s; }
+    .detail-task-item:nth-child(2) { animation-delay: 0.2s; }
+    .detail-task-item:nth-child(3) { animation-delay: 0.3s; }
+    .detail-task-item:nth-child(4) { animation-delay: 0.4s; }
+    .detail-task-item:nth-child(5) { animation-delay: 0.5s; }
+    
+    @keyframes slideInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @keyframes expandSection {
+      from {
+        height: 0;
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        height: 70vh;
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
     .note-card[data-importance="1"] { background: #E8F5E8; border-left: 4px solid #00CC44; }
     .note-card[data-importance="2"] { background: #FFF2E6; border-left: 4px solid #FF8800; }
@@ -1132,17 +1988,18 @@
     }
     
     .importance-dot {
-      width: 28px;
-      height: 28px;
-      border-radius: 50%;
+      padding: 0.5rem 1rem;
+      border-radius: 1rem;
       border: 2px solid #e0e0e0;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 1.1rem;
-      transition: border 0.2s, box-shadow 0.2s;
-      position: relative;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+      background: #fff;
+      color: #666;
     }
     
     .importance-dot.selected {
@@ -1150,60 +2007,38 @@
       box-shadow: 0 2px 8px rgba(108,99,255,0.13);
     }
     
-    .importance-dot[data-level="1"] { 
-      background: #2e7d32; 
+    .importance-dot[data-level="slightly"] { 
+      background: #e8f5e8; 
       border-color: #4caf50;
+      color: #2e7d32;
     }
-    .importance-dot[data-level="2"] { 
-      background: #f57c00; 
+    .importance-dot[data-level="moderately"] { 
+      background: #fff3e0; 
       border-color: #ff9800;
+      color: #f57c00;
     }
-    .importance-dot[data-level="3"] { 
-      background: #f9a825; 
-      border-color: #ffc107;
-    }
-    .importance-dot[data-level="4"] { 
-      background: #d32f2f; 
+    .importance-dot[data-level="very"] { 
+      background: #ffebee; 
       border-color: #f44336;
+      color: #d32f2f;
     }
-    .importance-dot[data-level="5"] { 
-      background: #b71c1c; 
-      border-color: #d32f2f;
-    }
-    
-    .importance-dot[data-level="1"]:after { color: #4caf50; }
-    .importance-dot[data-level="2"]:after { color: #ff9800; }
-    .importance-dot[data-level="3"]:after { color: #ffc107; }
-    .importance-dot[data-level="4"]:after { color: #f44336; }
-    .importance-dot[data-level="5"]:after { color: #d32f2f; }
     
     /* Dark Mode Importance Dots */
-    body.dark-mode .importance-dot[data-level="1"] { 
-      background: #0f2f0f; 
+    body.dark-mode .importance-dot[data-level="slightly"] { 
+      background: #1b5e20; 
       border-color: #4caf50;
+      color: #81c784;
     }
-    body.dark-mode .importance-dot[data-level="2"] { 
-      background: #2d1b0f; 
-      border-color: #ffaa00;
+    body.dark-mode .importance-dot[data-level="moderately"] { 
+      background: #e65100; 
+      border-color: #ff9800;
+      color: #ffb74d;
     }
-    body.dark-mode .importance-dot[data-level="3"] { 
-      background: #2d2d0f; 
-      border-color: #ffcc00;
+    body.dark-mode .importance-dot[data-level="very"] { 
+      background: #b71c1c; 
+      border-color: #f44336;
+      color: #ef5350;
     }
-    body.dark-mode .importance-dot[data-level="4"] { 
-      background: #2f0f0f; 
-      border-color: #ff4444;
-    }
-    body.dark-mode .importance-dot[data-level="5"] { 
-      background: #2f0000; 
-      border-color: #cc0000;
-    }
-    
-    body.dark-mode .importance-dot[data-level="1"]:after { color: #4caf50; }
-    body.dark-mode .importance-dot[data-level="2"]:after { color: #ff9800; }
-    body.dark-mode .importance-dot[data-level="3"]:after { color: #ffc107; }
-    body.dark-mode .importance-dot[data-level="4"]:after { color: #f44336; }
-    body.dark-mode .importance-dot[data-level="5"]:after { color: #d32f2f; }
     
     /* Done Note Styles */
     .note-card.done {
@@ -1305,35 +2140,161 @@
       opacity: 1;
     }
     
+    /* Done Notes Section Styles */
+    .done-notes-section {
+      padding: 1rem;
+      background: #fff;
+      border-radius: 1rem;
+      margin: 1rem 0;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .multi-select-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      margin: 1rem 0;
+      padding: 0.5rem;
+      background: #f8f9fa;
+      border-radius: 0.5rem;
+    }
+    
+    body.dark-mode .multi-select-actions {
+      background: #37474f;
+    }
+    
+    .select-all-btn, .delete-selected-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 0.5rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: none; /* Hidden by default */
+    }
+    
+    .select-all-btn {
+      background: #e3f2fd;
+      color: #1976d2;
+    }
+    
+    .select-all-btn:hover {
+      background: #bbdefb;
+    }
+    
+    .delete-selected-btn {
+      background: #ffebee;
+      color: #d32f2f;
+    }
+    
+    .delete-selected-btn:hover {
+      background: #ffcdd2;
+    }
+    
+    /* Multi-select styles for done notes */
+    .note-card.done {
+      position: relative;
+    }
+    
+    .note-card.done .checkbox {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      width: 20px;
+      height: 20px;
+      border: 2px solid #28a745;
+      border-radius: 50%;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+      z-index: 10;
+    }
+    
+    .note-card.done.selected .checkbox {
+      background: #28a745;
+      border-color: #28a745;
+    }
+    
+    .note-card.done.selected .checkbox::after {
+      content: '✓';
+      color: #fff;
+      font-size: 12px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+    
+    .note-card.done.selected {
+      background: #e8f5e8;
+      border-color: #4caf50;
+      box-shadow: 0 0 0 2px #4caf50;
+    }
+    
+    /* Dark Mode Done Notes */
+    body.dark-mode .done-notes-section {
+      background: #2d3748;
+    }
+    
+    body.dark-mode .done-notes-header h3 {
+      color: #4caf50;
+    }
+    
+    body.dark-mode .note-card.done.selected {
+      background: #1b5e20;
+      border-color: #4caf50;
+    }
+    
     /* Calendar Modal Styles */
   </style>
 </head>
 <body>
   <div class="floating-island">
-    <div class="header">EZ<span style="color:#222;">Habits</span></div>
+    <div class="header">
+      <div class="header-content">
+        <div class="header-title">EZ<span style="color:#222;">Habits</span></div>
+        <button class="header-ai-btn" id="headerAiBtn" title="AI Assistant">AI</button>
+      </div>
+    </div>
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search for notes" />
+      <button id="clearSearchBtn" style="display: none; background: none; border: none; color: #6C63FF; cursor: pointer; padding: 0.5rem; font-size: 1.2rem;">✕</button>
     </div>
+    <div id="searchResultsCount" style="display: none; text-align: center; color: #666; font-size: 0.9rem; margin: 0.5rem 0;"></div>
     <div class="filter-chips" id="filterChips" style="position: relative;">
       <div id="chipContainer"></div>
       <button class="sort-btn" id="sortBtn">Sort ▼</button>
       <div class="sort-dropdown" id="sortDropdown">
-        <button class="sort-option" data-sort="date-asc">Due Date (Earliest First)</button>
-        <button class="sort-option" data-sort="date-desc">Due Date (Latest First)</button>
-        <button class="sort-option" data-sort="term-asc">Term (Short to Long)</button>
-        <button class="sort-option" data-sort="term-desc">Term (Long to Short)</button>
-        <button class="sort-option" data-sort="importance-asc">Importance (Low to High)</button>
-        <button class="sort-option" data-sort="importance-desc">Importance (High to Low)</button>
-        <button class="sort-option" data-sort="added-desc">Time Added (Newest First)</button>
-        <button class="sort-option" data-sort="added-asc">Time Added (Oldest First)</button>
+        <div class="sort-direction">
+          <h4>Sort Direction</h4>
+          <div class="direction-buttons">
+            <button class="direction-btn" data-direction="asc">Ascending</button>
+            <button class="direction-btn" data-direction="desc">Descending</button>
+          </div>
+        </div>
+        <div class="sort-criteria hidden" id="sortCriteria">
+          <h4>Sort By</h4>
+          <button class="criteria-btn" data-criteria="date">Due Date</button>
+          <button class="criteria-btn" data-criteria="added">Date Added</button>
+          <button class="criteria-btn" data-criteria="importance">Importance</button>
+          <button class="criteria-btn" data-criteria="duration">Duration</button>
+        </div>
       </div>
     </div>
     <div class="notes-grid" id="notesGrid"></div>
+    
+    <!-- Multi-select action buttons (hidden by default) -->
+    <div class="multi-select-actions hidden" id="multiSelectActions">
+      <button class="select-all-btn" id="selectAllDoneBtn">Select All</button>
+      <button class="delete-selected-btn hidden" id="deleteSelectedDoneBtn">Delete Selected</button>
+    </div>
+    
+
   </div>
   <div class="nav-island" id="navIsland">
     <nav class="bottom-nav">
       <button class="nav-btn" title="Calendar"> <span style="color:#e7a7c7;">&#128197;</span> </button>
-      <div style="width:68px;"></div>
+      <button class="nav-btn" title="Done" id="doneTabBtn"> <span style="color:#28a745;">&#9989;</span> </button>
       <button class="nav-btn settings" title="Settings"> <span style="color:#4CAF50;">&#9881;&#65039;</span> </button>
     </nav>
   </div>
@@ -1368,11 +2329,14 @@
       </div>
       <label>Importance</label>
       <div class="importance-row" id="importanceRow">
-        <div class="importance-dot" data-level="1" title="1 (Low)"></div>
-        <div class="importance-dot" data-level="2" title="2"></div>
-        <div class="importance-dot" data-level="3" title="3"></div>
-        <div class="importance-dot" data-level="4" title="4"></div>
-        <div class="importance-dot" data-level="5" title="5 (High)"></div>
+        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
+        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
+        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
+      </div>
+      <label for="duration">Duration (optional)</label>
+      <div class="duration-inputs">
+        <input type="number" id="durationHours" placeholder="Hours" min="0" step="1" style="width: 45%; margin-right: 5%;">
+        <input type="number" id="durationMinutes" placeholder="Minutes" min="0" max="59" step="1" style="width: 45%;">
       </div>
       <label>Categories <button type="button" class="category-settings-btn" id="categorySettingsBtn" title="Manage categories">⚙️</button></label>
       <div class="category-row" id="categoryRow">
@@ -1418,11 +2382,14 @@
       </div>
       <label>Importance</label>
       <div class="importance-row" id="editImportanceRow">
-        <div class="importance-dot" data-level="1" title="1 (Low)"></div>
-        <div class="importance-dot" data-level="2" title="2"></div>
-        <div class="importance-dot" data-level="3" title="3"></div>
-        <div class="importance-dot" data-level="4" title="4"></div>
-        <div class="importance-dot" data-level="5" title="5 (High)"></div>
+        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
+        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
+        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
+      </div>
+      <label for="editDuration">Duration (optional)</label>
+      <div class="duration-inputs">
+        <input type="number" id="editDurationHours" placeholder="Hours" min="0" step="1" style="width: 45%; margin-right: 5%;">
+        <input type="number" id="editDurationMinutes" placeholder="Minutes" min="0" max="59" step="1" style="width: 45%;">
       </div>
       <label>Categories <button type="button" class="category-settings-btn" id="editCategorySettingsBtn" title="Manage categories">⚙️</button></label>
       <div class="category-row" id="editCategoryRow">
@@ -1453,6 +2420,7 @@
           <option value="gentle">Gentle</option>
           <option value="urgent">Urgent</option>
           <option value="custom">Custom</option>
+          <option value="mute">Mute</option>
         </select>
         
         <label>Notification Frequency by Urgency</label>
@@ -1479,6 +2447,18 @@
               <option value="monthly">Monthly</option>
             </select>
           </div>
+        </div>
+        
+        <div class="setting-group">
+          <button id="testNotificationBtn" type="button" style="background: #6C63FF; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.9rem; margin-top: 1rem;">
+            🔔 Test Notification
+          </button>
+          <button id="testSoundBtn" type="button" style="background: #4CAF50; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.9rem; margin-top: 0.5rem; margin-left: 0.5rem;">
+            🔊 Test Sound
+          </button>
+          <small style="color: #666; display: block; margin-top: 0.5rem;">
+            Test notification and sound settings
+          </small>
         </div>
       </div>
       
@@ -1524,23 +2504,122 @@
       </div>
     </div>
   </div>
-  <!-- Calendar Modal -->
-  <div class="modal-overlay hidden" id="calendarModalOverlay">
-    <div class="calendar-modal">
+  <!-- Calendar Window -->
+  <div class="calendar-window" id="calendarWindow">
+    <div class="calendar-top-section">
       <div class="calendar-header">
         <h2 class="calendar-title" id="calendarTitle">Calendar</h2>
         <div class="calendar-nav">
-          <button class="calendar-nav-btn" id="prevMonthBtn">&lt;</button>
-          <button class="calendar-nav-btn" id="nextMonthBtn">&gt;</button>
-          <button class="calendar-nav-btn" id="closeCalendarBtn">Close</button>
+          <button class="calendar-nav-btn" id="prevMonthBtn">‹</button>
+          <button class="calendar-nav-btn" id="nextMonthBtn">›</button>
+        </div>
+      </div>
+      
+      <!-- Month/Year Selector -->
+      <div class="month-year-selector hidden" id="monthYearSelector">
+        <div class="selector-header">
+          <h3>Select Month & Year</h3>
+          <button class="close-selector-btn" id="closeSelectorBtn">&times;</button>
+        </div>
+        <div class="selector-content">
+          <div class="year-selector">
+            <label>Year:</label>
+            <select id="yearSelect"></select>
+          </div>
+          <div class="month-selector">
+            <label>Month:</label>
+            <select id="monthSelect"></select>
+          </div>
+          <div class="selector-buttons">
+            <button class="selector-btn" id="applyDateBtn">Apply</button>
+            <button class="selector-btn cancel" id="cancelDateBtn">Cancel</button>
+          </div>
         </div>
       </div>
       <div class="calendar-grid" id="calendarGrid">
         <!-- Calendar content will be generated by JavaScript -->
       </div>
     </div>
+    <div class="calendar-bottom-section hidden" id="calendarBottomSection">
+      <div class="selected-date-info">
+        <h3 id="selectedDateTitle">Selected Date</h3>
+        <div id="selectedDateTasks">
+          <!-- Tasks for selected date will be shown here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Calendar uses the same nav island as main dashboard -->
+  </div>
+  <!-- AI Assistant Window -->
+  <div class="ai-window" id="aiWindow">
+    <div class="ai-header">
+      <div class="ai-header-content">
+        <div class="ai-header-left">
+          <h2 class="ai-title">AI Assistant</h2>
+          <div class="ai-subtitle">Your intelligent habit companion</div>
+        </div>
+        <button class="ai-home-btn" id="aiHomeBtn" title="Go Home">🏠</button>
+      </div>
+    </div>
+    
+    <div class="ai-content">
+      <div class="ai-chat-container">
+        <div class="ai-messages" id="aiMessages">
+          <div class="ai-message ai-assistant">
+            <div class="ai-avatar">🤖</div>
+            <div class="ai-text">
+              <p>Hello! I'm your AI assistant with access to all your notes data. I can help you with:</p>
+              <ul>
+                <li>📊 Analyzing your progress and completion rates</li>
+                <li>🎯 Building better habits based on your patterns</li>
+                <li>💡 Providing personalized recommendations</li>
+                <li>📋 Smart planning using your actual tasks and deadlines</li>
+                <li>🚀 Identifying areas for improvement</li>
+              </ul>
+              <p>I have access to your tasks, importance levels, due dates, and categories to provide personalized insights!</p>
+              <div class="ai-quick-actions">
+                <button class="ai-action-btn" onclick="handleQuickAction('analyze')">📊 Analyze Progress</button>
+                <button class="ai-action-btn" onclick="handleQuickAction('suggest')">💡 Get Suggestions</button>
+                <button class="ai-action-btn" onclick="handleQuickAction('habits')">🎯 Build Habits</button>
+                <button class="ai-action-btn" onclick="handleQuickAction('planning')">📋 Smart Planning</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="ai-input-container">
+          <div class="ai-input-wrapper">
+            <textarea id="aiInput" placeholder="Ask me anything about habits, productivity, or your goals..." rows="3"></textarea>
+            <button class="ai-send-btn" id="aiSendBtn" title="Send message">📤</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <script>
+    // Navigation bar hide/show functions
+    const navIsland = document.getElementById('navIsland');
+    const fab = document.querySelector('.fab');
+    
+    function hideNavBar() {
+      if (navIsland) {
+        navIsland.classList.add('hidden');
+      }
+      if (fab) {
+        fab.classList.add('hidden');
+      }
+    }
+    
+    function showNavBar() {
+      if (navIsland) {
+        navIsland.classList.remove('hidden');
+      }
+      if (fab) {
+        fab.classList.remove('hidden');
+      }
+    }
+    
     // Modal open/close logic
     const openModalBtn = document.getElementById('openModalBtn');
     const modalOverlay = document.getElementById('modalOverlay');
@@ -1552,13 +2631,29 @@
     // Modal event handlers
     cancelModalBtn.onclick = () => { 
       console.log('Closing add modal');
-      modalOverlay.classList.add('hidden'); 
+      modalOverlay.classList.add('hidden');
+      showNavBar(); // Show nav bar when modal closes
     };
+    
+    // Ensure modals work properly in calendar view
+    const editModalOverlay = document.getElementById('editModalOverlay');
+    
+    // Update modal z-index when opening from calendar
+    function updateModalZIndex() {
+      if (calendarWindow.classList.contains('active')) {
+        modalOverlay.style.zIndex = '2000';
+        editModalOverlay.style.zIndex = '2000';
+      } else {
+        modalOverlay.style.zIndex = '200';
+        editModalOverlay.style.zIndex = '200';
+      }
+    }
     
     modalOverlay.onclick = (e) => {
       if (e.target === modalOverlay) {
         console.log('Closing modal via overlay click');
         modalOverlay.classList.add('hidden');
+        showNavBar(); // Show nav bar when modal closes
       }
     };
 
@@ -1572,14 +2667,14 @@
       const sortOptions = {
         'date-asc': 'Due Date',
         'date-desc': 'Due Date',
-        'term-asc': 'Term',
-        'term-desc': 'Term',
         'importance-asc': 'Importance',
         'importance-desc': 'Importance',
-        'added-desc': 'Time Added',
-        'added-asc': 'Time Added'
+        'added-desc': 'Date Added',
+        'added-asc': 'Date Added',
+        'duration-asc': 'Duration',
+        'duration-desc': 'Duration'
       };
-      sortBtn.textContent = `Sort: ${sortOptions[currentSort]} ▼`;
+      sortBtn.textContent = `Sort: ${sortOptions[currentSort] || 'Due Date'} ▼`;
     }
     
     // Load sort preference on startup
@@ -1595,22 +2690,54 @@
       }
     });
     
-    sortDropdown.onclick = (e) => {
-      if (e.target.classList.contains('sort-option')) {
-        currentSort = e.target.getAttribute('data-sort');
-        localStorage.setItem('currentSort', currentSort);
-        updateSortButtonText();
-        sortDropdown.classList.remove('show');
-        renderNotes();
+    // Sort functionality variables
+    let selectedDirection = null;
+    let selectedCriteria = null;
+    
+    // Direction button click handler
+    sortDropdown.addEventListener('click', (e) => {
+      if (e.target.classList.contains('direction-btn')) {
+        // Remove selected class from all direction buttons
+        document.querySelectorAll('.direction-btn').forEach(btn => btn.classList.remove('selected'));
+        // Add selected class to clicked button
+        e.target.classList.add('selected');
+        selectedDirection = e.target.getAttribute('data-direction');
+        
+        // Show criteria selection
+        document.getElementById('sortCriteria').classList.remove('hidden');
       }
-    };
+      
+      if (e.target.classList.contains('criteria-btn')) {
+        // Remove selected class from all criteria buttons
+        document.querySelectorAll('.criteria-btn').forEach(btn => btn.classList.remove('selected'));
+        // Add selected class to clicked button
+        e.target.classList.add('selected');
+        selectedCriteria = e.target.getAttribute('data-criteria');
+        
+        // Apply sort
+        if (selectedDirection && selectedCriteria) {
+          currentSort = `${selectedCriteria}-${selectedDirection}`;
+          localStorage.setItem('currentSort', currentSort);
+          updateSortButtonText();
+          sortDropdown.classList.remove('show');
+          renderNotes();
+          
+          // Reset selections
+          selectedDirection = null;
+          selectedCriteria = null;
+          document.querySelectorAll('.direction-btn, .criteria-btn').forEach(btn => btn.classList.remove('selected'));
+          document.getElementById('sortCriteria').classList.add('hidden');
+        }
+      }
+    });
 
     // Urgency selection (removed - now automatic)
-    // Category selection (multiple selection allowed)
+    // Category selection (single selection only)
     const categoryRow = document.getElementById('categoryRow');
     categoryRow.onclick = (e) => {
       if (e.target.classList.contains('category-chip')) {
-        e.target.classList.toggle('selected');
+        [...categoryRow.children].forEach(chip => chip.classList.remove('selected'));
+        e.target.classList.add('selected');
       }
     };
 
@@ -1794,6 +2921,32 @@
       }
     }
 
+    function getImportanceText(importance) {
+      switch(importance) {
+        case 'slightly':
+          return 'Slightly Important';
+        case 'moderately':
+          return 'Moderately Important';
+        case 'very':
+          return 'Very Important';
+        default:
+          return 'Moderately Important';
+      }
+    }
+    
+    function formatDuration(minutes) {
+      const hours = Math.floor(minutes / 60);
+      const mins = minutes % 60;
+      
+      if (hours > 0 && mins > 0) {
+        return `${hours}h ${mins}m`;
+      } else if (hours > 0) {
+        return `${hours}h`;
+      } else {
+        return `${mins}m`;
+      }
+    }
+    
     function formatTimeframe(note) {
       // Handle custom dates
       if (note.timeframe === 'custom' && note.customDate) {
@@ -1905,13 +3058,35 @@
             return (termOrder[termB] || 2) - (termOrder[termA] || 2);
           });
         case 'importance-asc':
-          return notesToSort.sort((a, b) => a.importance - b.importance);
+          return notesToSort.sort((a, b) => {
+            const importanceOrder = { 'slightly': 1, 'moderately': 2, 'very': 3 };
+            const aImportance = a.importance || 'moderately';
+            const bImportance = b.importance || 'moderately';
+            return (importanceOrder[aImportance] || 2) - (importanceOrder[bImportance] || 2);
+          });
         case 'importance-desc':
-          return notesToSort.sort((a, b) => b.importance - a.importance);
+          return notesToSort.sort((a, b) => {
+            const importanceOrder = { 'slightly': 1, 'moderately': 2, 'very': 3 };
+            const aImportance = a.importance || 'moderately';
+            const bImportance = b.importance || 'moderately';
+            return (importanceOrder[bImportance] || 2) - (importanceOrder[aImportance] || 2);
+          });
         case 'added-desc':
           return notesToSort.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
         case 'added-asc':
           return notesToSort.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        case 'duration-asc':
+          return notesToSort.sort((a, b) => {
+            const aDuration = a.duration || 0;
+            const bDuration = b.duration || 0;
+            return aDuration - bDuration;
+          });
+        case 'duration-desc':
+          return notesToSort.sort((a, b) => {
+            const aDuration = a.duration || 0;
+            const bDuration = b.duration || 0;
+            return bDuration - aDuration;
+          });
         case 'urgency':
         default:
           return notesToSort.sort((a, b) => b.urgency - a.urgency);
@@ -1935,8 +3110,18 @@
       
       filtered = sortNotes(filtered);
       
+      // Show search results count
+      const searchResultsCount = document.getElementById('searchResultsCount');
+      if (searchInput.value.trim() && searchResultsCount) {
+        const totalNotes = notes.filter(n => !n.done).length;
+        searchResultsCount.textContent = `Found ${filtered.length} of ${totalNotes} notes`;
+        searchResultsCount.style.display = 'block';
+      } else if (searchResultsCount) {
+        searchResultsCount.style.display = 'none';
+      }
+      
       notesGrid.innerHTML = filtered.map(note => `
-        <div class="note-card ${note.done ? 'done' : ''}" data-importance="${note.importance || '3'}" data-urgency="${note.urgency}" data-id="${note.id}">
+        <div class="note-card ${note.done ? 'done' : ''}" data-importance="${note.importance || 'moderately'}" data-urgency="${note.urgency}" data-id="${note.id}">
           <div class="note-title">${note.title}</div>
           <div class="note-categories">
             ${(note.categories || [note.category || 'Other']).map(cat => `<span class="note-category">${cat}</span>`).join('')}
@@ -1944,11 +3129,15 @@
           <div class="note-term-tags">
             <span class="term-tag-display ${note.termTag || (note.termTags && note.termTags[0]) || 'medium'}">${note.termTag || (note.termTags && note.termTags[0]) || 'medium'}</span>
           </div>
-          <div class="note-importance">Importance: ${note.importance || '3'}</div>
+          <div class="note-importance">${getImportanceText(note.importance || 'moderately')}</div>
           <div class="due-date-text">${formatTimeframe(note)}</div>
+          ${note.duration ? `<div class="note-duration">⏱️ ${formatDuration(note.duration)}</div>` : ''}
           ${note.done ? '<div class="note-delete-hint">✓ Can be deleted</div>' : ''}
         </div>
       `).join('');
+      
+      // Ensure no checkboxes are shown in main view
+      hideMultiSelectElements();
     }
 
     function renderChips() {
@@ -1980,23 +3169,58 @@
     updateSortButtonText();
     checkDataVersion();
     
+    // Add search functionality
+    const clearSearchBtn = document.getElementById('clearSearchBtn');
+    
+    searchInput.addEventListener('input', () => {
+      renderNotes();
+      
+      // Add visual indicator for search and show/hide clear button
+      const searchBar = searchInput.parentElement;
+      if (searchInput.value.trim()) {
+        searchBar.classList.add('has-content');
+        clearSearchBtn.style.display = 'block';
+      } else {
+        searchBar.classList.remove('has-content');
+        clearSearchBtn.style.display = 'none';
+      }
+    });
+    
+    // Clear search functionality
+    clearSearchBtn.addEventListener('click', () => {
+      searchInput.value = '';
+      searchInput.focus();
+      renderNotes();
+      searchInput.parentElement.classList.remove('has-content');
+      clearSearchBtn.style.display = 'none';
+    });
+    
+    // Add search input focus/blur effects
+    searchInput.addEventListener('focus', () => {
+      searchInput.parentElement.style.boxShadow = '0 2px 12px rgba(108,99,255,0.15)';
+    });
+    
+    searchInput.addEventListener('blur', () => {
+      searchInput.parentElement.style.boxShadow = '0 2px 8px rgba(108,99,255,0.04)';
+    });
+    
     // Set default selections immediately and after DOM is fully loaded
     function setDefaultSelections() {
       console.log('Setting default selections...');
       
       // Set default selections for add modal
       const termTagMedium = document.querySelector('#termTagsRow .term-tag[data-term="medium"]');
-      const importanceLevel3 = document.querySelector('#importanceRow .importance-dot[data-level="3"]');
+      const importanceLevelModerately = document.querySelector('#importanceRow .importance-dot[data-level="moderately"]');
       const categoryOther = document.querySelector('#categoryRow .category-chip[data-category="Other"]');
       
       console.log('Found elements:', {
         termTagMedium: !!termTagMedium,
-        importanceLevel3: !!importanceLevel3,
+        importanceLevelModerately: !!importanceLevelModerately,
         categoryOther: !!categoryOther
       });
       
       if (termTagMedium) termTagMedium.classList.add('selected');
-      if (importanceLevel3) importanceLevel3.classList.add('selected');
+      if (importanceLevelModerately) importanceLevelModerately.classList.add('selected');
       if (categoryOther) categoryOther.classList.add('selected');
     }
     
@@ -2009,6 +3233,8 @@
     // Add modal open handler to ensure defaults are set
     openModalBtn.onclick = () => { 
       console.log('Opening add modal');
+      updateModalZIndex(); // Update z-index for calendar view
+      hideNavBar(); // Hide nav bar when modal opens
       modalOverlay.classList.remove('hidden');
       // Ensure defaults are set when modal opens
       setTimeout(setDefaultSelections, 50);
@@ -2302,7 +3528,7 @@
       
       // Set importance with fallback (single selection)
       [...document.getElementById('editImportanceRow').children].forEach(dot => dot.classList.remove('selected'));
-      const importance = note.importance || '3';
+      const importance = note.importance || 'moderately';
       console.log('Setting importance to:', importance);
       console.log('Importance dots found:', document.getElementById('editImportanceRow').children.length);
       const selectedImportanceBtn = document.querySelector(`#editImportanceRow .importance-dot[data-level="${importance}"]`);
@@ -2316,6 +3542,19 @@
         const chip = document.querySelector(`#editCategoryRow .category-chip[data-category="${cat}"]`);
         if (chip) chip.classList.add('selected');
       });
+      
+      // Set duration
+      const editDurationHours = document.getElementById('editDurationHours');
+      const editDurationMinutes = document.getElementById('editDurationMinutes');
+      if (editDurationHours && editDurationMinutes && note.duration) {
+        const hours = Math.floor(note.duration / 60);
+        const minutes = note.duration % 60;
+        editDurationHours.value = hours > 0 ? hours : '';
+        editDurationMinutes.value = minutes > 0 ? minutes : '';
+      } else if (editDurationHours && editDurationMinutes) {
+        editDurationHours.value = '';
+        editDurationMinutes.value = '';
+      }
       
       // Store note ID for form submission
       document.getElementById('editNoteModal').dataset.id = note.id;
@@ -2338,6 +3577,14 @@
       // Update button text based on current state
       markDoneBtn.textContent = note.done ? 'Mark as Undone' : 'Mark as Done';
       
+      // Ensure modal appears above calendar if in calendar view
+      if (calendarWindow.classList.contains('active')) {
+        editModal.style.zIndex = '2000';
+      } else {
+        editModal.style.zIndex = '201';
+      }
+      
+      hideNavBar(); // Hide nav bar when edit modal opens
       editModal.classList.remove('hidden');
     }
     
@@ -2355,12 +3602,17 @@
       
       // Get selected importance (single selection)
       const selectedImportanceBtn = document.querySelector('#importanceRow .importance-dot.selected');
-      const importance = selectedImportanceBtn ? selectedImportanceBtn.getAttribute('data-level') : '3';
+      const importance = selectedImportanceBtn ? selectedImportanceBtn.getAttribute('data-level') : 'moderately';
       
-      // Get selected categories (multiple selection)
-      const selectedCategories = Array.from(document.getElementById('categoryRow').children)
-        .filter(chip => chip.classList.contains('selected'))
-        .map(chip => chip.getAttribute('data-category'));
+      // Get selected category (single selection)
+      const selectedCategoryChip = document.querySelector('#categoryRow .category-chip.selected');
+      const selectedCategory = selectedCategoryChip ? selectedCategoryChip.getAttribute('data-category') : 'Other';
+      
+      // Get duration (optional)
+      const durationHours = document.getElementById('durationHours').value;
+      const durationMinutes = document.getElementById('durationMinutes').value;
+      const totalMinutes = (durationHours ? parseInt(durationHours) * 60 : 0) + (durationMinutes ? parseInt(durationMinutes) : 0);
+      const durationValue = totalMinutes > 0 ? totalMinutes : null;
       
       if (!text) {
         alert('Please enter a note.');
@@ -2396,11 +3648,13 @@
         customDate: timeframe === 'custom' ? customDate : null,
         urgency: calculatedUrgency, 
         importance: importance,
-        categories: selectedCategories.length > 0 ? selectedCategories : ['Other'], 
+        category: selectedCategory,
+        categories: [selectedCategory], 
         title,
         done: false,
         createdAt: new Date().toISOString(),
-        termTag: termTag
+        termTag: termTag,
+        duration: durationValue
       };
       
       notes.push(newNote);
@@ -2412,6 +3666,8 @@
       document.getElementById('timeframe').value = '1';
       document.getElementById('customDate').value = '';
       document.getElementById('customDateContainer').style.display = 'none';
+      document.getElementById('durationHours').value = '';
+      document.getElementById('durationMinutes').value = '';
       [...categoryRow.children].forEach(chip => chip.classList.remove('selected'));
       [...document.getElementById('termTagsRow').children].forEach(tag => tag.classList.remove('selected'));
       [...document.getElementById('importanceRow').children].forEach(dot => dot.classList.remove('selected'));
@@ -2420,6 +3676,7 @@
       setTimeout(setDefaultSelections, 50);
       
       modalOverlay.classList.add('hidden');
+      showNavBar(); // Show nav bar when add modal closes
     };
     
     // Edit note form submission
@@ -2437,12 +3694,17 @@
       
       // Get selected importance (single selection)
       const selectedImportanceBtn = document.querySelector('#editImportanceRow .importance-dot.selected');
-      const importance = selectedImportanceBtn ? selectedImportanceBtn.getAttribute('data-level') : '3';
+      const importance = selectedImportanceBtn ? selectedImportanceBtn.getAttribute('data-level') : 'moderately';
       
-      // Get selected categories (multiple selection)
-      const selectedCategories = Array.from(document.getElementById('editCategoryRow').children)
-        .filter(chip => chip.classList.contains('selected'))
-        .map(chip => chip.getAttribute('data-category'));
+      // Get selected category (single selection)
+      const selectedCategoryChip = document.querySelector('#editCategoryRow .category-chip.selected');
+      const selectedCategory = selectedCategoryChip ? selectedCategoryChip.getAttribute('data-category') : 'Other';
+      
+      // Get duration (optional)
+      const durationHours = document.getElementById('editDurationHours').value;
+      const durationMinutes = document.getElementById('editDurationMinutes').value;
+      const totalMinutes = (durationHours ? parseInt(durationHours) * 60 : 0) + (durationMinutes ? parseInt(durationMinutes) : 0);
+      const durationValue = totalMinutes > 0 ? totalMinutes : null;
       
       if (!text) {
         alert('Please enter a note.');
@@ -2479,16 +3741,18 @@
         note.customDate = timeframe === 'custom' ? customDate : null;
         note.urgency = calculatedUrgency;
         note.importance = importance;
-        note.category = selectedCategories[0]; // Keep only the first selected category
-        note.categories = selectedCategories.length > 0 ? selectedCategories : ['Other']; // Update categories array
+        note.category = selectedCategory;
+        note.categories = [selectedCategory];
         note.title = title;
         note.termTag = termTag; // Update single term tag
         note.termTags = [termTag]; // Update term tags array
+        note.duration = durationValue;
       }
       
       saveNotes();
       renderNotes();
       document.getElementById('editModalOverlay').classList.add('hidden');
+      showNavBar(); // Show nav bar when edit modal closes
     };
 
     // Edit importance selection (single selection only)
@@ -2509,34 +3773,211 @@
       }
     };
 
-    // Edit category selection (multiple selection allowed)
+    // Edit category selection (single selection only)
     document.getElementById('editCategoryRow').onclick = (e) => {
       if (e.target.classList.contains('category-chip')) {
-        e.target.classList.toggle('selected');
+        [...document.getElementById('editCategoryRow').children].forEach(chip => chip.classList.remove('selected'));
+        e.target.classList.add('selected');
       }
     };
     
     // Edit modal cancel button
     document.getElementById('cancelEditModalBtn').onclick = () => {
       document.getElementById('editModalOverlay').classList.add('hidden');
+      // Restore z-index when closing
+      document.getElementById('editModalOverlay').style.zIndex = '200';
+      showNavBar(); // Show nav bar when edit modal closes
     };
     
     // Edit modal overlay click to close
     document.getElementById('editModalOverlay').onclick = (e) => {
       if (e.target === document.getElementById('editModalOverlay')) {
         document.getElementById('editModalOverlay').classList.add('hidden');
+        // Restore z-index when closing
+        document.getElementById('editModalOverlay').style.zIndex = '200';
+        showNavBar(); // Show nav bar when edit modal closes
       }
     };
     
     // Calendar functionality
     const calendarBtn = document.querySelector('.nav-btn[title="Calendar"]');
-    const calendarModalOverlay = document.getElementById('calendarModalOverlay');
+    const calendarWindow = document.getElementById('calendarWindow');
+    const mainContent = document.querySelector('.floating-island');
     let currentCalendarDate = new Date();
     
     console.log('Calendar initialization:');
     console.log('Calendar button found:', !!calendarBtn);
-    console.log('Calendar modal overlay found:', !!calendarModalOverlay);
-    console.log('Calendar modal overlay classes:', calendarModalOverlay?.className);
+    console.log('Calendar window found:', !!calendarWindow);
+    
+    // Done notes functionality
+    const doneTabBtn = document.getElementById('doneTabBtn');
+    const multiSelectActions = document.getElementById('multiSelectActions');
+    let selectedDoneNotes = new Set();
+    let isDoneTabActive = false;
+    
+    console.log('Done notes initialization:');
+    console.log('Done tab button found:', !!doneTabBtn);
+    console.log('Multi-select actions found:', !!multiSelectActions);
+    
+    // Done tab click handler
+    doneTabBtn.onclick = () => {
+      if (isDoneTabActive) {
+        // Switch back to main notes
+        isDoneTabActive = false;
+        doneTabBtn.classList.remove('active');
+        selectedDoneNotes.clear();
+        updateDoneActions();
+        // Hide multi-select elements in main view
+        hideMultiSelectElements();
+        renderNotes(); // Re-render main notes
+      } else {
+        // Switch to done notes
+        isDoneTabActive = true;
+        doneTabBtn.classList.add('active');
+        renderDoneNotes();
+        // Show multi-select elements in done view
+        showMultiSelectElements();
+      }
+    };
+    
+    // Render done notes
+    function renderDoneNotes() {
+      const doneNotes = notes.filter(note => note.done);
+      
+      if (doneNotes.length === 0) {
+        // Show empty state in main notes grid
+        notesGrid.innerHTML = '<p style="text-align: center; color: #666; padding: 2rem;">No completed notes yet</p>';
+        return;
+      }
+      
+      // Use the existing renderNotes function but filter for done notes only
+      const filteredNotes = notes.filter(note => note.done);
+      renderNotesToGrid(notesGrid, filteredNotes, true); // true = isDoneView
+      
+      // Show multi-select elements after rendering
+      showMultiSelectElements();
+    }
+    
+    // Helper function to render notes to a specific grid with multi-select support
+    function renderNotesToGrid(gridElement, notesToRender, isDoneView = false) {
+      gridElement.innerHTML = '';
+      
+      notesToRender.forEach(note => {
+        const noteCard = document.createElement('div');
+        noteCard.className = `note-card ${note.done ? 'done' : ''}`;
+        noteCard.dataset.id = note.id;
+        
+        // Add checkbox for done notes in done view
+        const checkboxHtml = isDoneView ? '<div class="checkbox"></div>' : '';
+        
+        noteCard.innerHTML = `
+          ${checkboxHtml}
+          <div class="note-title">${note.title || 'Untitled'}</div>
+          <div class="note-text">${note.text}</div>
+          <div class="note-meta">
+            <span class="note-category">${note.category || 'Other'}</span>
+            <span class="note-timeframe">${formatTimeframe(note)}</span>
+          </div>
+        `;
+        
+        // Click handler
+        noteCard.onclick = (e) => {
+          if (isDoneView && e.target.classList.contains('checkbox')) {
+            e.stopPropagation();
+            toggleNoteSelection(note.id);
+          } else {
+            openEditModal(note);
+          }
+        };
+        
+        gridElement.appendChild(noteCard);
+      });
+    }
+    
+    // Show multi-select elements (checkboxes and action buttons)
+    function showMultiSelectElements() {
+      // Show action buttons container
+      const multiSelectActions = document.getElementById('multiSelectActions');
+      if (multiSelectActions) multiSelectActions.classList.remove('hidden');
+      
+      // Show checkboxes on done notes
+      const doneNotes = document.querySelectorAll('#notesGrid .note-card.done');
+      doneNotes.forEach(noteCard => {
+        if (!noteCard.querySelector('.checkbox')) {
+          const checkbox = document.createElement('div');
+          checkbox.className = 'checkbox';
+          noteCard.appendChild(checkbox);
+        }
+      });
+    }
+    
+    // Hide multi-select elements (checkboxes and action buttons)
+    function hideMultiSelectElements() {
+      // Hide action buttons container
+      const multiSelectActions = document.getElementById('multiSelectActions');
+      if (multiSelectActions) multiSelectActions.classList.add('hidden');
+      
+      // Remove checkboxes from all notes
+      const allNotes = document.querySelectorAll('.note-card .checkbox');
+      allNotes.forEach(checkbox => checkbox.remove());
+    }
+    
+    // Toggle note selection
+    function toggleNoteSelection(noteId) {
+      const noteCard = document.querySelector(`.note-card[data-id="${noteId}"]`);
+      if (selectedDoneNotes.has(noteId)) {
+        selectedDoneNotes.delete(noteId);
+        noteCard.classList.remove('selected');
+      } else {
+        selectedDoneNotes.add(noteId);
+        noteCard.classList.add('selected');
+      }
+      updateDoneActions();
+    }
+    
+    // Update done actions visibility
+    function updateDoneActions() {
+      const deleteSelectedBtn = document.getElementById('deleteSelectedDoneBtn');
+      const selectAllBtn = document.getElementById('selectAllDoneBtn');
+      
+      if (selectedDoneNotes.size > 0) {
+        deleteSelectedBtn.classList.remove('hidden');
+        selectAllBtn.textContent = 'Deselect All';
+      } else {
+        deleteSelectedBtn.classList.add('hidden');
+        selectAllBtn.textContent = 'Select All';
+      }
+    }
+    
+    // Select all done notes
+    document.getElementById('selectAllDoneBtn').onclick = () => {
+      const doneNotes = notes.filter(note => note.done);
+      const doneCards = document.querySelectorAll('#notesGrid .note-card');
+      
+      if (selectedDoneNotes.size === doneNotes.length) {
+        // Deselect all
+        selectedDoneNotes.clear();
+        doneCards.forEach(card => card.classList.remove('selected'));
+      } else {
+        // Select all
+        doneNotes.forEach(note => selectedDoneNotes.add(note.id));
+        doneCards.forEach(card => card.classList.add('selected'));
+      }
+      updateDoneActions();
+    };
+    
+    // Delete selected done notes
+    document.getElementById('deleteSelectedDoneBtn').onclick = () => {
+      if (selectedDoneNotes.size === 0) return;
+      
+      if (confirm(`Are you sure you want to delete ${selectedDoneNotes.size} completed note(s)?`)) {
+        notes = notes.filter(note => !selectedDoneNotes.has(note.id));
+        saveNotes();
+        selectedDoneNotes.clear();
+        renderDoneNotes();
+        updateDoneActions();
+      }
+    };
     
     // Settings functionality
     const settingsBtn = document.querySelector('.nav-btn.settings');
@@ -2549,17 +3990,39 @@
     // Settings button click handler
     settingsBtn.onclick = () => {
       console.log('Settings button clicked');
+      console.log('Current view - Calendar active:', calendarWindow.classList.contains('active'));
+      
+      // Ensure settings modal is accessible in both views
       settingsModalOverlay.classList.remove('hidden');
+      
+      // Update z-index for calendar view
+      if (calendarWindow.classList.contains('active')) {
+        settingsModalOverlay.style.zIndex = '2000';
+        console.log('Settings modal z-index set for calendar view');
+      } else {
+        settingsModalOverlay.style.zIndex = '200';
+        console.log('Settings modal z-index set for main view');
+      }
     };
     
     // Settings modal close handlers
     document.getElementById('cancelSettingsBtn').onclick = () => {
+      console.log('Settings modal cancelled');
       settingsModalOverlay.classList.add('hidden');
     };
     
     document.getElementById('saveSettingsBtn').onclick = () => {
+      console.log('Settings saved');
       // Save settings logic here
       settingsModalOverlay.classList.add('hidden');
+    };
+    
+    // Settings modal overlay click to close
+    settingsModalOverlay.onclick = (e) => {
+      if (e.target === settingsModalOverlay) {
+        console.log('Settings modal closed via overlay click');
+        settingsModalOverlay.classList.add('hidden');
+      }
     };
     
     // Category management functionality
@@ -2642,6 +4105,7 @@
         saveNotes();
         renderNotes();
         document.getElementById('editModalOverlay').classList.add('hidden');
+        showNavBar(); // Show nav bar when edit modal closes
         console.log('Note marked as done:', note.done);
       }
     };
@@ -2663,6 +4127,7 @@
               saveNotes();
               renderNotes();
               document.getElementById('editModalOverlay').classList.add('hidden');
+              showNavBar(); // Show nav bar when edit modal closes
               console.log('Note deleted (was marked as done)');
             }
           }
@@ -2674,27 +4139,688 @@
       }
     };
     
-    // Open calendar modal
+    // AI functionality
+    const aiBtn = document.getElementById('headerAiBtn');
+    const aiWindow = document.getElementById('aiWindow');
+    
+    console.log('AI initialization:');
+    console.log('AI button found:', !!aiBtn);
+    console.log('AI window found:', !!aiWindow);
+    
+    // AI button click handler
+    aiBtn.onclick = () => {
+      console.log('AI button clicked');
+      console.log('Current AI window state:', aiWindow.classList.contains('active'));
+      
+      // If we're in AI view, go home
+      if (aiWindow.classList.contains('active')) {
+        console.log('Going home from AI view');
+        
+        // Hide AI window and show main content
+        aiWindow.classList.remove('active');
+        mainContent.style.display = 'block';
+        
+        // Restore nav island to normal state
+        showNavBar();
+        
+        console.log('AI window deactivated');
+        console.log('Main content shown:', mainContent.style.display);
+      } else {
+        // If we're in dashboard view, go to AI
+        console.log('Going to AI from dashboard view');
+        
+        // Hide main content and show AI window
+        mainContent.style.display = 'none';
+        aiWindow.classList.add('active');
+        
+        // Hide nav bar and FAB for AI page
+        hideNavBar();
+        
+        console.log('AI window activated');
+        console.log('Main content hidden:', mainContent.style.display);
+      }
+    };
+    
+    // AI chat functionality
+    const aiInput = document.getElementById('aiInput');
+    const aiSendBtn = document.getElementById('aiSendBtn');
+    const aiMessages = document.getElementById('aiMessages');
+    
+    function addUserMessage(text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'ai-message ai-user';
+      messageDiv.innerHTML = `
+        <div class="ai-avatar">👤</div>
+        <div class="ai-text">
+          <p>${text}</p>
+        </div>
+      `;
+      aiMessages.appendChild(messageDiv);
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+    }
+    
+    function addAssistantMessage(text) {
+      const messageDiv = document.createElement('div');
+      messageDiv.className = 'ai-message ai-assistant';
+      messageDiv.innerHTML = `
+        <div class="ai-avatar">🤖</div>
+        <div class="ai-text">
+          <p>${text}</p>
+        </div>
+      `;
+      aiMessages.appendChild(messageDiv);
+      aiMessages.scrollTop = aiMessages.scrollHeight;
+    }
+    
+    // AI Configuration
+    const AI_CONFIG = {
+      // Doubao AI API configuration
+      aiApiKey: 'e8d5af80-6e79-4fcc-a258-7594389f3167', // Your Doubao API key
+      useExternalAI: true, // Set to true to use Doubao AI
+      model: 'doubao-seed-1-6-flash-250615',
+      apiEndpoint: 'https://ark.cn-beijing.volces.com/api/v3/chat/completions'
+    };
+    
+    async function handleAIChat(userMessage) {
+      console.log('=== AI CHAT DEBUG ===');
+      console.log('useExternalAI:', AI_CONFIG.useExternalAI);
+      console.log('aiApiKey exists:', !!AI_CONFIG.aiApiKey);
+      console.log('API Endpoint:', AI_CONFIG.apiEndpoint);
+      console.log('Model:', AI_CONFIG.model);
+      
+      if (AI_CONFIG.useExternalAI && AI_CONFIG.aiApiKey) {
+        // Use Doubao AI API with user's notes data
+        console.log('🟢 Using DOUBAN AI');
+        try {
+          addAssistantMessage("🤔 Analyzing your notes and thinking...");
+          
+          // Prepare user's notes data for AI analysis
+          const notesData = prepareNotesDataForAI();
+          console.log('Sending notes data to AI:', notesData);
+          
+          const response = await fetch(AI_CONFIG.apiEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${AI_CONFIG.aiApiKey}`
+            },
+            body: JSON.stringify({
+              model: AI_CONFIG.model,
+              messages: [
+                {
+                  role: 'system',
+                  content: `AI assistant for productivity. Access to ALL user notes data: titles, descriptions, importance levels, due dates, categories, completion status, duration, creation dates, term tags.
+
+CRITICAL REQUIREMENTS:
+• SHORT responses only (max 100 words)
+• Use bullet points (•) frequently
+• Be concise and actionable
+• No lengthy explanations
+• Focus on key insights only`
+                },
+                {
+                  role: 'user',
+                  content: `Here is my notes data: ${JSON.stringify(notesData, null, 2)}\n\nUser question: ${userMessage}`
+                }
+              ],
+              max_tokens: 800,
+              temperature: 0.7
+            })
+          });
+          
+          const data = await response.json();
+          
+          if (data.choices && data.choices[0] && data.choices[0].message) {
+            console.log('✅ DOUBAN AI Response received');
+            // Remove the "thinking" message and add the real response
+            const messages = aiMessages.querySelectorAll('.ai-message');
+            if (messages.length > 0) {
+              messages[messages.length - 1].remove();
+            }
+            
+            // Handle the response format with content and reasoning_content
+            const messageContent = data.choices[0].message.content;
+            const reasoningContent = data.choices[0].message.reasoning_content;
+            
+            // Validate and display the main content
+            const validatedContent = validateAndFormatResponse(messageContent);
+            addAssistantMessage(validatedContent);
+            
+            // If there's reasoning content, add it as a follow-up (also validated)
+            if (reasoningContent && reasoningContent !== messageContent) {
+              setTimeout(() => {
+                const validatedReasoning = validateAndFormatResponse(reasoningContent);
+                addAssistantMessage(`💭 **Additional Insights:**\n\n${validatedReasoning}`);
+              }, 1000);
+            }
+          } else {
+            throw new Error('No response from AI service');
+          }
+        } catch (error) {
+          console.error('❌ AI API Error:', error);
+          console.log('🔄 Falling back to LOCAL AI');
+          // Remove the "thinking" message
+          const messages = aiMessages.querySelectorAll('.ai-message');
+          if (messages.length > 0) {
+            messages[messages.length - 1].remove();
+          }
+          addAssistantMessage("I'm having trouble connecting to my AI brain right now. Let me give you a helpful response based on your question.");
+          handleLocalAIResponse(userMessage);
+        }
+      } else {
+        // Use local AI responses
+        console.log('🟡 Using LOCAL AI (no external config)');
+        handleLocalAIResponse(userMessage);
+      }
+    }
+    
+    // Function to prepare notes data for AI analysis
+    function prepareNotesDataForAI() {
+      const today = new Date();
+      const currentDate = today.toISOString().split('T')[0];
+      
+      // Process notes for AI analysis
+      const processedNotes = notes.map(note => {
+        let dueDate = null;
+        let daysUntilDue = null;
+        
+        // Calculate due date and days until due
+        if (note.timeframe === 'custom' && note.customDate) {
+          dueDate = note.customDate;
+          const dueDateObj = new Date(note.customDate);
+          daysUntilDue = Math.ceil((dueDateObj - today) / (1000 * 60 * 60 * 24));
+        } else if (note.timeframe && !isNaN(note.timeframe)) {
+          const days = parseInt(note.timeframe);
+          const dueDateObj = new Date(today.getTime() + (days * 24 * 60 * 60 * 1000));
+          dueDate = dueDateObj.toISOString().split('T')[0];
+          daysUntilDue = days;
+        }
+        
+        return {
+          id: note.id,
+          title: note.title,
+          text: note.text,
+          categories: note.categories || [note.category || 'Other'],
+          importance: note.importance || 'moderately',
+          urgency: parseInt(note.urgency) || 3,
+          done: note.done || false,
+          dueDate: dueDate,
+          daysUntilDue: daysUntilDue,
+          isOverdue: daysUntilDue !== null && daysUntilDue < 0 && !note.done,
+          termTags: note.termTags || [note.termTag || 'medium'],
+          duration: note.duration || null,
+          durationFormatted: note.duration ? formatDuration(note.duration) : null,
+          createdAt: note.createdAt,
+          timeframe: note.timeframe,
+          customDate: note.customDate
+        };
+      });
+      
+      // Calculate summary statistics
+      const totalNotes = processedNotes.length;
+      const completedNotes = processedNotes.filter(note => note.done).length;
+      const overdueNotes = processedNotes.filter(note => note.isOverdue).length;
+      const highPriorityNotes = processedNotes.filter(note => note.importance >= 4 && !note.done).length;
+      const todayNotes = processedNotes.filter(note => note.daysUntilDue === 0).length;
+      const thisWeekNotes = processedNotes.filter(note => note.daysUntilDue >= 0 && note.daysUntilDue <= 7).length;
+      
+      // Group by categories
+      const categoryStats = {};
+      processedNotes.forEach(note => {
+        note.categories.forEach(cat => {
+          if (!categoryStats[cat]) {
+            categoryStats[cat] = { total: 0, completed: 0, overdue: 0 };
+          }
+          categoryStats[cat].total++;
+          if (note.done) categoryStats[cat].completed++;
+          if (note.isOverdue) categoryStats[cat].overdue++;
+        });
+      });
+      
+      return {
+        summary: {
+          totalTasks: totalNotes,
+          completedTasks: completedNotes,
+          completionRate: totalNotes > 0 ? Math.round((completedNotes / totalNotes) * 100) : 0,
+          overdueTasks: overdueNotes,
+          highPriorityTasks: highPriorityNotes,
+          todayTasks: todayNotes,
+          thisWeekTasks: thisWeekNotes
+        },
+        categoryStats: categoryStats,
+        notes: processedNotes,
+        currentDate: currentDate
+      };
+    }
+    
+    function handleLocalAIResponse(userMessage) {
+      console.log('🟡 LOCAL AI Response triggered');
+      const message = userMessage.toLowerCase();
+      
+      let response = '';
+      
+      // Smart habit suggestions based on user's notes
+      if (message.includes('habit') || message.includes('routine')) {
+        const userHabits = analyzeUserHabits();
+        if (userHabits.length > 0) {
+          response = `📋 Focus areas: ${userHabits.join(', ')}\n\n• What habit to develop?\n• I'll create a plan.`;
+        } else {
+          response = "🎯 Build better habits!\n\n• What habit to develop?\n• I'll create a plan.";
+        }
+      } else if (message.includes('productivity') || message.includes('efficient')) {
+        response = "⚡ Productivity:\n\n• Work smarter\n• What area to improve?\n• I'll analyze patterns.";
+      } else if (message.includes('goal') || message.includes('target')) {
+        response = "🎯 Goals:\n\n• What's your main goal?\n• I'll break it down\n• Make it specific.";
+      } else if (message.includes('motivation') || message.includes('motivated')) {
+        response = "💪 Motivation:\n\n• Progress creates motivation\n• What's holding you back?\n• I'll create action plan.";
+      } else if (message.includes('time') || message.includes('schedule')) {
+        response = "⏰ Time management:\n\n• Organize priorities\n• Analyze schedule\n• Focus on what matters.";
+      } else if (message.includes('analyze') || message.includes('progress')) {
+        analyzeUserProgress();
+        return; // This function handles its own response
+      } else if (message.includes('suggest') || message.includes('recommend')) {
+        suggestImprovements();
+        return; // This function handles its own response
+      } else {
+        response = "🤖 I help with:\n\n• Habits & routines\n• Productivity\n• Goal setting\n• Time management\n\nWhat to focus on?";
+      }
+      
+      // Validate and display the response
+      const validatedResponse = validateAndFormatResponse(response);
+      addAssistantMessage(validatedResponse);
+    }
+    
+    // Smart AI functions
+    function analyzeUserHabits() {
+      const userCategories = new Set();
+      notes.forEach(note => {
+        if (note.categories) {
+          note.categories.forEach(cat => userCategories.add(cat));
+        }
+      });
+      return Array.from(userCategories);
+    }
+    
+    function analyzeUserProgress() {
+      const totalNotes = notes.length;
+      const completedNotes = notes.filter(note => note.done).length;
+      const completionRate = totalNotes > 0 ? Math.round((completedNotes / totalNotes) * 100) : 0;
+      
+      let analysis = `📊 Progress Analysis:\n\n`;
+      analysis += `• Total tasks: ${totalNotes}\n`;
+      analysis += `• Completed: ${completedNotes}\n`;
+      analysis += `• Completion rate: ${completionRate}%\n\n`;
+      
+      if (completionRate >= 80) {
+        analysis += "🎉 Excellent progress!";
+      } else if (completionRate >= 60) {
+        analysis += "👍 Good momentum!";
+      } else if (completionRate >= 40) {
+        analysis += "💪 Making progress!";
+      } else {
+        analysis += "🌟 Start with small steps!";
+      }
+      
+      const validatedAnalysis = validateAndFormatResponse(analysis);
+      addAssistantMessage(validatedAnalysis);
+    }
+    
+    function suggestImprovements() {
+      const overdueNotes = notes.filter(note => {
+        if (note.timeframe === 'custom' && note.customDate) {
+          const dueDate = new Date(note.customDate);
+          const today = new Date();
+          return dueDate < today && !note.done;
+        }
+        return false;
+      });
+      
+      const highPriorityNotes = notes.filter(note => 
+        note.importance === 'very' && !note.done
+      );
+      
+      let suggestions = "💡 Smart Suggestions:\n\n";
+      
+      if (overdueNotes.length > 0) {
+        suggestions += `⚠️ ${overdueNotes.length} overdue tasks\n`;
+      }
+      
+      if (highPriorityNotes.length > 0) {
+        suggestions += `🎯 ${highPriorityNotes.length} very important tasks\n`;
+      }
+      
+      if (notes.filter(n => !n.done).length > 10) {
+        suggestions += `📝 ${notes.filter(n => !n.done).length} active tasks\n`;
+      }
+      
+      suggestions += "\n💪 Focus on progress!";
+      
+      const validatedSuggestions = validateAndFormatResponse(suggestions);
+      addAssistantMessage(validatedSuggestions);
+    }
+    
+    // Quick action handler
+    function handleQuickAction(action) {
+      switch(action) {
+        case 'analyze':
+          // Use AI to analyze progress with notes data
+          handleAIChat("Analyze my progress and provide insights based on my notes data. Give me a detailed breakdown of my completion rates, overdue tasks, and areas for improvement.");
+          break;
+        case 'suggest':
+          // Use AI to get personalized suggestions
+          handleAIChat("Based on my notes data, provide personalized suggestions for improving my productivity and task management. Focus on actionable advice.");
+          break;
+        case 'habits':
+          // Use AI to analyze habits from notes data
+          handleAIChat("Analyze my notes data to identify patterns in my habits and routines. Provide suggestions for building better habits based on my current activities.");
+          break;
+        case 'planning':
+          // Use AI for smart planning with notes data
+          handleAIChat("Based on my notes data, give me a summary of what I need to do for: today, this week and long-term activities. Prioritize based on my actual tasks and deadlines.");
+          break;
+      }
+    }
+    
+    // Demo function to show the AI response format
+    function showPlanningResponse() {
+      const demoResponse = {
+        choices: [{
+          message: {
+            content: `### **Today's Activities**  
+- **Identify Urgent Tasks**: List immediate tasks with deadlines (e.g., work assignments, errands, meetings).  
+- **Prioritize**: Use a framework like Eisenhower Matrix to sort tasks by urgency and importance.  
+- **Allocate Time**: Block specific time slots in your day to tackle each task, ensuring focus and efficiency.  
+
+### **This Week's Activities**  
+- **Weekly Planning**: Create a weekly schedule or to-do list.  
+- **Set Priorities**: Group tasks by category (work, personal, health) and order them by importance.  
+- **Daily Goal Alignment**: Break down weekly goals into daily actions to stay on track.  
+- **Review and Adjust**: Check progress daily, adjusting the plan as needed to accommodate changes.  
+
+### **Long-Term Activities**  
+- **Define Goals**: Identify long-term objectives (e.g., career advancement, personal growth, financial milestones).  
+- **Break into Steps**: Split each goal into smaller, actionable tasks with clear timelines.  
+- **Regular Review**: Periodically assess progress, update timelines, and refine steps to stay aligned with your long-term vision.`,
+            reasoning_content: "Got it, let's break down what you need to do for today, this week, and long-term. First, let's start with today's activities. Today, you should focus on immediate tasks. Identify the most pressing things you need to do, like completing urgent assignments, responding to important emails, or taking care of any time-sensitive chores. Then, for this week, you should outline your weekly goals. That could include planning out tasks, setting priorities, maybe scheduling time for different projects or responsibilities. For long-term activities, you need to think about bigger picture goals. This might involve setting career aspirations, personal development plans, saving for something, or working towards a larger life objective."
+          }
+        }]
+      };
+      
+      // Simulate the AI response
+      handleAIResponse(demoResponse);
+    }
+    
+    // Function to handle AI responses in the new format
+    function handleAIResponse(data) {
+      if (data.choices && data.choices[0] && data.choices[0].message) {
+        const messageContent = data.choices[0].message.content;
+        const reasoningContent = data.choices[0].message.reasoning_content;
+        
+        // Display the main content
+        addAssistantMessage(messageContent);
+        
+        // If there's reasoning content, add it as a follow-up
+        if (reasoningContent && reasoningContent !== messageContent) {
+          setTimeout(() => {
+            addAssistantMessage(`💭 **Additional Insights:**\n\n${reasoningContent}`);
+          }, 1000);
+        }
+      }
+    }
+    
+    // AI send button click handler
+    aiSendBtn.onclick = () => {
+      const message = aiInput.value.trim();
+      if (message) {
+        addUserMessage(message);
+        aiInput.value = '';
+        
+        // Simulate AI thinking
+        setTimeout(() => {
+          handleAIChat(message);
+        }, 1000);
+      }
+    };
+    
+    // Response validation and formatting function
+    function validateAndFormatResponse(content) {
+      console.log('🔍 Validating AI response...');
+      
+      // Count words
+      const wordCount = content.split(/\s+/).length;
+      console.log('Word count:', wordCount);
+      
+      // Check for bullet points
+      const hasBulletPoints = content.includes('•') || content.includes('-') || content.includes('*');
+      console.log('Has bullet points:', hasBulletPoints);
+      
+      // Check response length
+      const isShort = wordCount <= 100;
+      console.log('Is short (≤100 words):', isShort);
+      
+      // If response is too long, truncate it
+      if (!isShort) {
+        console.log('⚠️ Response too long, truncating...');
+        const sentences = content.split(/[.!?]+/);
+        let truncated = '';
+        let currentWordCount = 0;
+        
+        for (let sentence of sentences) {
+          const sentenceWords = sentence.split(/\s+/).length;
+          if (currentWordCount + sentenceWords <= 100) {
+            truncated += sentence + '. ';
+            currentWordCount += sentenceWords;
+          } else {
+            break;
+          }
+        }
+        content = truncated.trim();
+        console.log('✅ Truncated to', content.split(/\s+/).length, 'words');
+      }
+      
+      // Ensure bullet points are used and each on new line
+      if (!hasBulletPoints) {
+        console.log('⚠️ No bullet points found, adding formatting...');
+        // Convert paragraphs to bullet points
+        const lines = content.split('\n').filter(line => line.trim());
+        if (lines.length > 1) {
+          content = lines.map(line => `• ${line.trim()}`).join('\n');
+        } else {
+          content = `• ${content}`;
+        }
+      } else {
+        // Ensure existing bullet points are on separate lines
+        console.log('🔧 Formatting existing bullet points...');
+        // First, split by bullet points and ensure each is on its own line
+        content = content
+          .replace(/•\s*/g, '\n• ') // Ensure • starts new line
+          .replace(/\n\s*\n/g, '\n') // Remove extra blank lines
+          .replace(/^\s*\n/, '') // Remove leading blank line
+          .trim();
+        
+        // If bullet points are still inline, force them to new lines
+        if (content.includes('•') && !content.includes('\n•')) {
+          content = content.replace(/•/g, '\n•').replace(/^\s*\n/, '').trim();
+        }
+      }
+      
+      console.log('✅ Response validated and formatted');
+      return content;
+    }
+    
+    // Test function to check AI source
+    function testAISource() {
+      console.log('🧪 Testing AI Source...');
+      console.log('AI_CONFIG:', AI_CONFIG);
+      console.log('Will use Douban:', AI_CONFIG.useExternalAI && AI_CONFIG.aiApiKey);
+      handleAIChat("Test message - check console for AI source");
+    }
+    
+    // Comprehensive test for response validation
+    function testResponseValidation() {
+      console.log('🧪 Testing Response Validation...');
+      
+      const testResponses = [
+        "This is a very long response that should be truncated because it exceeds the word limit and doesn't use bullet points at all. It just goes on and on with unnecessary words that make it too verbose for the user to read quickly.",
+        "Short response with bullet points:\n• Point one\n• Point two\n• Point three",
+        "Another long response without bullet points that should be converted to bullet points and truncated to meet the requirements for concise responses.",
+        "Perfect short response with • bullet points and under 100 words.",
+        "Response with inline bullet points • that should be on new lines • and properly formatted • for better readability.",
+        "Mixed format: • First point • Second point\n• Third point on new line",
+        "No bullet points at all but should be converted to bullet points format for better readability and consistency."
+      ];
+      
+      testResponses.forEach((response, index) => {
+        console.log(`\n--- Test ${index + 1} ---`);
+        console.log('Original:', response);
+        const validated = validateAndFormatResponse(response);
+        console.log('Validated:', validated);
+        console.log('Has new lines:', validated.includes('\n'));
+        console.log('Bullet points on new lines:', validated.split('\n').filter(line => line.trim().startsWith('•')).length);
+      });
+      
+      console.log('\n✅ All tests completed!');
+    }
+    
+    // Quick test function for immediate verification
+    function quickTest() {
+      console.log('🚀 Quick Test - Bullet Point Formatting');
+      
+      const testCases = [
+        "• Point one • Point two • Point three",
+        "Response with • inline bullets • that need formatting",
+        "No bullets at all but should get them"
+      ];
+      
+      testCases.forEach((test, i) => {
+        console.log(`\n--- Quick Test ${i + 1} ---`);
+        console.log('Input:', test);
+        const result = validateAndFormatResponse(test);
+        console.log('Output:', result);
+        console.log('Each bullet on new line:', result.split('\n').every(line => !line.includes('•') || line.trim().startsWith('•')));
+      });
+    }
+    
+    // Test settings functionality in calendar view
+    function testSettingsInCalendar() {
+      console.log('🧪 Testing Settings in Calendar View');
+      
+      // Check current view
+      const isCalendarActive = calendarWindow.classList.contains('active');
+      console.log('Calendar active:', isCalendarActive);
+      
+      // Check settings button
+      const settingsBtn = document.querySelector('.nav-btn.settings');
+      console.log('Settings button found:', !!settingsBtn);
+      
+      // Check settings modal
+      const settingsModal = document.getElementById('settingsModalOverlay');
+      console.log('Settings modal found:', !!settingsModal);
+      
+      // Test opening settings
+      if (settingsBtn) {
+        console.log('Testing settings button click...');
+        settingsBtn.click();
+        
+        setTimeout(() => {
+          const isModalVisible = !settingsModal.classList.contains('hidden');
+          console.log('Settings modal visible:', isModalVisible);
+          console.log('Modal z-index:', settingsModal.style.zIndex);
+          
+          // Close modal
+          settingsModal.classList.add('hidden');
+          console.log('Settings modal closed for testing');
+        }, 100);
+      }
+    }
+    
+    // AI input enter key handler
+    aiInput.onkeypress = (e) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        aiSendBtn.click();
+      }
+    };
+    
+    // AI home button functionality
+    const aiHomeBtn = document.getElementById('aiHomeBtn');
+    aiHomeBtn.onclick = () => {
+      console.log('AI home button clicked');
+      
+      // Hide AI window and show main content
+      aiWindow.classList.remove('active');
+      mainContent.style.display = 'block';
+      
+      // Restore nav island to normal state
+      showNavBar();
+      
+      console.log('AI window deactivated');
+      console.log('Main content shown:', mainContent.style.display);
+    };
+    
+    // Calendar/Home button functionality
     calendarBtn.onclick = () => {
-      console.log('Calendar button clicked');
+      console.log('Calendar/Home button clicked');
       console.log('Calendar button found:', !!calendarBtn);
-      console.log('Calendar modal overlay found:', !!calendarModalOverlay);
-      calendarModalOverlay.classList.remove('hidden');
-      console.log('Calendar modal hidden class removed');
+      console.log('Calendar window found:', !!calendarWindow);
+      console.log('Current calendar state:', calendarWindow.classList.contains('active'));
       
-      // Test if modal is visible
-      setTimeout(() => {
-        const isVisible = !calendarModalOverlay.classList.contains('hidden');
-        const computedStyle = window.getComputedStyle(calendarModalOverlay);
-        console.log('Calendar modal visibility test:');
-        console.log('- Hidden class removed:', isVisible);
-        console.log('- Display style:', computedStyle.display);
-        console.log('- Opacity:', computedStyle.opacity);
-        console.log('- Z-index:', computedStyle.zIndex);
-      }, 100);
-      
-      renderCalendar();
-      console.log('Calendar rendered');
+      // If we're in calendar view, go home
+      if (calendarWindow.classList.contains('active')) {
+        console.log('Going home from calendar view');
+        
+        // Hide calendar and show main content
+        calendarWindow.classList.remove('active');
+        mainContent.style.display = 'block';
+        
+        // Restore nav island to normal state using the proper function
+        showNavBar();
+        
+        // Change back to calendar button
+        calendarBtn.innerHTML = '<span style="color:#e7a7c7;">📅</span>';
+        calendarBtn.title = 'Calendar';
+        
+        console.log('Calendar window deactivated');
+        console.log('Main content shown:', mainContent.style.display);
+        console.log('Calendar window active:', calendarWindow.classList.contains('active'));
+        
+        // Force show navbar when returning to home
+        showNavBar();
+      } else {
+        // If we're in dashboard view, go to calendar
+        console.log('Going to calendar from dashboard view');
+        
+        // Hide main content and show calendar (but keep nav island visible)
+        mainContent.style.display = 'none';
+        calendarWindow.classList.add('active');
+        
+        // Ensure nav island stays visible
+        const navIsland = document.getElementById('navIsland');
+        const fab = document.querySelector('.fab');
+        
+        if (navIsland) {
+          navIsland.classList.remove('hidden');
+          navIsland.style.zIndex = '1001';
+        }
+        
+        if (fab) {
+          fab.classList.remove('hidden');
+          fab.style.zIndex = '1001';
+        }
+        
+
+        
+        // Change calendar button to home button
+        calendarBtn.innerHTML = '<span style="color:#e7a7c7;">🏠</span>';
+        calendarBtn.title = 'Home';
+        
+        console.log('Calendar window activated');
+        console.log('Main content hidden:', mainContent.style.display);
+        console.log('Calendar window active:', calendarWindow.classList.contains('active'));
+        
+        renderCalendar();
+        console.log('Calendar rendered');
+      }
     };
     
     // Calendar navigation
@@ -2708,9 +4834,83 @@
       renderCalendar();
     };
     
-    document.getElementById('closeCalendarBtn').onclick = () => {
-      calendarModalOverlay.classList.add('hidden');
+    // Month/Year selector functionality
+    const calendarTitle = document.getElementById('calendarTitle');
+    const monthYearSelector = document.getElementById('monthYearSelector');
+    const yearSelect = document.getElementById('yearSelect');
+    const monthSelect = document.getElementById('monthSelect');
+    const applyDateBtn = document.getElementById('applyDateBtn');
+    const cancelDateBtn = document.getElementById('cancelDateBtn');
+    const closeSelectorBtn = document.getElementById('closeSelectorBtn');
+    
+    // Make calendar title clickable
+    calendarTitle.style.cursor = 'pointer';
+    calendarTitle.onclick = () => {
+      openMonthYearSelector();
     };
+    
+    // Open month/year selector
+    function openMonthYearSelector() {
+      // Populate year dropdown (current year ± 10 years)
+      const currentYear = new Date().getFullYear();
+      yearSelect.innerHTML = '';
+      for (let year = currentYear - 10; year <= currentYear + 10; year++) {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        if (year === currentCalendarDate.getFullYear()) {
+          option.selected = true;
+        }
+        yearSelect.appendChild(option);
+      }
+      
+      // Populate month dropdown
+      const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                         'July', 'August', 'September', 'October', 'November', 'December'];
+      monthSelect.innerHTML = '';
+      monthNames.forEach((month, index) => {
+        const option = document.createElement('option');
+        option.value = index;
+        option.textContent = month;
+        if (index === currentCalendarDate.getMonth()) {
+          option.selected = true;
+        }
+        monthSelect.appendChild(option);
+      });
+      
+      monthYearSelector.classList.remove('hidden');
+    }
+    
+    // Apply selected month/year
+    applyDateBtn.onclick = () => {
+      const selectedYear = parseInt(yearSelect.value);
+      const selectedMonth = parseInt(monthSelect.value);
+      
+      currentCalendarDate.setFullYear(selectedYear);
+      currentCalendarDate.setMonth(selectedMonth);
+      
+      renderCalendar();
+      monthYearSelector.classList.add('hidden');
+    };
+    
+    // Cancel month/year selection
+    cancelDateBtn.onclick = () => {
+      monthYearSelector.classList.add('hidden');
+    };
+    
+    // Close selector
+    closeSelectorBtn.onclick = () => {
+      monthYearSelector.classList.add('hidden');
+    };
+    
+    // Close selector when clicking outside
+    monthYearSelector.onclick = (e) => {
+      if (e.target === monthYearSelector) {
+        monthYearSelector.classList.add('hidden');
+      }
+    };
+    
+    // Calendar close button removed - now using home button
     
     // Render calendar
     function renderCalendar() {
@@ -2760,6 +4960,8 @@
       for (let i = 0; i < 42; i++) {
         const currentDate = new Date(startDate);
         currentDate.setDate(startDate.getDate() + i);
+        // Set to midnight to avoid timezone issues
+        currentDate.setHours(0, 0, 0, 0);
         
         const dayElement = document.createElement('div');
         dayElement.className = 'calendar-day';
@@ -2775,8 +4977,8 @@
         dayContent.className = 'calendar-day-content';
         dayElement.appendChild(dayContent);
         
-        // Check if this day has tasks
-        const tasksForDay = getDueDatesForDate(currentDate);
+        // Check if this day has tasks (exclude done notes)
+        const tasksForDay = getDueDatesForDate(currentDate).filter(task => !task.done);
         if (tasksForDay.length > 0) {
           console.log(`Day ${currentDate.getDate()} has ${tasksForDay.length} tasks`);
           tasksForDay.forEach(task => {
@@ -2785,12 +4987,30 @@
             taskElement.textContent = task.title || task.text;
             
             // Add importance color
-            const importance = task.importance || '3';
+            const importance = task.importance || 'moderately';
             taskElement.setAttribute('data-importance', importance);
+            
+            // Apply importance-based styling
+            const importanceColors = {
+              'slightly': '#4caf50',
+              'moderately': '#ff9800',
+              'very': '#f44336'
+            };
+            taskElement.style.borderLeftColor = importanceColors[importance] || '#6C63FF';
+            
+            // Apply background color based on importance and dark mode
+            const isDarkMode = document.body.classList.contains('dark-mode');
+            const importanceBackgrounds = {
+              'slightly': isDarkMode ? '#1b5e20' : '#e8f5e8',
+              'moderately': isDarkMode ? '#e65100' : '#fff3e0',
+              'very': isDarkMode ? '#b71c1c' : '#ffebee'
+            };
+            taskElement.style.backgroundColor = importanceBackgrounds[importance] || (isDarkMode ? '#424242' : '#f5f5f5');
             
             // Make task clickable to open edit modal
             taskElement.style.cursor = 'pointer';
-            taskElement.onclick = () => {
+            taskElement.onclick = (e) => {
+              e.stopPropagation(); // Prevent day click when clicking task
               console.log('Calendar task clicked:', task);
               console.log('Task ID:', task.id);
               console.log('Task text:', task.text);
@@ -2802,9 +5022,36 @@
           });
         }
         
+        // Make entire day clickable to show details
+        dayElement.style.cursor = 'pointer';
+        
+        // Single click to show details
+        dayElement.onclick = () => {
+          showDateDetails(currentDate, tasksForDay);
+        };
+        
+        // Double click to add note with this date
+        dayElement.ondblclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Add visual feedback
+          dayElement.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            dayElement.style.transform = '';
+          }, 150);
+          
+          addNoteWithDate(currentDate);
+        };
+        
         // Style based on whether it's current month
         if (currentDate.getMonth() !== month) {
           dayElement.style.opacity = '0.5';
+        }
+        
+        // Add double-tap hint for current month days
+        if (currentDate.getMonth() === month) {
+          dayElement.title = 'Single tap to view details • Double tap to add note';
         }
         
         calendarGrid.appendChild(dayElement);
@@ -2812,23 +5059,181 @@
       console.log('Calendar days generated');
     }
     
+    // Show date details in bottom section with smooth animations
+    function showDateDetails(date, tasks) {
+      const bottomSection = document.getElementById('calendarBottomSection');
+      const topSection = document.querySelector('.calendar-top-section');
+      const selectedDateTitle = document.getElementById('selectedDateTitle');
+      const selectedDateTasks = document.getElementById('selectedDateTasks');
+      
+      // Format date
+      const dateStr = date.toLocaleDateString('en-US', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      
+      selectedDateTitle.textContent = dateStr;
+      
+      // Clear previous tasks
+      selectedDateTasks.innerHTML = '';
+      
+      // Filter out done tasks for display
+      const activeTasks = tasks.filter(task => !task.done);
+      
+      if (activeTasks.length === 0) {
+        selectedDateTasks.innerHTML = '<p style="color: #666; text-align: center; margin: 1rem 0;">No active tasks for this date</p>';
+      } else {
+        activeTasks.forEach((task, index) => {
+          const taskElement = document.createElement('div');
+          taskElement.className = 'detail-task-item';
+          taskElement.style.cssText = `
+            background: #fff;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0.5rem;
+            border-left: 4px solid #6C63FF;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideInUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) ${0.1 * (index + 1)}s forwards;
+          `;
+          
+          // Add importance color
+          const importance = task.importance || 'moderately';
+          const importanceColors = {
+            'slightly': '#4caf50',
+            'moderately': '#ff9800', 
+            'very': '#f44336'
+          };
+          taskElement.style.borderLeftColor = importanceColors[importance] || '#6C63FF';
+          
+          taskElement.innerHTML = `
+            <div style="font-weight: 600; margin-bottom: 0.5rem; color: #333;">${task.title || task.text}</div>
+            <div style="font-size: 0.9rem; color: #666;">
+              <span style="color: ${importanceColors[importance] || '#6C63FF'}; font-weight: 500;">${getImportanceText(importance)}</span>
+              ${task.categories && task.categories.length > 0 ? ` • ${task.categories[0]}` : ''}
+            </div>
+          `;
+          
+          taskElement.onclick = () => {
+            openEditModal(task);
+          };
+          
+          selectedDateTasks.appendChild(taskElement);
+        });
+      }
+      
+      // Always show bottom section and animate calendar (works on all screen sizes)
+      bottomSection.classList.remove('hidden');
+      
+      // Animate calendar sections with smooth transitions
+      topSection.classList.add('compact');
+      bottomSection.classList.add('expanded');
+      
+      console.log('Calendar date selected:', date.toDateString());
+      console.log('Tasks found:', tasks.length);
+      console.log('Bottom section expanded, scrolling in 400ms...');
+      
+      // Smooth scroll to bottom section after animation starts
+      setTimeout(() => {
+        const calendarWindow = document.querySelector('.calendar-window');
+        const bottomSection = document.getElementById('calendarBottomSection');
+        if (calendarWindow && bottomSection) {
+          // Calculate the position to scroll to
+          const bottomSectionTop = bottomSection.offsetTop;
+          
+          // Try smooth scrolling first
+          try {
+            calendarWindow.scrollTo({
+              top: bottomSectionTop - 50, // Offset by 50px for better visibility
+              behavior: 'smooth'
+            });
+          } catch (e) {
+            // Fallback to instant scroll if smooth scrolling fails
+            calendarWindow.scrollTop = bottomSectionTop - 50;
+          }
+        }
+      }, 400);
+      
+
+    }
+    
+    // Add note with specific date
+    function addNoteWithDate(date) {
+      console.log('Adding note for date:', date.toDateString());
+      
+      // Add 1 day to the calendar date for the note
+      const adjustedDate = new Date(date);
+      adjustedDate.setDate(adjustedDate.getDate() + 1);
+      
+      // Format date for input field (YYYY-MM-DD)
+      const dateStr = adjustedDate.toISOString().split('T')[0];
+      
+      // Update modal z-index for calendar view
+      updateModalZIndex();
+      
+      // Open the add note modal
+      modalOverlay.classList.remove('hidden');
+      
+      // Set the custom date
+      const customDateInput = document.getElementById('customDate');
+      if (customDateInput) {
+        customDateInput.value = dateStr;
+      }
+      
+      // Set timeframe to custom
+      const timeframeSelect = document.getElementById('timeframe');
+      if (timeframeSelect) {
+        timeframeSelect.value = 'custom';
+        // Trigger the custom date toggle to show the date input
+        toggleCustomDate();
+      }
+      
+      // Focus on the note text area
+      const noteTextArea = document.getElementById('noteText');
+      if (noteTextArea) {
+        noteTextArea.focus();
+      }
+      
+      console.log('Modal opened with date:', dateStr);
+      console.log('Modal z-index set for calendar view');
+    }
+    
     // Get due dates for a specific date
     function getDueDatesForDate(date) {
-      const dateStr = date.toISOString().split('T')[0];
+      // Ensure date is at midnight to avoid timezone issues
+      const normalizedDate = new Date(date);
+      normalizedDate.setHours(0, 0, 0, 0);
+      const dateStr = normalizedDate.toISOString().split('T')[0];
       console.log('Checking tasks for date:', dateStr);
       console.log('Total notes:', notes.length);
       
       const tasksForDate = notes.filter(note => {
         if (note.timeframe === 'custom' && note.customDate) {
-          const matches = note.customDate === dateStr;
+          // Subtract 1 day from custom dates for calendar display
+          const customDate = new Date(note.customDate);
+          customDate.setDate(customDate.getDate() - 1);
+          const adjustedCustomDateStr = customDate.toISOString().split('T')[0];
+          const matches = adjustedCustomDateStr === dateStr;
           if (matches) console.log('Found custom date task:', note.title || note.text);
           return matches;
         }
-        // For other timeframes, calculate due date
+        // For other timeframes, calculate due date and add 1 day for calendar display
         const days = parseInt(note.timeframe);
-        const dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + days);
+        // Use the note's creation date as the base
+        const createdAt = new Date(note.createdAt);
+        // Normalize creation date to midnight
+        createdAt.setHours(0, 0, 0, 0);
+        const createdDateStr = createdAt.toISOString().split('T')[0];
+        const createdDate = new Date(createdDateStr + 'T00:00:00');
+        const dueDate = new Date(createdDate);
+        dueDate.setDate(dueDate.getDate() + days + 1); // Add 1 day for calendar display
         const calculatedDateStr = dueDate.toISOString().split('T')[0];
+        
         const matches = calculatedDateStr === dateStr;
         if (matches) console.log('Found regular timeframe task:', note.title || note.text);
         return matches;
@@ -2904,6 +5309,60 @@
     
     // Run comprehensive test after initialization
     setTimeout(runComprehensiveTest, 500);
+    
+    // Scroll-based nav bar animations
+    let lastScrollTop = 0;
+    let scrollThreshold = 50; // Minimum scroll distance to trigger animation
+    let isNavVisible = true;
+    
+    window.addEventListener('scroll', () => {
+      const currentScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      const scrollDifference = Math.abs(currentScrollTop - lastScrollTop);
+      
+      // Only trigger animation if scroll distance is significant
+      if (scrollDifference > scrollThreshold) {
+        if (currentScrollTop > lastScrollTop && currentScrollTop > 100) {
+          // Scrolling down - hide nav bar
+          if (isNavVisible) {
+            hideNavBar();
+          }
+        } else if (currentScrollTop < lastScrollTop) {
+          // Scrolling up - show nav bar
+          if (!isNavVisible) {
+            showNavBar();
+          }
+        }
+        lastScrollTop = currentScrollTop;
+      }
+    });
+    
+    function hideNavBar() {
+      const navIsland = document.getElementById('navIsland');
+      const fab = document.querySelector('.fab');
+      
+      if (navIsland) {
+        navIsland.classList.add('hidden');
+      }
+      if (fab) {
+        fab.classList.add('hidden');
+      }
+      
+      isNavVisible = false;
+    }
+    
+    function showNavBar() {
+      const navIsland = document.getElementById('navIsland');
+      const fab = document.querySelector('.fab');
+      
+      if (navIsland) {
+        navIsland.classList.remove('hidden');
+      }
+      if (fab) {
+        fab.classList.remove('hidden');
+      }
+      
+      isNavVisible = true;
+    }
     
     // Show reorder hint tooltip on first visit
     if (!localStorage.getItem('reorderHintShown')) {
@@ -2996,6 +5455,295 @@
     
     // Load settings on startup
     loadSettings();
+    
+    // Notification system
+    let notificationPermission = false;
+    let notificationCheckInterval = null;
+    
+    // Request notification permission
+    async function requestNotificationPermission() {
+      if ('Notification' in window) {
+        const permission = await Notification.requestPermission();
+        notificationPermission = permission === 'granted';
+        console.log('Notification permission:', permission);
+        return notificationPermission;
+      }
+      return false;
+    }
+    
+    // Check if notifications are supported
+    function isNotificationSupported() {
+      return 'Notification' in window;
+    }
+    
+    // Send notification
+    function sendNotification(title, options = {}) {
+      if (!notificationPermission || !isNotificationSupported()) {
+        console.log('Notifications not available');
+        return;
+      }
+      
+      const notificationSound = localStorage.getItem('notificationSound') || 'default';
+      
+      const defaultOptions = {
+        icon: '/favicon.ico',
+        badge: '/favicon.ico',
+        requireInteraction: false,
+        silent: false
+      };
+      
+      const notification = new Notification(title, { ...defaultOptions, ...options });
+      
+      // Play notification sound
+      playNotificationSound(notificationSound);
+      
+      // Auto-close after 5 seconds
+      setTimeout(() => {
+        notification.close();
+      }, 5000);
+      
+      return notification;
+    }
+    
+    // Play notification sound
+    function playNotificationSound(soundType) {
+      try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        
+        // Set sound based on type
+        switch(soundType) {
+          case 'mute':
+            // Don't play any sound
+            return;
+          case 'gentle':
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
+            break;
+          case 'urgent':
+            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.1);
+            oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.2);
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.3);
+            break;
+          case 'custom':
+            // Custom chime sound
+            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
+            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.2); // E5
+            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.4); // G5
+            break;
+          default:
+            // Default notification sound
+            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
+            oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.2);
+        }
+        
+        // Set volume envelope
+        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+        
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.5);
+        
+      } catch (error) {
+        console.log('Could not play notification sound:', error);
+      }
+    }
+    
+    // Check for due notes and send notifications
+    function checkDueNotes() {
+      const now = new Date();
+      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      
+      notes.forEach(note => {
+        if (note.done) return; // Skip completed notes
+        
+        let dueDate = null;
+        
+        // Calculate due date based on timeframe
+        if (note.timeframe === 'custom' && note.customDate) {
+          dueDate = new Date(note.customDate);
+        } else if (note.timeframe.includes('Due ')) {
+          const days = parseInt(note.timeframe.match(/\((\d+) days?\)/)[1]);
+          dueDate = new Date(today.getTime() + (days * 24 * 60 * 60 * 1000));
+        } else {
+          const days = parseInt(note.timeframe) || 0;
+          dueDate = new Date(today.getTime() + (days * 24 * 60 * 60 * 1000));
+        }
+        
+        if (!dueDate) return;
+        
+        const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
+        
+        // Check if notification should be sent based on urgency and frequency
+        const urgency = note.urgency || 3;
+        const frequency = getNotificationFrequency(urgency);
+        
+        if (shouldSendNotification(note.id, daysUntilDue, frequency)) {
+          const urgencyText = getUrgencyText(urgency);
+          const importanceText = getImportanceText(note.importance || 'moderately');
+          
+          sendNotification(
+            `📝 ${note.title}`,
+            {
+              body: `Due ${daysUntilDue === 0 ? 'today' : daysUntilDue === 1 ? 'tomorrow' : `in ${daysUntilDue} days`}\n${urgencyText} • ${importanceText}`,
+              tag: `note-${note.id}`,
+              data: { noteId: note.id, daysUntilDue }
+            }
+          );
+          
+          // Mark notification as sent
+          markNotificationSent(note.id, daysUntilDue);
+        }
+      });
+    }
+    
+    // Get notification frequency based on urgency
+    function getNotificationFrequency(urgency) {
+      const highFreq = localStorage.getItem('highUrgencyFreq') || 'immediate';
+      const mediumFreq = localStorage.getItem('mediumUrgencyFreq') || 'daily';
+      const lowFreq = localStorage.getItem('lowUrgencyFreq') || 'weekly';
+      
+      if (urgency >= 4) return highFreq;
+      if (urgency >= 3) return mediumFreq;
+      return lowFreq;
+    }
+    
+    // Get urgency text
+    function getUrgencyText(urgency) {
+      switch(urgency) {
+        case 1: return 'Very Low Urgency';
+        case 2: return 'Low Urgency';
+        case 3: return 'Medium Urgency';
+        case 4: return 'High Urgency';
+        case 5: return 'Very High Urgency';
+        default: return 'Medium Urgency';
+      }
+    }
+    
+    // Check if notification should be sent
+    function shouldSendNotification(noteId, daysUntilDue, frequency) {
+      const sentNotifications = JSON.parse(localStorage.getItem('sentNotifications') || '{}');
+      const key = `${noteId}-${daysUntilDue}`;
+      
+      if (sentNotifications[key]) {
+        const lastSent = new Date(sentNotifications[key]);
+        const now = new Date();
+        
+        switch(frequency) {
+          case 'immediate':
+            return false; // Already sent
+          case 'daily':
+            return (now - lastSent) > (24 * 60 * 60 * 1000);
+          case 'weekly':
+            return (now - lastSent) > (7 * 24 * 60 * 60 * 1000);
+          default:
+            return false;
+        }
+      }
+      
+      return true;
+    }
+    
+    // Mark notification as sent
+    function markNotificationSent(noteId, daysUntilDue) {
+      const sentNotifications = JSON.parse(localStorage.getItem('sentNotifications') || '{}');
+      const key = `${noteId}-${daysUntilDue}`;
+      sentNotifications[key] = new Date().toISOString();
+      localStorage.setItem('sentNotifications', JSON.stringify(sentNotifications));
+    }
+    
+    // Start notification checking
+    function startNotificationChecking() {
+      if (notificationCheckInterval) {
+        clearInterval(notificationCheckInterval);
+      }
+      
+      // Check immediately
+      checkDueNotes();
+      
+      // Then check every 30 minutes
+      notificationCheckInterval = setInterval(checkDueNotes, 30 * 60 * 1000);
+    }
+    
+    // Stop notification checking
+    function stopNotificationChecking() {
+      if (notificationCheckInterval) {
+        clearInterval(notificationCheckInterval);
+        notificationCheckInterval = null;
+      }
+    }
+    
+    // Initialize notifications
+    async function initializeNotifications() {
+      if (isNotificationSupported()) {
+        notificationPermission = await requestNotificationPermission();
+        if (notificationPermission) {
+          startNotificationChecking();
+          console.log('Notifications initialized successfully');
+        } else {
+          console.log('Notification permission denied');
+        }
+      } else {
+        console.log('Notifications not supported in this browser');
+      }
+    }
+    
+    // Initialize notifications after page load
+    setTimeout(initializeNotifications, 1000);
+    
+    // Test notification button
+    document.getElementById('testNotificationBtn').addEventListener('click', () => {
+      if (notificationPermission) {
+        sendNotification(
+          '🔔 Test Notification',
+          {
+            body: 'This is a test notification from EzNotes! If you can see this, notifications are working properly.',
+            tag: 'test-notification',
+            requireInteraction: true
+          }
+        );
+      } else {
+        alert('Please enable notifications in your browser settings to test this feature.');
+      }
+    });
+    
+    // Test sound button
+    document.getElementById('testSoundBtn').addEventListener('click', () => {
+      const currentSound = document.getElementById('notificationSound').value;
+      const button = document.getElementById('testSoundBtn');
+      
+      if (currentSound === 'mute') {
+        // Visual feedback for mute
+        button.textContent = '🔇 Muted';
+        button.style.background = '#9E9E9E';
+        
+        setTimeout(() => {
+          button.textContent = '🔊 Test Sound';
+          button.style.background = '#4CAF50';
+        }, 600);
+        return;
+      }
+      
+      // Visual feedback
+      button.textContent = '🔊 Playing...';
+      button.style.background = '#FF9800';
+      
+      playNotificationSound(currentSound);
+      
+      // Reset button after sound finishes
+      setTimeout(() => {
+        button.textContent = '🔊 Test Sound';
+        button.style.background = '#4CAF50';
+      }, 600);
+    });
   </script>
 </body>
 </html>
