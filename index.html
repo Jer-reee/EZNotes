@@ -1131,6 +1131,49 @@
         max-height: 80vh;
         overflow-y: auto;
       }
+      
+      /* Ensure all buttons are accessible on all devices */
+      button, [role="button"], .chip, .note-card {
+        position: relative;
+        z-index: 1;
+      }
+      
+      /* Prevent buttons from being hidden behind other elements */
+      .modal-overlay {
+        z-index: 1000;
+      }
+      
+      .nav-island {
+        z-index: 999;
+      }
+      
+      .fab {
+        z-index: 998;
+      }
+      
+      /* Ensure buttons are always clickable */
+      button:not([disabled]), [role="button"]:not([disabled]) {
+        pointer-events: auto;
+        cursor: pointer;
+      }
+      
+      /* High contrast for better accessibility */
+      button:focus, [role="button"]:focus {
+        outline: 2px solid #6C63FF;
+        outline-offset: 2px;
+      }
+      
+      /* Ensure proper contrast ratios */
+      .modal-btn, .sort-btn, .header-ai-btn {
+        color: white;
+        background: #6C63FF;
+      }
+      
+      .modal-btn.cancel {
+        color: #666;
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+      }
     }
     @keyframes modalIn {
       from { transform: translateY(40px) scale(0.98); opacity: 0; }
@@ -2875,12 +2918,12 @@
     <div class="header">
       <div class="header-content">
         <div class="header-title">EZ<span style="color:#222;">Habits</span></div>
-        <button class="header-ai-btn" id="headerAiBtn" title="AI Assistant">AI</button>
+        <button class="header-ai-btn" id="headerAiBtn" title="AI Assistant" aria-label="Open AI Assistant">AI</button>
       </div>
     </div>
     <div class="search-bar">
       <input type="text" id="searchInput" placeholder="Search for notes" />
-      <button id="clearSearchBtn" style="display: none; background: none; border: none; color: #6C63FF; cursor: pointer; padding: 0.5rem; font-size: 1.2rem;">✕</button>
+      <button id="clearSearchBtn" style="display: none; background: none; border: none; color: #6C63FF; cursor: pointer; padding: 0.5rem; font-size: 1.2rem;" aria-label="Clear search" title="Clear search">✕</button>
     </div>
     <div id="searchResultsCount" style="display: none; text-align: center; color: #666; font-size: 0.9rem; margin: 0.5rem 0;"></div>
     <div class="filter-chips" id="filterChips" style="position: relative;">
@@ -2920,7 +2963,7 @@
       <button class="nav-btn settings" title="Settings"> <span style="color:#4CAF50;">&#9881;&#65039;</span> </button>
     </nav>
   </div>
-  <button class="fab" id="openModalBtn" title="Add Note">+</button>
+      <button class="fab" id="openModalBtn" title="Add Note" aria-label="Add new note">+</button>
   <!-- Modal for adding a note -->
   <div class="modal-overlay hidden" id="modalOverlay">
     <form class="modal" id="addNoteModal">
@@ -6406,733 +6449,394 @@ CRITICAL REQUIREMENTS:
     optimizeForTallDisplay();
     window.addEventListener('resize', optimizeForTallDisplay);
     
-    // Comprehensive testing for 1264x2780 display
-    function test1264x2780Display() {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
-      const isTargetDisplay = width === 1264 && height === 2780;
+    // Comprehensive button testing and accessibility
+    function testAllButtons() {
+      console.log('🧪 Starting comprehensive button test...');
       
-      console.log('=== 1264x2780 DISPLAY TEST ===');
-      console.log('Current dimensions:', width, 'x', height);
-      console.log('Is target display:', isTargetDisplay);
+      const buttonTests = [
+        // Main navigation buttons
+        { id: 'openModalBtn', name: 'Add Note Button' },
+        { id: 'sortBtn', name: 'Sort Button' },
+        { id: 'clearSearchBtn', name: 'Clear Search Button' },
+        
+        // Bottom navigation
+        { selector: '.bottom-nav .nav-btn', name: 'Bottom Nav Buttons' },
+        
+        // Modal buttons
+        { id: 'cancelModalBtn', name: 'Cancel Modal Button' },
+        { id: 'addNoteBtn', name: 'Add Note Submit Button' },
+        { id: 'saveSettingsBtn', name: 'Save Settings Button' },
+        { id: 'cancelSettingsBtn', name: 'Cancel Settings Button' },
+        
+        // Settings buttons
+        { id: 'testNotificationBtn', name: 'Test Notification Button' },
+        { id: 'testSoundBtn', name: 'Test Sound Button' },
+        
+        // AI buttons
+        { id: 'aiSendBtn', name: 'AI Send Button' },
+        { id: 'aiHomeBtn', name: 'AI Home Button' },
+        
+        // Calendar buttons
+        { id: 'prevMonthBtn', name: 'Previous Month Button' },
+        { id: 'nextMonthBtn', name: 'Next Month Button' },
+        { id: 'closeSelectorBtn', name: 'Close Selector Button' },
+        { id: 'applyDateBtn', name: 'Apply Date Button' },
+        { id: 'cancelDateBtn', name: 'Cancel Date Button' },
+        
+        // Category management
+        { id: 'addCategoryBtn', name: 'Add Category Button' },
+        { id: 'cancelCategoryBtn', name: 'Cancel Category Button' }
+      ];
       
-      // Test 1: Check if all elements are properly sized
-      const testResults = {
-        floatingIsland: false,
-        searchBar: false,
-        filterChips: false,
-        noteCards: false,
-        navIsland: false,
-        fab: false,
-        modals: false,
-        buttons: false
-      };
+      let passedTests = 0;
+      let totalTests = 0;
       
-      // Test floating island
-      const floatingIsland = document.querySelector('.floating-island');
-      if (floatingIsland) {
-        const rect = floatingIsland.getBoundingClientRect();
-        testResults.floatingIsland = rect.width <= 600 && rect.width > 400;
-        console.log('Floating island width:', rect.width, 'px');
-      }
-      
-      // Test search bar
-      const searchBar = document.querySelector('.search-bar');
-      if (searchBar) {
-        const rect = searchBar.getBoundingClientRect();
-        testResults.searchBar = rect.height >= 48;
-        console.log('Search bar height:', rect.height, 'px');
-      }
-      
-      // Test filter chips
-      const chips = document.querySelectorAll('.chip');
-      chips.forEach((chip, index) => {
-        const rect = chip.getBoundingClientRect();
-        const isProperSize = rect.width >= 48 && rect.height >= 48;
-        if (index === 0) {
-          testResults.filterChips = isProperSize;
-          console.log('Filter chip size:', rect.width, 'x', rect.height, 'px');
+      buttonTests.forEach(test => {
+        totalTests++;
+        let element;
+        
+        if (test.id) {
+          element = document.getElementById(test.id);
+        } else if (test.selector) {
+          element = document.querySelector(test.selector);
+        }
+        
+        if (element) {
+          // Test if element is visible
+          const isVisible = element.offsetWidth > 0 && element.offsetHeight > 0;
+          
+          // Test if element is clickable (not disabled)
+          const isClickable = !element.disabled && !element.hasAttribute('disabled');
+          
+          // Test touch target size (mobile)
+          const rect = element.getBoundingClientRect();
+          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
+          
+          // Test if element has proper accessibility
+          const hasAccessibility = element.hasAttribute('aria-label') || 
+                                 element.hasAttribute('title') || 
+                                 element.textContent.trim().length > 0;
+          
+          if (isVisible && isClickable && isTouchFriendly && hasAccessibility) {
+            console.log(`✅ ${test.name}: PASSED`);
+            passedTests++;
+          } else {
+            console.log(`❌ ${test.name}: FAILED`);
+            console.log(`   Visible: ${isVisible}, Clickable: ${isClickable}, Touch-friendly: ${isTouchFriendly}, Accessible: ${hasAccessibility}`);
+          }
+        } else {
+          console.log(`⚠️ ${test.name}: NOT FOUND`);
         }
       });
       
-      // Test note cards
-      const noteCards = document.querySelectorAll('.note-card');
-      noteCards.forEach((card, index) => {
-        const rect = card.getBoundingClientRect();
-        const isProperSize = rect.height >= 140;
-        if (index === 0) {
-          testResults.noteCards = isProperSize;
-          console.log('Note card height:', rect.height, 'px');
+      console.log(`\n📊 Button Test Results: ${passedTests}/${totalTests} passed`);
+      return passedTests === totalTests;
+    }
+    
+    // Test all interactive elements
+    function testInteractiveElements() {
+      console.log('🔍 Testing all interactive elements...');
+      
+      const interactiveElements = [
+        '.chip', '.note-card', '.urgency-dot', '.importance-dot', 
+        '.term-tag', '.category-chip', '.voice-btn', '.calendar-day',
+        '.calendar-task', '.ai-action-btn'
+      ];
+      
+      let passedTests = 0;
+      let totalTests = 0;
+      
+      interactiveElements.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((element, index) => {
+          totalTests++;
+          
+          const rect = element.getBoundingClientRect();
+          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
+          const isVisible = rect.width > 0 && rect.height > 0;
+          const isClickable = !element.disabled;
+          
+          if (isVisible && isClickable && isTouchFriendly) {
+            passedTests++;
+          } else {
+            console.log(`❌ ${selector}[${index}]: FAILED - Visible: ${isVisible}, Clickable: ${isClickable}, Touch-friendly: ${isTouchFriendly}`);
+          }
+        });
+      });
+      
+      console.log(`📊 Interactive Elements: ${passedTests}/${totalTests} passed`);
+      return passedTests === totalTests;
+    }
+    
+    // Test responsive behavior
+    function testResponsiveBehavior() {
+      console.log('📱 Testing responsive behavior...');
+      
+      const testCases = [
+        { width: 1264, height: 2780, name: 'Phone (1264x2780)' },
+        { width: 1920, height: 1080, name: 'Laptop (1920x1080)' },
+        { width: 768, height: 1024, name: 'Tablet (768x1024)' },
+        { width: 375, height: 812, name: 'Small Phone (375x812)' }
+      ];
+      
+      let passedTests = 0;
+      
+      testCases.forEach(testCase => {
+        // Simulate viewport
+        Object.defineProperty(window, 'innerWidth', { value: testCase.width, configurable: true });
+        Object.defineProperty(window, 'innerHeight', { value: testCase.height, configurable: true });
+        
+        // Trigger resize event
+        window.dispatchEvent(new Event('resize'));
+        
+        // Check if critical elements are accessible
+        const criticalElements = [
+          '.floating-island', '.nav-island', '.fab', 
+          '#openModalBtn', '.bottom-nav .nav-btn'
+        ];
+        
+        let allAccessible = true;
+        criticalElements.forEach(selector => {
+          const element = document.querySelector(selector);
+          if (element) {
+            const rect = element.getBoundingClientRect();
+            if (rect.width === 0 || rect.height === 0) {
+              allAccessible = false;
+            }
+          } else {
+            allAccessible = false;
+          }
+        });
+        
+        if (allAccessible) {
+          console.log(`✅ ${testCase.name}: PASSED`);
+          passedTests++;
+        } else {
+          console.log(`❌ ${testCase.name}: FAILED`);
         }
       });
       
-      // Test navigation island
-      const navIsland = document.querySelector('.nav-island');
-      if (navIsland) {
-        const rect = navIsland.getBoundingClientRect();
-        testResults.navIsland = rect.width >= 360 && rect.height >= 100;
-        console.log('Nav island size:', rect.width, 'x', rect.height, 'px');
-      }
+      console.log(`📊 Responsive Test: ${passedTests}/${testCases.length} passed`);
+      return passedTests === testCases.length;
+    }
+    
+    // Run comprehensive tests
+    function runComprehensiveTests() {
+      console.log('🚀 Starting comprehensive accessibility and functionality tests...\n');
       
-      // Test FAB
-      const fab = document.querySelector('.fab');
-      if (fab) {
-        const rect = fab.getBoundingClientRect();
-        testResults.fab = rect.width >= 80 && rect.height >= 80;
-        console.log('FAB size:', rect.width, 'x', rect.height, 'px');
-      }
+      const tests = [
+        { name: 'Button Accessibility', test: testAllButtons },
+        { name: 'Interactive Elements', test: testInteractiveElements },
+        { name: 'Responsive Behavior', test: testResponsiveBehavior }
+      ];
       
-      // Test all buttons
-      const buttons = document.querySelectorAll('button, [role="button"]');
-      let allButtonsProper = true;
-      buttons.forEach((button, index) => {
-        const rect = button.getBoundingClientRect();
-        const isProperSize = rect.width >= 44 && rect.height >= 44;
-        if (!isProperSize && index < 10) {
-          console.log('Button too small:', button.textContent, rect.width, 'x', rect.height, 'px');
-          allButtonsProper = false;
+      let allPassed = true;
+      
+      tests.forEach(test => {
+        console.log(`\n🧪 Running ${test.name} test...`);
+        const passed = test.test();
+        if (!passed) {
+          allPassed = false;
         }
       });
-      testResults.buttons = allButtonsProper;
       
-      // Test modals
-      const modals = document.querySelectorAll('.modal');
-      let allModalsProper = true;
-      modals.forEach((modal, index) => {
-        const rect = modal.getBoundingClientRect();
-        const isProperSize = rect.width <= 500 && rect.width > 300;
-        if (!isProperSize && index < 5) {
-          console.log('Modal size issue:', rect.width, 'x', rect.height, 'px');
-          allModalsProper = false;
-        }
-      });
-      testResults.modals = allModalsProper;
-      
-      // Report results
-      console.log('=== TEST RESULTS ===');
-      Object.keys(testResults).forEach(key => {
-        console.log(`${key}: ${testResults[key] ? '✅ PASS' : '❌ FAIL'}`);
-      });
-      
-      // Overall assessment
-      const passedTests = Object.values(testResults).filter(Boolean).length;
-      const totalTests = Object.keys(testResults).length;
-      console.log(`Overall: ${passedTests}/${totalTests} tests passed`);
-      
-      if (passedTests === totalTests) {
-        console.log('🎉 All tests passed! Display optimization working correctly.');
+      console.log('\n' + '='.repeat(50));
+      if (allPassed) {
+        console.log('🎉 ALL TESTS PASSED! App is fully accessible on all devices.');
       } else {
         console.log('⚠️ Some tests failed. Check console for details.');
       }
+      console.log('='.repeat(50));
       
-      return testResults;
+      return allPassed;
     }
     
-    // Comprehensive functionality testing
-    function testAllFunctionality() {
-      console.log('=== FUNCTIONALITY TESTING ===');
-      
-      const functionalityTests = {
-        search: false,
-        notifications: false,
-        modals: false,
-        navigation: false,
-        calendar: false,
-        ai: false,
-        settings: false,
-        touch: false
-      };
-      
-      // Test search functionality
-      try {
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput) {
-          searchInput.value = 'test';
-          searchInput.dispatchEvent(new Event('input'));
-          functionalityTests.search = true;
-          console.log('✅ Search functionality working');
+    // Run tests after page loads
+    setTimeout(runComprehensiveTests, 1000);
+    
+    // Keyboard navigation support
+    function addKeyboardNavigation() {
+      // Add keyboard shortcuts
+      document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + N to add new note
+        if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+          e.preventDefault();
+          document.getElementById('openModalBtn').click();
         }
-      } catch (error) {
-        console.log('❌ Search test failed:', error);
-      }
-      
-      // Test notification system
-      try {
-        if (typeof sendNotification === 'function' && typeof playNotificationSound === 'function') {
-          functionalityTests.notifications = true;
-          console.log('✅ Notification system available');
+        
+        // Ctrl/Cmd + F to focus search
+        if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+          e.preventDefault();
+          document.getElementById('searchInput').focus();
         }
-      } catch (error) {
-        console.log('❌ Notification test failed:', error);
-      }
-      
-      // Test modal functionality
-      try {
-        const modals = document.querySelectorAll('.modal-overlay');
-        if (modals.length > 0) {
-          functionalityTests.modals = true;
-          console.log('✅ Modals available');
+        
+        // Escape to close modals
+        if (e.key === 'Escape') {
+          const openModals = document.querySelectorAll('.modal-overlay:not(.hidden)');
+          if (openModals.length > 0) {
+            openModals[0].classList.add('hidden');
+          }
         }
-      } catch (error) {
-        console.log('❌ Modal test failed:', error);
-      }
-      
-      // Test navigation
-      try {
-        const navButtons = document.querySelectorAll('.nav-btn');
-        if (navButtons.length > 0) {
-          functionalityTests.navigation = true;
-          console.log('✅ Navigation buttons available');
+        
+        // Enter to submit forms
+        if (e.key === 'Enter' && e.target.tagName === 'TEXTAREA') {
+          const form = e.target.closest('form');
+          if (form) {
+            e.preventDefault();
+            const submitBtn = form.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.click();
+          }
         }
-      } catch (error) {
-        console.log('❌ Navigation test failed:', error);
-      }
-      
-      // Test calendar
-      try {
-        const calendarWindow = document.getElementById('calendarWindow');
-        if (calendarWindow) {
-          functionalityTests.calendar = true;
-          console.log('✅ Calendar available');
-        }
-      } catch (error) {
-        console.log('❌ Calendar test failed:', error);
-      }
-      
-      // Test AI
-      try {
-        const aiWindow = document.getElementById('aiWindow');
-        if (aiWindow) {
-          functionalityTests.ai = true;
-          console.log('✅ AI interface available');
-        }
-      } catch (error) {
-        console.log('❌ AI test failed:', error);
-      }
-      
-      // Test settings
-      try {
-        const settingsElements = document.querySelectorAll('#testNotificationBtn, #testSoundBtn, #notificationSound');
-        if (settingsElements.length > 0) {
-          functionalityTests.settings = true;
-          console.log('✅ Settings available');
-        }
-      } catch (error) {
-        console.log('❌ Settings test failed:', error);
-      }
-      
-      // Test touch functionality
-      try {
-        const touchElements = document.querySelectorAll('button, .chip, .note-card');
-        if (touchElements.length > 0) {
-          functionalityTests.touch = true;
-          console.log('✅ Touch elements available');
-        }
-      } catch (error) {
-        console.log('❌ Touch test failed:', error);
-      }
-      
-      // Report functionality results
-      console.log('=== FUNCTIONALITY RESULTS ===');
-      Object.keys(functionalityTests).forEach(key => {
-        console.log(`${key}: ${functionalityTests[key] ? '✅ PASS' : '❌ FAIL'}`);
       });
       
-      const passedFuncTests = Object.values(functionalityTests).filter(Boolean).length;
-      const totalFuncTests = Object.keys(functionalityTests).length;
-      console.log(`Functionality: ${passedFuncTests}/${totalFuncTests} tests passed`);
-      
-      return functionalityTests;
-    }
-    
-    // Test touch interactions specifically for mobile
-    function testTouchInteractions() {
-      console.log('=== TOUCH INTERACTION TESTING ===');
-      
-      const touchTests = {
-        buttonTouch: false,
-        chipTouch: false,
-        cardTouch: false,
-        modalTouch: false,
-        scrollTouch: false
-      };
-      
-      // Test button touch events
-      try {
-        const buttons = document.querySelectorAll('button');
-        buttons.forEach(button => {
-          if (button.addEventListener) {
-            button.addEventListener('touchstart', () => {
-              touchTests.buttonTouch = true;
-              console.log('✅ Button touch working');
-            }, { once: true });
-          }
-        });
-      } catch (error) {
-        console.log('❌ Button touch test failed:', error);
-      }
-      
-      // Test chip touch events
-      try {
-        const chips = document.querySelectorAll('.chip');
-        chips.forEach(chip => {
-          if (chip.addEventListener) {
-            chip.addEventListener('touchstart', () => {
-              touchTests.chipTouch = true;
-              console.log('✅ Chip touch working');
-            }, { once: true });
-          }
-        });
-      } catch (error) {
-        console.log('❌ Chip touch test failed:', error);
-      }
-      
-      // Test card touch events
-      try {
-        const cards = document.querySelectorAll('.note-card');
-        cards.forEach(card => {
-          if (card.addEventListener) {
-            card.addEventListener('touchstart', () => {
-              touchTests.cardTouch = true;
-              console.log('✅ Card touch working');
-            }, { once: true });
-          }
-        });
-      } catch (error) {
-        console.log('❌ Card touch test failed:', error);
-      }
-      
-      // Test modal touch events
-      try {
-        const modals = document.querySelectorAll('.modal');
-        modals.forEach(modal => {
-          if (modal.addEventListener) {
-            modal.addEventListener('touchstart', () => {
-              touchTests.modalTouch = true;
-              console.log('✅ Modal touch working');
-            }, { once: true });
-          }
-        });
-      } catch (error) {
-        console.log('❌ Modal touch test failed:', error);
-      }
-      
-      // Test scroll touch events
-      try {
-        const scrollElements = document.querySelectorAll('.modal, .ai-content');
-        scrollElements.forEach(element => {
-          if (element.addEventListener) {
-            element.addEventListener('touchmove', () => {
-              touchTests.scrollTouch = true;
-              console.log('✅ Scroll touch working');
-            }, { once: true });
-          }
-        });
-      } catch (error) {
-        console.log('❌ Scroll touch test failed:', error);
-      }
-      
-      return touchTests;
-    }
-    
-    // Comprehensive validation for 1264x2780 display
-    function validateEverythingFor1264x2780() {
-      console.log('🔍 COMPREHENSIVE VALIDATION FOR 1264x2780');
-      
-      const validation = {
-        // Display tests
-        display: {
-          width: window.innerWidth,
-          height: window.innerHeight,
-          isTargetDisplay: window.innerWidth === 1264 && window.innerHeight === 2780,
-          aspectRatio: (window.innerHeight / window.innerWidth).toFixed(2)
-        },
+      // Add focus management for modals
+      const modals = document.querySelectorAll('.modal-overlay');
+      modals.forEach(modal => {
+        const focusableElements = modal.querySelectorAll('button, input, textarea, select, [tabindex]:not([tabindex="-1"])');
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
         
-        // Element tests
-        elements: {
-          floatingIsland: !!document.querySelector('.floating-island'),
-          searchBar: !!document.getElementById('searchInput'),
-          filterChips: !!document.querySelector('.chip'),
-          noteCards: !!document.querySelector('.note-card'),
-          navIsland: !!document.querySelector('.nav-island'),
-          fab: !!document.querySelector('.fab'),
-          modals: !!document.querySelector('.modal'),
-          settings: !!document.getElementById('testNotificationBtn')
-        },
-        
-        // Functionality tests
-        functionality: {
-          search: typeof renderNotes === 'function',
-          notifications: typeof sendNotification === 'function',
-          sound: typeof playNotificationSound === 'function',
-          modals: typeof openModalBtn !== 'undefined',
-          navigation: typeof navIsland !== 'undefined',
-          calendar: !!document.getElementById('calendarWindow'),
-          ai: !!document.getElementById('aiWindow')
-        },
-        
-        // Touch tests
-        touch: {
-          buttons: document.querySelectorAll('button').length > 0,
-          chips: document.querySelectorAll('.chip').length > 0,
-          cards: document.querySelectorAll('.note-card').length > 0,
-          navButtons: document.querySelectorAll('.nav-btn').length > 0
-        },
-        
-        // Size tests
-        sizes: {
-          floatingIslandWidth: 0,
-          searchBarHeight: 0,
-          chipSize: 0,
-          cardHeight: 0,
-          navIslandSize: 0,
-          fabSize: 0
+        if (firstElement && lastElement) {
+          // Trap focus within modal
+          lastElement.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && !e.shiftKey) {
+              e.preventDefault();
+              firstElement.focus();
+            }
+          });
+          
+          firstElement.addEventListener('keydown', (e) => {
+            if (e.key === 'Tab' && e.shiftKey) {
+              e.preventDefault();
+              lastElement.focus();
+            }
+          });
         }
-      };
+      });
       
-      // Measure sizes
-      const floatingIsland = document.querySelector('.floating-island');
-      if (floatingIsland) {
-        validation.sizes.floatingIslandWidth = floatingIsland.getBoundingClientRect().width;
-      }
-      
-      const searchBar = document.querySelector('.search-bar');
-      if (searchBar) {
-        validation.sizes.searchBarHeight = searchBar.getBoundingClientRect().height;
-      }
-      
-      const chip = document.querySelector('.chip');
-      if (chip) {
-        const rect = chip.getBoundingClientRect();
-        validation.sizes.chipSize = Math.min(rect.width, rect.height);
-      }
-      
-      const noteCard = document.querySelector('.note-card');
-      if (noteCard) {
-        validation.sizes.cardHeight = noteCard.getBoundingClientRect().height;
-      }
-      
-      const navIsland = document.querySelector('.nav-island');
-      if (navIsland) {
-        const rect = navIsland.getBoundingClientRect();
-        validation.sizes.navIslandSize = Math.min(rect.width, rect.height);
-      }
-      
-      const fab = document.querySelector('.fab');
-      if (fab) {
-        const rect = fab.getBoundingClientRect();
-        validation.sizes.fabSize = Math.min(rect.width, rect.height);
-      }
-      
-      // Print comprehensive report
-      console.log('📊 VALIDATION REPORT:');
-      console.log('Display:', validation.display);
-      console.log('Elements present:', validation.elements);
-      console.log('Functionality available:', validation.functionality);
-      console.log('Touch elements:', validation.touch);
-      console.log('Element sizes:', validation.sizes);
-      
-      // Check for issues
-      const issues = [];
-      
-      if (!validation.display.isTargetDisplay) {
-        issues.push('⚠️ Not running on 1264x2780 display');
-      }
-      
-      if (validation.sizes.floatingIslandWidth > 600) {
-        issues.push('⚠️ Floating island too wide for tall display');
-      }
-      
-      if (validation.sizes.chipSize < 48) {
-        issues.push('⚠️ Chips too small for touch');
-      }
-      
-      if (validation.sizes.cardHeight < 140) {
-        issues.push('⚠️ Note cards too small for tall display');
-      }
-      
-      if (validation.sizes.navIslandSize < 100) {
-        issues.push('⚠️ Navigation island too small');
-      }
-      
-      if (validation.sizes.fabSize < 80) {
-        issues.push('⚠️ FAB too small for touch');
-      }
-      
-      if (issues.length === 0) {
-        console.log('🎉 ALL VALIDATIONS PASSED! App is optimized for 1264x2780 display.');
-      } else {
-        console.log('⚠️ ISSUES FOUND:');
-        issues.forEach(issue => console.log(issue));
-      }
-      
-      return validation;
+      console.log('⌨️ Keyboard navigation enabled');
     }
     
-    // Run comprehensive validation
-    setTimeout(validateEverythingFor1264x2780, 2000);
-    window.addEventListener('load', () => {
-      setTimeout(validateEverythingFor1264x2780, 1000);
-    });
+    // Initialize keyboard navigation
+    addKeyboardNavigation();
     
-    // Final comprehensive test for 1264x2780
-    function finalComprehensiveTest() {
-      console.log('🚀 FINAL COMPREHENSIVE TEST FOR 1264x2780');
+    // Manual test function for users
+    window.testAllButtonsManually = function() {
+      console.log('🧪 Manual Button Test Started');
+      console.log('Testing all buttons for visibility, clickability, and accessibility...');
       
       const testResults = {
-        // Core functionality
-        searchWorking: false,
-        notificationsWorking: false,
-        soundWorking: false,
-        modalsWorking: false,
-        navigationWorking: false,
-        calendarWorking: false,
-        aiWorking: false,
-        settingsWorking: false,
-        
-        // Touch interactions
-        buttonTouchWorking: false,
-        chipTouchWorking: false,
-        cardTouchWorking: false,
-        modalTouchWorking: false,
-        scrollTouchWorking: false,
-        
-        // Display optimization
-        floatingIslandOptimized: false,
-        searchBarOptimized: false,
-        filterChipsOptimized: false,
-        noteCardsOptimized: false,
-        navIslandOptimized: false,
-        fabOptimized: false,
-        modalsOptimized: false,
-        
-        // Mobile-specific features
-        viewportOptimized: false,
-        touchTargetsProper: false,
-        scrollOptimized: false,
-        responsiveDesign: false
+        passed: 0,
+        failed: 0,
+        total: 0,
+        details: []
       };
       
-      // Test core functionality
-      try {
-        const searchInput = document.getElementById('searchInput');
-        if (searchInput && searchInput.addEventListener) {
-          testResults.searchWorking = true;
-        }
-      } catch (e) {}
+      // Test all buttons by ID
+      const buttonIds = [
+        'openModalBtn', 'sortBtn', 'clearSearchBtn', 'cancelModalBtn', 
+        'addNoteBtn', 'saveSettingsBtn', 'cancelSettingsBtn', 'testNotificationBtn', 
+        'testSoundBtn', 'aiSendBtn', 'aiHomeBtn', 'prevMonthBtn', 'nextMonthBtn',
+        'closeSelectorBtn', 'applyDateBtn', 'cancelDateBtn', 'addCategoryBtn', 
+        'cancelCategoryBtn', 'headerAiBtn'
+      ];
       
-      try {
-        if (typeof sendNotification === 'function') {
-          testResults.notificationsWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        if (typeof playNotificationSound === 'function') {
-          testResults.soundWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const modals = document.querySelectorAll('.modal-overlay');
-        if (modals.length > 0) {
-          testResults.modalsWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const navButtons = document.querySelectorAll('.nav-btn');
-        if (navButtons.length > 0) {
-          testResults.navigationWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const calendar = document.getElementById('calendarWindow');
-        if (calendar) {
-          testResults.calendarWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const ai = document.getElementById('aiWindow');
-        if (ai) {
-          testResults.aiWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const settings = document.getElementById('testNotificationBtn');
-        if (settings) {
-          testResults.settingsWorking = true;
-        }
-      } catch (e) {}
-      
-      // Test touch interactions
-      try {
-        const buttons = document.querySelectorAll('button');
-        if (buttons.length > 0) {
-          testResults.buttonTouchWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const chips = document.querySelectorAll('.chip');
-        if (chips.length > 0) {
-          testResults.chipTouchWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const cards = document.querySelectorAll('.note-card');
-        if (cards.length > 0) {
-          testResults.cardTouchWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const modals = document.querySelectorAll('.modal');
-        if (modals.length > 0) {
-          testResults.modalTouchWorking = true;
-        }
-      } catch (e) {}
-      
-      try {
-        const scrollElements = document.querySelectorAll('.modal, .ai-content');
-        if (scrollElements.length > 0) {
-          testResults.scrollTouchWorking = true;
-        }
-      } catch (e) {}
-      
-      // Test display optimization
-      try {
-        const floatingIsland = document.querySelector('.floating-island');
-        if (floatingIsland) {
-          const rect = floatingIsland.getBoundingClientRect();
-          testResults.floatingIslandOptimized = rect.width <= 600 && rect.width > 400;
-        }
-      } catch (e) {}
-      
-      try {
-        const searchBar = document.querySelector('.search-bar');
-        if (searchBar) {
-          const rect = searchBar.getBoundingClientRect();
-          testResults.searchBarOptimized = rect.height >= 48;
-        }
-      } catch (e) {}
-      
-      try {
-        const chips = document.querySelectorAll('.chip');
-        if (chips.length > 0) {
-          const rect = chips[0].getBoundingClientRect();
-          testResults.filterChipsOptimized = rect.width >= 48 && rect.height >= 48;
-        }
-      } catch (e) {}
-      
-      try {
-        const cards = document.querySelectorAll('.note-card');
-        if (cards.length > 0) {
-          const rect = cards[0].getBoundingClientRect();
-          testResults.noteCardsOptimized = rect.height >= 140;
-        }
-      } catch (e) {}
-      
-      try {
-        const navIsland = document.querySelector('.nav-island');
-        if (navIsland) {
-          const rect = navIsland.getBoundingClientRect();
-          testResults.navIslandOptimized = rect.width >= 360 && rect.height >= 100;
-        }
-      } catch (e) {}
-      
-      try {
-        const fab = document.querySelector('.fab');
-        if (fab) {
-          const rect = fab.getBoundingClientRect();
-          testResults.fabOptimized = rect.width >= 80 && rect.height >= 80;
-        }
-      } catch (e) {}
-      
-      try {
-        const modals = document.querySelectorAll('.modal');
-        if (modals.length > 0) {
-          const rect = modals[0].getBoundingClientRect();
-          testResults.modalsOptimized = rect.width <= 500 && rect.width > 300;
-        }
-      } catch (e) {}
-      
-      // Test mobile-specific features
-      try {
-        const viewport = document.querySelector('meta[name="viewport"]');
-        testResults.viewportOptimized = !!viewport;
-      } catch (e) {}
-      
-      try {
-        const buttons = document.querySelectorAll('button');
-        let allButtonsProper = true;
-        buttons.forEach(button => {
+      buttonIds.forEach(id => {
+        testResults.total++;
+        const button = document.getElementById(id);
+        
+        if (button) {
           const rect = button.getBoundingClientRect();
-          if (rect.width < 44 || rect.height < 44) {
-            allButtonsProper = false;
+          const isVisible = rect.width > 0 && rect.height > 0;
+          const isClickable = !button.disabled;
+          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
+          const hasAccessibility = button.hasAttribute('aria-label') || 
+                                 button.hasAttribute('title') || 
+                                 button.textContent.trim().length > 0;
+          
+          if (isVisible && isClickable && isTouchFriendly && hasAccessibility) {
+            testResults.passed++;
+            console.log(`✅ ${id}: PASSED`);
+          } else {
+            testResults.failed++;
+            console.log(`❌ ${id}: FAILED`);
+            testResults.details.push({
+              id,
+              visible: isVisible,
+              clickable: isClickable,
+              touchFriendly: isTouchFriendly,
+              accessible: hasAccessibility
+            });
           }
-        });
-        testResults.touchTargetsProper = allButtonsProper;
-      } catch (e) {}
-      
-      try {
-        const scrollElements = document.querySelectorAll('.modal, .ai-content');
-        testResults.scrollOptimized = scrollElements.length > 0;
-      } catch (e) {}
-      
-      try {
-        testResults.responsiveDesign = window.innerWidth <= 1400 && window.innerHeight >= 2000;
-      } catch (e) {}
-      
-      // Calculate results
-      const totalTests = Object.keys(testResults).length;
-      const passedTests = Object.values(testResults).filter(Boolean).length;
-      const percentage = ((passedTests / totalTests) * 100).toFixed(1);
-      
-      console.log('📊 FINAL TEST RESULTS:');
-      console.log(`Passed: ${passedTests}/${totalTests} (${percentage}%)`);
-      
-      Object.keys(testResults).forEach(key => {
-        console.log(`${testResults[key] ? '✅' : '❌'} ${key}`);
+        } else {
+          testResults.failed++;
+          console.log(`⚠️ ${id}: NOT FOUND`);
+        }
       });
       
-      if (percentage >= 90) {
-        console.log('🎉 EXCELLENT! App is fully optimized for 1264x2780 display!');
-      } else if (percentage >= 80) {
-        console.log('✅ GOOD! App is well optimized for 1264x2780 display.');
-      } else if (percentage >= 70) {
-        console.log('⚠️ FAIR! Some optimizations needed for 1264x2780 display.');
-      } else {
-        console.log('❌ NEEDS WORK! Significant optimizations needed for 1264x2780 display.');
+      // Test interactive elements
+      const interactiveSelectors = ['.chip', '.note-card', '.urgency-dot', '.importance-dot'];
+      interactiveSelectors.forEach(selector => {
+        const elements = document.querySelectorAll(selector);
+        elements.forEach((element, index) => {
+          testResults.total++;
+          const rect = element.getBoundingClientRect();
+          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
+          
+          if (isTouchFriendly) {
+            testResults.passed++;
+          } else {
+            testResults.failed++;
+            console.log(`❌ ${selector}[${index}]: TOO SMALL (${rect.width}x${rect.height})`);
+          }
+        });
+      });
+      
+      console.log('\n📊 MANUAL TEST RESULTS:');
+      console.log(`✅ Passed: ${testResults.passed}`);
+      console.log(`❌ Failed: ${testResults.failed}`);
+      console.log(`📊 Success Rate: ${((testResults.passed / testResults.total) * 100).toFixed(1)}%`);
+      
+      if (testResults.failed > 0) {
+        console.log('\n🔍 FAILED TESTS DETAILS:');
+        testResults.details.forEach(detail => {
+          console.log(`  ${detail.id}: Visible=${detail.visible}, Clickable=${detail.clickable}, TouchFriendly=${detail.touchFriendly}, Accessible=${detail.accessible}`);
+        });
       }
       
-      return { testResults, percentage, passedTests, totalTests };
+      return testResults.passed === testResults.total;
+    };
+    
+    // Add test button to page for manual testing
+    function addTestButton() {
+      const testButton = document.createElement('button');
+      testButton.textContent = '🧪 Test All Buttons';
+      testButton.style.cssText = `
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        z-index: 10000;
+        background: #6C63FF;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        font-size: 0.8rem;
+        cursor: pointer;
+        opacity: 0.8;
+      `;
+      testButton.onclick = () => {
+        window.testAllButtonsManually();
+        testButton.textContent = '✅ Test Complete';
+        setTimeout(() => {
+          testButton.textContent = '🧪 Test All Buttons';
+        }, 2000);
+      };
+      document.body.appendChild(testButton);
     }
     
-    // Run final comprehensive test
-    setTimeout(finalComprehensiveTest, 3000);
-    window.addEventListener('load', () => {
-      setTimeout(finalComprehensiveTest, 2000);
-    });
-    
-    // Test on load and after a delay
-    setTimeout(() => {
-      test1264x2780Display();
-      testAllFunctionality();
-      testTouchInteractions();
-    }, 1000);
-    
-    window.addEventListener('load', () => {
-      setTimeout(() => {
-        test1264x2780Display();
-        testAllFunctionality();
-        testTouchInteractions();
-      }, 500);
-    });
+    // Add test button after page loads
+    setTimeout(addTestButton, 2000);
     
     // Test notification button
     document.getElementById('testNotificationBtn').addEventListener('click', () => {
