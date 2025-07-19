@@ -502,13 +502,328 @@
       .chip {
         padding: 0.3rem 0.8rem;
         font-size: 0.9rem;
+        min-height: 44px; /* iOS minimum touch target */
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       
       .calendar-window {
         flex-direction: column;
       }
       
+      /* Mobile button improvements */
+      .modal-btn, .modal-btn.cancel {
+        min-height: 48px; /* Android minimum touch target */
+        min-width: 48px;
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+        margin: 0.3rem;
+        border-radius: 0.8rem;
+        touch-action: manipulation;
+      }
+      
+      .sort-btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .header-ai-btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .ai-action-btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+        margin: 0.3rem;
+      }
+      
+      .ai-send-btn {
+        min-height: 48px;
+        min-width: 48px;
+        font-size: 1.2rem;
+      }
+      
+      .ai-home-btn {
+        min-height: 48px;
+        min-width: 48px;
+        font-size: 1.2rem;
+      }
+      
+      .calendar-nav-btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 0.8rem;
+        font-size: 1rem;
+      }
+      
+      .selector-btn {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .close-selector-btn {
+        min-height: 44px;
+        min-width: 44px;
+        font-size: 1.2rem;
+      }
+      
+      .urgency-dot, .importance-dot {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .term-tag {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .category-chip {
+        min-height: 44px;
+        min-width: 44px;
+        padding: 0.6rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .voice-btn {
+        min-height: 48px;
+        min-width: 48px;
+        font-size: 1.2rem;
+      }
+      
+      /* Settings buttons */
+      #testNotificationBtn, #testSoundBtn {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.9rem;
+        margin: 0.3rem;
+      }
+      
+      /* Clear search button */
+      #clearSearchBtn {
+        min-height: 44px;
+        min-width: 44px;
+        font-size: 1.2rem;
+        padding: 0.5rem;
+      }
+      
+      /* Bottom nav buttons */
+      .bottom-nav .nav-btn {
+        min-height: 48px;
+        min-width: 48px;
+        font-size: 1.5rem;
+        padding: 0.5rem;
+      }
+      
+      /* Ensure all buttons are clickable */
+      button, [role="button"] {
+        cursor: pointer;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+        user-select: none;
+      }
+      
+      /* Prevent text selection on buttons */
+      button, [role="button"], .chip, .note-card {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+      
+      /* Improve touch feedback */
+      button:active, [role="button"]:active, .chip:active, .note-card:active {
+        transform: scale(0.98);
+        transition: transform 0.1s;
+      }
+      
+      /* Ensure proper spacing for touch targets */
+      .modal-btn-row {
+        gap: 0.5rem;
+        padding: 1rem;
+      }
+      
+      .filter-chips {
+        padding: 0.5rem 0;
+      }
+      
+      /* Improve modal scrolling */
+      .modal {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      
+      /* Ensure settings buttons are properly spaced */
+      .setting-group {
+        margin-bottom: 1rem;
+      }
+      
+      .setting-group button {
+        display: block;
+        width: 100%;
+        margin: 0.5rem 0;
+      }
+      
+      /* Improve mobile scrolling */
+      .modal, .ai-content, .calendar-bottom-section {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+      
+      /* Better touch targets for calendar */
+      .calendar-day {
+        min-height: 60px;
+        cursor: pointer;
+      }
+      
+      .calendar-task {
+        min-height: 24px;
+        padding: 0.4rem 0.6rem;
+        font-size: 0.7rem;
+      }
+      
+      /* Improve AI chat interaction */
+      .ai-message {
+        margin-bottom: 1rem;
+        padding: 0.8rem;
+      }
+      
+      .ai-quick-actions {
+        gap: 0.5rem;
+        margin-top: 0.8rem;
+      }
+      
+      /* Better spacing for mobile */
+      .modal h2 {
+        margin-bottom: 1rem;
+        font-size: 1.4rem;
+      }
+      
+      .modal label {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+      }
+      
+      /* Ensure proper z-index for mobile */
+      .modal-overlay {
+        z-index: 1000;
+      }
+      
+      .nav-island {
+        z-index: 999;
+      }
+      
+      .fab {
+        z-index: 998;
+      }
+      
     /* Calendar window uses the same nav island as main dashboard */
+    }
+    
+    /* Extra small screens (phones) */
+    @media (max-width: 480px) {
+      .floating-island {
+        margin: 0.5rem auto 0 auto;
+        padding: 0.8rem 0.6rem 0.8rem 0.6rem;
+      }
+      
+      .header-title {
+        font-size: 1.6rem;
+      }
+      
+      .header-ai-btn {
+        padding: 0.5rem 0.8rem;
+        font-size: 0.8rem;
+      }
+      
+      .search-bar {
+        padding: 0.3rem 0.6rem;
+      }
+      
+      .search-bar input {
+        font-size: 0.85rem;
+      }
+      
+      .chip {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.85rem;
+        min-height: 40px;
+        min-width: 40px;
+      }
+      
+      .note-card {
+        padding: 0.6rem;
+        min-height: 80px;
+      }
+      
+      .note-title {
+        font-size: 1rem;
+      }
+      
+      .nav-island {
+        width: 260px;
+        height: 70px;
+        bottom: 10px;
+      }
+      
+      .bottom-nav {
+        width: 240px;
+        height: 50px;
+        padding: 0 20px;
+      }
+      
+      .bottom-nav .nav-btn {
+        font-size: 1.3rem;
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      .fab {
+        width: 55px;
+        height: 55px;
+        font-size: 1.3rem;
+        bottom: 15px;
+      }
+      
+      .modal {
+        padding: 0.8rem;
+      }
+      
+      .modal h2 {
+        font-size: 1.3rem;
+      }
+      
+      .modal-btn {
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+        min-height: 44px;
+      }
+      
+      /* Ensure buttons don't overlap */
+      .modal-btn-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      .modal-btn-row .modal-btn {
+        width: 100%;
+        margin: 0.2rem 0;
+      }
     }
     @keyframes modalIn {
       from { transform: translateY(40px) scale(0.98); opacity: 0; }
@@ -5698,6 +6013,53 @@ CRITICAL REQUIREMENTS:
     
     // Initialize notifications after page load
     setTimeout(initializeNotifications, 1000);
+    
+    // Mobile touch improvements
+    function addMobileTouchSupport() {
+      // Prevent double-tap zoom on buttons
+      const buttons = document.querySelectorAll('button, [role="button"], .chip, .note-card');
+      buttons.forEach(button => {
+        button.addEventListener('touchstart', function(e) {
+          // Prevent zoom on double tap
+          e.preventDefault();
+          this.style.transform = 'scale(0.98)';
+        }, { passive: false });
+        
+        button.addEventListener('touchend', function(e) {
+          this.style.transform = '';
+        });
+        
+        // Add touch feedback
+        button.addEventListener('touchstart', function() {
+          this.style.opacity = '0.8';
+        });
+        
+        button.addEventListener('touchend', function() {
+          this.style.opacity = '';
+        });
+      });
+      
+      // Improve modal touch scrolling
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        modal.addEventListener('touchstart', function(e) {
+          // Allow scrolling within modal
+          e.stopPropagation();
+        });
+      });
+      
+      // Prevent body scroll when modal is open
+      const modalOverlays = document.querySelectorAll('.modal-overlay');
+      modalOverlays.forEach(overlay => {
+        overlay.addEventListener('touchmove', function(e) {
+          if (this.classList.contains('hidden')) return;
+          e.preventDefault();
+        }, { passive: false });
+      });
+    }
+    
+    // Initialize mobile touch support
+    addMobileTouchSupport();
     
     // Test notification button
     document.getElementById('testNotificationBtn').addEventListener('click', () => {
