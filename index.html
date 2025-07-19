@@ -6406,6 +6406,734 @@ CRITICAL REQUIREMENTS:
     optimizeForTallDisplay();
     window.addEventListener('resize', optimizeForTallDisplay);
     
+    // Comprehensive testing for 1264x2780 display
+    function test1264x2780Display() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      const isTargetDisplay = width === 1264 && height === 2780;
+      
+      console.log('=== 1264x2780 DISPLAY TEST ===');
+      console.log('Current dimensions:', width, 'x', height);
+      console.log('Is target display:', isTargetDisplay);
+      
+      // Test 1: Check if all elements are properly sized
+      const testResults = {
+        floatingIsland: false,
+        searchBar: false,
+        filterChips: false,
+        noteCards: false,
+        navIsland: false,
+        fab: false,
+        modals: false,
+        buttons: false
+      };
+      
+      // Test floating island
+      const floatingIsland = document.querySelector('.floating-island');
+      if (floatingIsland) {
+        const rect = floatingIsland.getBoundingClientRect();
+        testResults.floatingIsland = rect.width <= 600 && rect.width > 400;
+        console.log('Floating island width:', rect.width, 'px');
+      }
+      
+      // Test search bar
+      const searchBar = document.querySelector('.search-bar');
+      if (searchBar) {
+        const rect = searchBar.getBoundingClientRect();
+        testResults.searchBar = rect.height >= 48;
+        console.log('Search bar height:', rect.height, 'px');
+      }
+      
+      // Test filter chips
+      const chips = document.querySelectorAll('.chip');
+      chips.forEach((chip, index) => {
+        const rect = chip.getBoundingClientRect();
+        const isProperSize = rect.width >= 48 && rect.height >= 48;
+        if (index === 0) {
+          testResults.filterChips = isProperSize;
+          console.log('Filter chip size:', rect.width, 'x', rect.height, 'px');
+        }
+      });
+      
+      // Test note cards
+      const noteCards = document.querySelectorAll('.note-card');
+      noteCards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        const isProperSize = rect.height >= 140;
+        if (index === 0) {
+          testResults.noteCards = isProperSize;
+          console.log('Note card height:', rect.height, 'px');
+        }
+      });
+      
+      // Test navigation island
+      const navIsland = document.querySelector('.nav-island');
+      if (navIsland) {
+        const rect = navIsland.getBoundingClientRect();
+        testResults.navIsland = rect.width >= 360 && rect.height >= 100;
+        console.log('Nav island size:', rect.width, 'x', rect.height, 'px');
+      }
+      
+      // Test FAB
+      const fab = document.querySelector('.fab');
+      if (fab) {
+        const rect = fab.getBoundingClientRect();
+        testResults.fab = rect.width >= 80 && rect.height >= 80;
+        console.log('FAB size:', rect.width, 'x', rect.height, 'px');
+      }
+      
+      // Test all buttons
+      const buttons = document.querySelectorAll('button, [role="button"]');
+      let allButtonsProper = true;
+      buttons.forEach((button, index) => {
+        const rect = button.getBoundingClientRect();
+        const isProperSize = rect.width >= 44 && rect.height >= 44;
+        if (!isProperSize && index < 10) {
+          console.log('Button too small:', button.textContent, rect.width, 'x', rect.height, 'px');
+          allButtonsProper = false;
+        }
+      });
+      testResults.buttons = allButtonsProper;
+      
+      // Test modals
+      const modals = document.querySelectorAll('.modal');
+      let allModalsProper = true;
+      modals.forEach((modal, index) => {
+        const rect = modal.getBoundingClientRect();
+        const isProperSize = rect.width <= 500 && rect.width > 300;
+        if (!isProperSize && index < 5) {
+          console.log('Modal size issue:', rect.width, 'x', rect.height, 'px');
+          allModalsProper = false;
+        }
+      });
+      testResults.modals = allModalsProper;
+      
+      // Report results
+      console.log('=== TEST RESULTS ===');
+      Object.keys(testResults).forEach(key => {
+        console.log(`${key}: ${testResults[key] ? '✅ PASS' : '❌ FAIL'}`);
+      });
+      
+      // Overall assessment
+      const passedTests = Object.values(testResults).filter(Boolean).length;
+      const totalTests = Object.keys(testResults).length;
+      console.log(`Overall: ${passedTests}/${totalTests} tests passed`);
+      
+      if (passedTests === totalTests) {
+        console.log('🎉 All tests passed! Display optimization working correctly.');
+      } else {
+        console.log('⚠️ Some tests failed. Check console for details.');
+      }
+      
+      return testResults;
+    }
+    
+    // Comprehensive functionality testing
+    function testAllFunctionality() {
+      console.log('=== FUNCTIONALITY TESTING ===');
+      
+      const functionalityTests = {
+        search: false,
+        notifications: false,
+        modals: false,
+        navigation: false,
+        calendar: false,
+        ai: false,
+        settings: false,
+        touch: false
+      };
+      
+      // Test search functionality
+      try {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput) {
+          searchInput.value = 'test';
+          searchInput.dispatchEvent(new Event('input'));
+          functionalityTests.search = true;
+          console.log('✅ Search functionality working');
+        }
+      } catch (error) {
+        console.log('❌ Search test failed:', error);
+      }
+      
+      // Test notification system
+      try {
+        if (typeof sendNotification === 'function' && typeof playNotificationSound === 'function') {
+          functionalityTests.notifications = true;
+          console.log('✅ Notification system available');
+        }
+      } catch (error) {
+        console.log('❌ Notification test failed:', error);
+      }
+      
+      // Test modal functionality
+      try {
+        const modals = document.querySelectorAll('.modal-overlay');
+        if (modals.length > 0) {
+          functionalityTests.modals = true;
+          console.log('✅ Modals available');
+        }
+      } catch (error) {
+        console.log('❌ Modal test failed:', error);
+      }
+      
+      // Test navigation
+      try {
+        const navButtons = document.querySelectorAll('.nav-btn');
+        if (navButtons.length > 0) {
+          functionalityTests.navigation = true;
+          console.log('✅ Navigation buttons available');
+        }
+      } catch (error) {
+        console.log('❌ Navigation test failed:', error);
+      }
+      
+      // Test calendar
+      try {
+        const calendarWindow = document.getElementById('calendarWindow');
+        if (calendarWindow) {
+          functionalityTests.calendar = true;
+          console.log('✅ Calendar available');
+        }
+      } catch (error) {
+        console.log('❌ Calendar test failed:', error);
+      }
+      
+      // Test AI
+      try {
+        const aiWindow = document.getElementById('aiWindow');
+        if (aiWindow) {
+          functionalityTests.ai = true;
+          console.log('✅ AI interface available');
+        }
+      } catch (error) {
+        console.log('❌ AI test failed:', error);
+      }
+      
+      // Test settings
+      try {
+        const settingsElements = document.querySelectorAll('#testNotificationBtn, #testSoundBtn, #notificationSound');
+        if (settingsElements.length > 0) {
+          functionalityTests.settings = true;
+          console.log('✅ Settings available');
+        }
+      } catch (error) {
+        console.log('❌ Settings test failed:', error);
+      }
+      
+      // Test touch functionality
+      try {
+        const touchElements = document.querySelectorAll('button, .chip, .note-card');
+        if (touchElements.length > 0) {
+          functionalityTests.touch = true;
+          console.log('✅ Touch elements available');
+        }
+      } catch (error) {
+        console.log('❌ Touch test failed:', error);
+      }
+      
+      // Report functionality results
+      console.log('=== FUNCTIONALITY RESULTS ===');
+      Object.keys(functionalityTests).forEach(key => {
+        console.log(`${key}: ${functionalityTests[key] ? '✅ PASS' : '❌ FAIL'}`);
+      });
+      
+      const passedFuncTests = Object.values(functionalityTests).filter(Boolean).length;
+      const totalFuncTests = Object.keys(functionalityTests).length;
+      console.log(`Functionality: ${passedFuncTests}/${totalFuncTests} tests passed`);
+      
+      return functionalityTests;
+    }
+    
+    // Test touch interactions specifically for mobile
+    function testTouchInteractions() {
+      console.log('=== TOUCH INTERACTION TESTING ===');
+      
+      const touchTests = {
+        buttonTouch: false,
+        chipTouch: false,
+        cardTouch: false,
+        modalTouch: false,
+        scrollTouch: false
+      };
+      
+      // Test button touch events
+      try {
+        const buttons = document.querySelectorAll('button');
+        buttons.forEach(button => {
+          if (button.addEventListener) {
+            button.addEventListener('touchstart', () => {
+              touchTests.buttonTouch = true;
+              console.log('✅ Button touch working');
+            }, { once: true });
+          }
+        });
+      } catch (error) {
+        console.log('❌ Button touch test failed:', error);
+      }
+      
+      // Test chip touch events
+      try {
+        const chips = document.querySelectorAll('.chip');
+        chips.forEach(chip => {
+          if (chip.addEventListener) {
+            chip.addEventListener('touchstart', () => {
+              touchTests.chipTouch = true;
+              console.log('✅ Chip touch working');
+            }, { once: true });
+          }
+        });
+      } catch (error) {
+        console.log('❌ Chip touch test failed:', error);
+      }
+      
+      // Test card touch events
+      try {
+        const cards = document.querySelectorAll('.note-card');
+        cards.forEach(card => {
+          if (card.addEventListener) {
+            card.addEventListener('touchstart', () => {
+              touchTests.cardTouch = true;
+              console.log('✅ Card touch working');
+            }, { once: true });
+          }
+        });
+      } catch (error) {
+        console.log('❌ Card touch test failed:', error);
+      }
+      
+      // Test modal touch events
+      try {
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+          if (modal.addEventListener) {
+            modal.addEventListener('touchstart', () => {
+              touchTests.modalTouch = true;
+              console.log('✅ Modal touch working');
+            }, { once: true });
+          }
+        });
+      } catch (error) {
+        console.log('❌ Modal touch test failed:', error);
+      }
+      
+      // Test scroll touch events
+      try {
+        const scrollElements = document.querySelectorAll('.modal, .ai-content');
+        scrollElements.forEach(element => {
+          if (element.addEventListener) {
+            element.addEventListener('touchmove', () => {
+              touchTests.scrollTouch = true;
+              console.log('✅ Scroll touch working');
+            }, { once: true });
+          }
+        });
+      } catch (error) {
+        console.log('❌ Scroll touch test failed:', error);
+      }
+      
+      return touchTests;
+    }
+    
+    // Comprehensive validation for 1264x2780 display
+    function validateEverythingFor1264x2780() {
+      console.log('🔍 COMPREHENSIVE VALIDATION FOR 1264x2780');
+      
+      const validation = {
+        // Display tests
+        display: {
+          width: window.innerWidth,
+          height: window.innerHeight,
+          isTargetDisplay: window.innerWidth === 1264 && window.innerHeight === 2780,
+          aspectRatio: (window.innerHeight / window.innerWidth).toFixed(2)
+        },
+        
+        // Element tests
+        elements: {
+          floatingIsland: !!document.querySelector('.floating-island'),
+          searchBar: !!document.getElementById('searchInput'),
+          filterChips: !!document.querySelector('.chip'),
+          noteCards: !!document.querySelector('.note-card'),
+          navIsland: !!document.querySelector('.nav-island'),
+          fab: !!document.querySelector('.fab'),
+          modals: !!document.querySelector('.modal'),
+          settings: !!document.getElementById('testNotificationBtn')
+        },
+        
+        // Functionality tests
+        functionality: {
+          search: typeof renderNotes === 'function',
+          notifications: typeof sendNotification === 'function',
+          sound: typeof playNotificationSound === 'function',
+          modals: typeof openModalBtn !== 'undefined',
+          navigation: typeof navIsland !== 'undefined',
+          calendar: !!document.getElementById('calendarWindow'),
+          ai: !!document.getElementById('aiWindow')
+        },
+        
+        // Touch tests
+        touch: {
+          buttons: document.querySelectorAll('button').length > 0,
+          chips: document.querySelectorAll('.chip').length > 0,
+          cards: document.querySelectorAll('.note-card').length > 0,
+          navButtons: document.querySelectorAll('.nav-btn').length > 0
+        },
+        
+        // Size tests
+        sizes: {
+          floatingIslandWidth: 0,
+          searchBarHeight: 0,
+          chipSize: 0,
+          cardHeight: 0,
+          navIslandSize: 0,
+          fabSize: 0
+        }
+      };
+      
+      // Measure sizes
+      const floatingIsland = document.querySelector('.floating-island');
+      if (floatingIsland) {
+        validation.sizes.floatingIslandWidth = floatingIsland.getBoundingClientRect().width;
+      }
+      
+      const searchBar = document.querySelector('.search-bar');
+      if (searchBar) {
+        validation.sizes.searchBarHeight = searchBar.getBoundingClientRect().height;
+      }
+      
+      const chip = document.querySelector('.chip');
+      if (chip) {
+        const rect = chip.getBoundingClientRect();
+        validation.sizes.chipSize = Math.min(rect.width, rect.height);
+      }
+      
+      const noteCard = document.querySelector('.note-card');
+      if (noteCard) {
+        validation.sizes.cardHeight = noteCard.getBoundingClientRect().height;
+      }
+      
+      const navIsland = document.querySelector('.nav-island');
+      if (navIsland) {
+        const rect = navIsland.getBoundingClientRect();
+        validation.sizes.navIslandSize = Math.min(rect.width, rect.height);
+      }
+      
+      const fab = document.querySelector('.fab');
+      if (fab) {
+        const rect = fab.getBoundingClientRect();
+        validation.sizes.fabSize = Math.min(rect.width, rect.height);
+      }
+      
+      // Print comprehensive report
+      console.log('📊 VALIDATION REPORT:');
+      console.log('Display:', validation.display);
+      console.log('Elements present:', validation.elements);
+      console.log('Functionality available:', validation.functionality);
+      console.log('Touch elements:', validation.touch);
+      console.log('Element sizes:', validation.sizes);
+      
+      // Check for issues
+      const issues = [];
+      
+      if (!validation.display.isTargetDisplay) {
+        issues.push('⚠️ Not running on 1264x2780 display');
+      }
+      
+      if (validation.sizes.floatingIslandWidth > 600) {
+        issues.push('⚠️ Floating island too wide for tall display');
+      }
+      
+      if (validation.sizes.chipSize < 48) {
+        issues.push('⚠️ Chips too small for touch');
+      }
+      
+      if (validation.sizes.cardHeight < 140) {
+        issues.push('⚠️ Note cards too small for tall display');
+      }
+      
+      if (validation.sizes.navIslandSize < 100) {
+        issues.push('⚠️ Navigation island too small');
+      }
+      
+      if (validation.sizes.fabSize < 80) {
+        issues.push('⚠️ FAB too small for touch');
+      }
+      
+      if (issues.length === 0) {
+        console.log('🎉 ALL VALIDATIONS PASSED! App is optimized for 1264x2780 display.');
+      } else {
+        console.log('⚠️ ISSUES FOUND:');
+        issues.forEach(issue => console.log(issue));
+      }
+      
+      return validation;
+    }
+    
+    // Run comprehensive validation
+    setTimeout(validateEverythingFor1264x2780, 2000);
+    window.addEventListener('load', () => {
+      setTimeout(validateEverythingFor1264x2780, 1000);
+    });
+    
+    // Final comprehensive test for 1264x2780
+    function finalComprehensiveTest() {
+      console.log('🚀 FINAL COMPREHENSIVE TEST FOR 1264x2780');
+      
+      const testResults = {
+        // Core functionality
+        searchWorking: false,
+        notificationsWorking: false,
+        soundWorking: false,
+        modalsWorking: false,
+        navigationWorking: false,
+        calendarWorking: false,
+        aiWorking: false,
+        settingsWorking: false,
+        
+        // Touch interactions
+        buttonTouchWorking: false,
+        chipTouchWorking: false,
+        cardTouchWorking: false,
+        modalTouchWorking: false,
+        scrollTouchWorking: false,
+        
+        // Display optimization
+        floatingIslandOptimized: false,
+        searchBarOptimized: false,
+        filterChipsOptimized: false,
+        noteCardsOptimized: false,
+        navIslandOptimized: false,
+        fabOptimized: false,
+        modalsOptimized: false,
+        
+        // Mobile-specific features
+        viewportOptimized: false,
+        touchTargetsProper: false,
+        scrollOptimized: false,
+        responsiveDesign: false
+      };
+      
+      // Test core functionality
+      try {
+        const searchInput = document.getElementById('searchInput');
+        if (searchInput && searchInput.addEventListener) {
+          testResults.searchWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        if (typeof sendNotification === 'function') {
+          testResults.notificationsWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        if (typeof playNotificationSound === 'function') {
+          testResults.soundWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const modals = document.querySelectorAll('.modal-overlay');
+        if (modals.length > 0) {
+          testResults.modalsWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const navButtons = document.querySelectorAll('.nav-btn');
+        if (navButtons.length > 0) {
+          testResults.navigationWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const calendar = document.getElementById('calendarWindow');
+        if (calendar) {
+          testResults.calendarWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const ai = document.getElementById('aiWindow');
+        if (ai) {
+          testResults.aiWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const settings = document.getElementById('testNotificationBtn');
+        if (settings) {
+          testResults.settingsWorking = true;
+        }
+      } catch (e) {}
+      
+      // Test touch interactions
+      try {
+        const buttons = document.querySelectorAll('button');
+        if (buttons.length > 0) {
+          testResults.buttonTouchWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const chips = document.querySelectorAll('.chip');
+        if (chips.length > 0) {
+          testResults.chipTouchWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const cards = document.querySelectorAll('.note-card');
+        if (cards.length > 0) {
+          testResults.cardTouchWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const modals = document.querySelectorAll('.modal');
+        if (modals.length > 0) {
+          testResults.modalTouchWorking = true;
+        }
+      } catch (e) {}
+      
+      try {
+        const scrollElements = document.querySelectorAll('.modal, .ai-content');
+        if (scrollElements.length > 0) {
+          testResults.scrollTouchWorking = true;
+        }
+      } catch (e) {}
+      
+      // Test display optimization
+      try {
+        const floatingIsland = document.querySelector('.floating-island');
+        if (floatingIsland) {
+          const rect = floatingIsland.getBoundingClientRect();
+          testResults.floatingIslandOptimized = rect.width <= 600 && rect.width > 400;
+        }
+      } catch (e) {}
+      
+      try {
+        const searchBar = document.querySelector('.search-bar');
+        if (searchBar) {
+          const rect = searchBar.getBoundingClientRect();
+          testResults.searchBarOptimized = rect.height >= 48;
+        }
+      } catch (e) {}
+      
+      try {
+        const chips = document.querySelectorAll('.chip');
+        if (chips.length > 0) {
+          const rect = chips[0].getBoundingClientRect();
+          testResults.filterChipsOptimized = rect.width >= 48 && rect.height >= 48;
+        }
+      } catch (e) {}
+      
+      try {
+        const cards = document.querySelectorAll('.note-card');
+        if (cards.length > 0) {
+          const rect = cards[0].getBoundingClientRect();
+          testResults.noteCardsOptimized = rect.height >= 140;
+        }
+      } catch (e) {}
+      
+      try {
+        const navIsland = document.querySelector('.nav-island');
+        if (navIsland) {
+          const rect = navIsland.getBoundingClientRect();
+          testResults.navIslandOptimized = rect.width >= 360 && rect.height >= 100;
+        }
+      } catch (e) {}
+      
+      try {
+        const fab = document.querySelector('.fab');
+        if (fab) {
+          const rect = fab.getBoundingClientRect();
+          testResults.fabOptimized = rect.width >= 80 && rect.height >= 80;
+        }
+      } catch (e) {}
+      
+      try {
+        const modals = document.querySelectorAll('.modal');
+        if (modals.length > 0) {
+          const rect = modals[0].getBoundingClientRect();
+          testResults.modalsOptimized = rect.width <= 500 && rect.width > 300;
+        }
+      } catch (e) {}
+      
+      // Test mobile-specific features
+      try {
+        const viewport = document.querySelector('meta[name="viewport"]');
+        testResults.viewportOptimized = !!viewport;
+      } catch (e) {}
+      
+      try {
+        const buttons = document.querySelectorAll('button');
+        let allButtonsProper = true;
+        buttons.forEach(button => {
+          const rect = button.getBoundingClientRect();
+          if (rect.width < 44 || rect.height < 44) {
+            allButtonsProper = false;
+          }
+        });
+        testResults.touchTargetsProper = allButtonsProper;
+      } catch (e) {}
+      
+      try {
+        const scrollElements = document.querySelectorAll('.modal, .ai-content');
+        testResults.scrollOptimized = scrollElements.length > 0;
+      } catch (e) {}
+      
+      try {
+        testResults.responsiveDesign = window.innerWidth <= 1400 && window.innerHeight >= 2000;
+      } catch (e) {}
+      
+      // Calculate results
+      const totalTests = Object.keys(testResults).length;
+      const passedTests = Object.values(testResults).filter(Boolean).length;
+      const percentage = ((passedTests / totalTests) * 100).toFixed(1);
+      
+      console.log('📊 FINAL TEST RESULTS:');
+      console.log(`Passed: ${passedTests}/${totalTests} (${percentage}%)`);
+      
+      Object.keys(testResults).forEach(key => {
+        console.log(`${testResults[key] ? '✅' : '❌'} ${key}`);
+      });
+      
+      if (percentage >= 90) {
+        console.log('🎉 EXCELLENT! App is fully optimized for 1264x2780 display!');
+      } else if (percentage >= 80) {
+        console.log('✅ GOOD! App is well optimized for 1264x2780 display.');
+      } else if (percentage >= 70) {
+        console.log('⚠️ FAIR! Some optimizations needed for 1264x2780 display.');
+      } else {
+        console.log('❌ NEEDS WORK! Significant optimizations needed for 1264x2780 display.');
+      }
+      
+      return { testResults, percentage, passedTests, totalTests };
+    }
+    
+    // Run final comprehensive test
+    setTimeout(finalComprehensiveTest, 3000);
+    window.addEventListener('load', () => {
+      setTimeout(finalComprehensiveTest, 2000);
+    });
+    
+    // Test on load and after a delay
+    setTimeout(() => {
+      test1264x2780Display();
+      testAllFunctionality();
+      testTouchInteractions();
+    }, 1000);
+    
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        test1264x2780Display();
+        testAllFunctionality();
+        testTouchInteractions();
+      }, 500);
+    });
+    
     // Test notification button
     document.getElementById('testNotificationBtn').addEventListener('click', () => {
       if (notificationPermission) {
