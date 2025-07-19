@@ -825,6 +825,313 @@
         margin: 0.2rem 0;
       }
     }
+    
+    /* Tall narrow displays (like 1264x2780) */
+    @media (min-height: 2000px) and (max-width: 1400px) {
+      .floating-island {
+        margin: 3rem auto 0 auto;
+        max-width: 600px;
+        padding: 2.5rem 1.5rem 2.5rem 1.5rem;
+      }
+      
+      .header-title {
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+      }
+      
+      .header-ai-btn {
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+      }
+      
+      .search-bar {
+        margin: 0 0 1.5rem 0;
+        padding: 0.8rem 1.2rem;
+      }
+      
+      .search-bar input {
+        font-size: 1.1rem;
+      }
+      
+      .filter-chips {
+        margin: 0 0 1.5rem 0;
+        gap: 0.8rem;
+      }
+      
+      .chip {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        min-height: 48px;
+        min-width: 48px;
+      }
+      
+      .notes-grid {
+        gap: 1.2rem;
+        margin: 0 0 3rem 0;
+      }
+      
+      .note-card {
+        padding: 1.2rem;
+        min-height: 140px;
+        border-radius: 1.5rem;
+      }
+      
+      .note-title {
+        font-size: 1.2rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .note-categories {
+        margin-top: 0.5rem;
+        gap: 0.4rem;
+      }
+      
+      .note-category {
+        font-size: 0.9rem;
+        padding: 0.3rem 0.8rem;
+      }
+      
+      .note-term-tags {
+        margin-top: 0.5rem;
+        gap: 0.4rem;
+      }
+      
+      .term-tag-display {
+        font-size: 0.8rem;
+        padding: 0.3rem 0.7rem;
+      }
+      
+      .note-importance {
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+      
+      .due-date-text {
+        font-size: 0.9rem;
+        margin-top: 0.8rem;
+      }
+      
+      .note-duration {
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+      }
+      
+      .nav-island {
+        width: 360px;
+        height: 100px;
+        bottom: 30px;
+      }
+      
+      .bottom-nav {
+        width: 320px;
+        height: 70px;
+        padding: 0 30px;
+        border-radius: 35px;
+      }
+      
+      .bottom-nav .nav-btn {
+        font-size: 1.8rem;
+        min-height: 50px;
+        min-width: 50px;
+      }
+      
+      .fab {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+        bottom: 25px;
+      }
+      
+      .modal {
+        max-width: 500px;
+        padding: 2rem 1.5rem 1.5rem 1.5rem;
+        border-radius: 2rem;
+      }
+      
+      .modal h2 {
+        font-size: 1.6rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      .modal label {
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+      }
+      
+      .modal textarea, .modal input[type="text"], .modal select, .modal input[type="date"] {
+        padding: 1rem;
+        font-size: 1.1rem;
+        margin-bottom: 0.8rem;
+        border-radius: 1rem;
+      }
+      
+      .modal-btn {
+        padding: 1rem 1.5rem;
+        font-size: 1.1rem;
+        min-height: 52px;
+        border-radius: 1rem;
+      }
+      
+      .urgency-dot, .importance-dot {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+      }
+      
+      .term-tag, .category-chip {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+      }
+      
+      .voice-btn {
+        min-height: 52px;
+        min-width: 52px;
+        font-size: 1.4rem;
+      }
+      
+      /* Settings buttons for tall displays */
+      #testNotificationBtn, #testSoundBtn {
+        min-height: 52px;
+        min-width: 52px;
+        padding: 1rem 1.5rem;
+        font-size: 1rem;
+        margin: 0.5rem;
+      }
+      
+      /* Clear search button */
+      #clearSearchBtn {
+        min-height: 48px;
+        min-width: 48px;
+        font-size: 1.3rem;
+        padding: 0.6rem;
+      }
+      
+      /* AI window optimizations */
+      .ai-header {
+        padding: 1.5rem;
+      }
+      
+      .ai-title {
+        font-size: 1.8rem;
+      }
+      
+      .ai-subtitle {
+        font-size: 1rem;
+      }
+      
+      .ai-home-btn {
+        width: 55px;
+        height: 55px;
+        font-size: 1.4rem;
+      }
+      
+      .ai-content {
+        padding: 1rem;
+      }
+      
+      .ai-message {
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+      }
+      
+      .ai-text {
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+      
+      .ai-quick-actions {
+        gap: 0.8rem;
+        margin-top: 1rem;
+      }
+      
+      .ai-action-btn {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 0.8rem 1.2rem;
+        font-size: 1rem;
+        margin: 0.4rem;
+      }
+      
+      .ai-input-wrapper {
+        gap: 0.5rem;
+        padding: 1rem;
+      }
+      
+      .ai-input-wrapper textarea {
+        font-size: 1rem;
+        padding: 1rem;
+        border-radius: 1rem;
+      }
+      
+      .ai-send-btn {
+        min-height: 52px;
+        min-width: 52px;
+        font-size: 1.4rem;
+      }
+      
+      /* Calendar optimizations for tall displays */
+      .calendar-header {
+        margin: 2rem;
+        padding-bottom: 1rem;
+      }
+      
+      .calendar-title {
+        font-size: 1.8rem;
+      }
+      
+      .calendar-nav-btn {
+        min-height: 48px;
+        min-width: 48px;
+        padding: 0.8rem 1rem;
+        font-size: 1.2rem;
+      }
+      
+      .calendar-grid {
+        margin: 0 2rem 2rem 2rem;
+        gap: 1px;
+      }
+      
+      .calendar-day {
+        min-height: 100px;
+        padding: 0.8rem;
+      }
+      
+      .calendar-day-number {
+        font-size: 1rem;
+        top: 0.8rem;
+        left: 0.8rem;
+      }
+      
+      .calendar-day-content {
+        margin-top: 2.5rem;
+        gap: 0.4rem;
+      }
+      
+      .calendar-task {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+        min-height: 28px;
+      }
+      
+      /* Ensure proper spacing for tall displays */
+      .modal-btn-row {
+        gap: 0.8rem;
+        padding: 1.5rem 0;
+      }
+      
+      .filter-chips {
+        padding: 0.8rem 0;
+      }
+      
+      /* Improve scrolling for tall displays */
+      .modal, .ai-content, .calendar-bottom-section {
+        max-height: 80vh;
+        overflow-y: auto;
+      }
+    }
     @keyframes modalIn {
       from { transform: translateY(40px) scale(0.98); opacity: 0; }
       to { transform: none; opacity: 1; }
@@ -6060,6 +6367,44 @@ CRITICAL REQUIREMENTS:
     
     // Initialize mobile touch support
     addMobileTouchSupport();
+    
+    // Optimize for tall displays (like 1264x2780)
+    function optimizeForTallDisplay() {
+      const isTallDisplay = window.innerHeight > 2000 && window.innerWidth <= 1400;
+      
+      if (isTallDisplay) {
+        // Adjust viewport meta tag for better scaling
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+          viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+        }
+        
+        // Optimize scrolling for tall displays
+        document.body.style.minHeight = '100vh';
+        document.body.style.display = 'flex';
+        document.body.style.flexDirection = 'column';
+        
+        // Ensure floating island is properly centered
+        const floatingIsland = document.querySelector('.floating-island');
+        if (floatingIsland) {
+          floatingIsland.style.marginTop = '3rem';
+          floatingIsland.style.marginBottom = '2rem';
+        }
+        
+        // Optimize modal positioning for tall displays
+        const modals = document.querySelectorAll('.modal');
+        modals.forEach(modal => {
+          modal.style.maxHeight = '80vh';
+          modal.style.overflowY = 'auto';
+        });
+        
+        console.log('Optimized for tall display:', window.innerWidth, 'x', window.innerHeight);
+      }
+    }
+    
+    // Run optimization on load and resize
+    optimizeForTallDisplay();
+    window.addEventListener('resize', optimizeForTallDisplay);
     
     // Test notification button
     document.getElementById('testNotificationBtn').addEventListener('click', () => {
