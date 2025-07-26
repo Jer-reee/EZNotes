@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EzNotes</title>
+      <title>EZ Habits</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
@@ -63,16 +63,279 @@
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
     }
-    .search-bar {
+    /* This Week Calendar Styles */
+    .this-week-calendar {
+      margin: 1rem 0 1.5rem 0;
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 16px rgba(108,99,255,0.08);
+      overflow: hidden;
+    }
+    
+    .this-week-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+    }
+    
+    .this-week-title {
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    
+    .this-week-title:hover {
+      opacity: 0.8;
+    }
+    
+    .this-week-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .week-nav-btn {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+      border: none;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.2s;
       display: flex;
       align-items: center;
+      justify-content: center;
+    }
+    
+    .week-nav-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+    
+    .this-week-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 1px;
+      background: #f0f0f0;
+      padding: 0.5rem;
+    }
+    
+    .week-day {
+      background: #fff;
+      min-height: 80px;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .week-day:hover {
+      box-shadow: 0 4px 12px rgba(108,99,255,0.15);
+    }
+    
+    .week-day.selected {
+      background: #e3f2fd;
+      border: 2px solid #6C63FF;
+    }
+    
+    .week-day.today .week-day-number {
+      background: linear-gradient(135deg, #6C63FF, #8B7CF6);
+      color: white;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(108, 99, 255, 0.3);
+    }
+    
+    .week-day-number {
+      font-weight: 600;
+      color: #333;
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+    }
+    
+    .week-day-name {
+      font-size: 0.7rem;
+      color: #666;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    
+    .week-day-content {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      gap: 0.1rem;
+      align-items: center;
+      justify-content: center;
+      min-height: 14px;
+      max-width: 100%;
+      padding: 0.1rem;
+      overflow: hidden;
+      width: 100%;
+    }
+    
+    .week-task {
+      background: #e3f2fd;
+      color: #1976d2;
+      padding: 0.2rem 0.4rem;
+      border-radius: 0.3rem;
+      font-size: 0.65rem;
+      font-weight: 500;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border-left: 2px solid transparent;
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+    
+    .week-task:hover {
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    
+    .week-task.work { background: #fff3e0; color: #f57c00; }
+    .week-task.personal { background: #e8f5e8; color: #388e3c; }
+    .week-task.school { background: #f3e5f5; color: #7b1fa2; }
+    .week-task.home { background: #fce4ec; color: #c2185b; }
+    .week-task.other { background: #f5f5f5; color: #616161; }
+    
+    .this-week-notes {
+      padding: 1rem;
+      background: #f8f9fa;
+      border-top: 1px solid #e0e0e0;
+      max-height: 200px;
+      overflow-y: auto;
+      display: none;
+    }
+    
+    .this-week-notes.show {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
+    
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .week-note-item {
+      background: #fff;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border-radius: 0.5rem;
+      border-left: 3px solid #6C63FF;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .week-note-item:hover {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+    
+    /* Weekly Calendar Category Tags */
+    .week-categories-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      max-width: 100%;
+      overflow: hidden;
+    }
+    
+    .week-category-tag {
+      background: rgba(108, 99, 255, 0.1);
+      color: #6C63FF;
+      padding: 0.2rem 0.5rem;
+      border-radius: 0.8rem;
+      font-size: 0.7rem;
+      font-weight: 500;
+      white-space: nowrap;
+      border: 1px solid rgba(108, 99, 255, 0.2);
+      max-width: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      transition: all 0.2s ease;
+    }
+    
+    .week-category-tag:hover {
+      background: rgba(108, 99, 255, 0.2);
+      transform: scale(1.05);
+    }
+    
+
+    
+    /* Search Icon Styles */
+    .search-icon-container {
+      position: relative;
       margin: 0 0 1rem 0;
+    }
+    
+    .search-icon-btn {
+      background: #f7f8fc;
+      border: none;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(108,99,255,0.04);
+    }
+    
+    .search-icon-btn:hover {
+      background: #f0f0ff;
+      box-shadow: 0 4px 12px rgba(108,99,255,0.12);
+    }
+    
+    .search-expanded {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
       background: #f7f8fc;
       border-radius: 1.5rem;
       box-shadow: 0 2px 8px rgba(108,99,255,0.04);
       padding: 0.5rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      z-index: 10;
+      animation: expandSearch 0.3s ease-out;
     }
-    .search-bar input {
+    
+    @keyframes expandSearch {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    .search-expanded input {
       border: none;
       outline: none;
       flex: 1;
@@ -81,9 +344,24 @@
       padding: 0.5rem 0;
     }
     
-    .search-bar.has-content {
+    .search-expanded.has-content {
       background: #f0f0ff;
       border: 1px solid #6C63FF;
+    }
+    
+    .clear-search-btn {
+      background: none;
+      border: none;
+      color: #6C63FF;
+      cursor: pointer;
+      padding: 0.5rem;
+      font-size: 1.2rem;
+      border-radius: 50%;
+      transition: background 0.2s;
+    }
+    
+    .clear-search-btn:hover {
+      background: rgba(108, 99, 255, 0.1);
     }
     .filter-chips {
       display: flex;
@@ -91,6 +369,8 @@
       gap: 0.5rem;
       margin: 0 0 1.5rem 0;
       align-items: center;
+      justify-content: space-between;
+      position: relative;
     }
     .chip {
       padding: 0.4rem 1rem;
@@ -106,6 +386,13 @@
       background: #6C63FF;
       color: #fff;
     }
+    
+    #chipContainer {
+      flex: 1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
     .sort-btn {
       margin-left: auto;
       padding: 0.4rem 1rem;
@@ -115,10 +402,15 @@
       border: none;
       cursor: pointer;
       font-size: 0.95rem;
-      transition: background 0.2s;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(108,99,255,0.15);
+      font-weight: 500;
+      white-space: nowrap;
     }
     .sort-btn:hover {
       background: #574fd6;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(108,99,255,0.25);
     }
     .sort-dropdown {
       position: absolute;
@@ -279,19 +571,7 @@
       border-left: 4px solid #f44336; 
     }
     
-    /* Dark mode importance colors */
-    body.dark-mode .note-card[data-importance="slightly"] { 
-      background: #1b5e20; 
-      border-left-color: #4caf50; 
-    }
-    body.dark-mode .note-card[data-importance="moderately"] { 
-      background: #e65100; 
-      border-left-color: #ff9800; 
-    }
-    body.dark-mode .note-card[data-importance="very"] { 
-      background: #b71c1c; 
-      border-left-color: #f44336; 
-    }
+
     .note-card.done {
       opacity: 0.7;
       background: #f0f0f0 !important;
@@ -407,6 +687,11 @@
       justify-content: center;
       transition: opacity 0.3s;
     }
+    
+    /* Category modal should appear above other modals */
+    #categoryModalOverlay {
+      z-index: 300;
+    }
     .modal-overlay.hidden {
       opacity: 0;
       pointer-events: none;
@@ -485,12 +770,65 @@
         font-size: 1.5rem;
       }
       
-      .search-bar {
-        margin: 0 0 0.8rem 0;
+      .this-week-calendar {
+        margin: 0.8rem 0 1rem 0;
+      }
+      
+      .this-week-header {
+        padding: 0.8rem 1rem;
+      }
+      
+      .this-week-title {
+        font-size: 1rem;
+      }
+      
+      .week-nav-btn {
+        width: 28px;
+        height: 28px;
+        font-size: 1rem;
+      }
+      
+      .this-week-grid {
+        padding: 0.3rem;
+      }
+      
+      .week-day {
+        min-height: 60px;
+        padding: 0.3rem;
+      }
+      
+      .week-day.today .week-day-number {
+        width: 28px;
+        height: 28px;
+        font-size: 0.7rem;
+      }
+      
+      .week-day-number {
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+      }
+      
+      .week-day-name {
+        font-size: 0.6rem;
+        margin-bottom: 0.3rem;
+      }
+      
+      .week-task {
+        font-size: 0.6rem;
+        padding: 0.1rem 0.3rem;
+      }
+      
+      .search-icon-btn {
+        width: 44px;
+        height: 44px;
+        font-size: 1rem;
+      }
+      
+      .search-expanded {
         padding: 0.4rem 0.8rem;
       }
       
-      .search-bar input {
+      .search-expanded input {
         font-size: 0.9rem;
       }
       
@@ -507,6 +845,13 @@
         display: flex;
         align-items: center;
         justify-content: center;
+      }
+      
+      #chipContainer {
+        flex: 1;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
       }
       
       .calendar-window {
@@ -1095,18 +1440,18 @@
       }
       
       .calendar-day {
-        min-height: 100px;
-        padding: 0.8rem;
+        min-height: 80px;
+        padding: 0.6rem;
       }
       
       .calendar-day-number {
         font-size: 1rem;
-        top: 0.8rem;
-        left: 0.8rem;
+        top: 0.6rem;
+        left: 0.6rem;
       }
       
       .calendar-day-content {
-        margin-top: 2.5rem;
+        margin-top: 2rem;
         gap: 0.4rem;
       }
       
@@ -1459,226 +1804,6 @@
       transform: translateX(20px);
     }
     
-    /* Dark Mode Styles */
-    body.dark-mode {
-      background: #1a1a2e;
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .floating-island {
-      background: #16213e;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 1.5px 8px rgba(0,0,0,0.2);
-    }
-    
-    body.dark-mode .header-title {
-      color: #64b5f6;
-    }
-    
-    body.dark-mode .header-ai-btn {
-      background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-      color: #64b5f6;
-    }
-    
-    body.dark-mode .header-ai-btn:hover {
-      background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%);
-    }
-    
-    body.dark-mode .header span {
-      color: #90a4ae;
-    }
-    
-    body.dark-mode .search-bar {
-      background: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    }
-    
-    body.dark-mode .search-bar input {
-      background: transparent;
-      color: #000000;
-    }
-    
-    body.dark-mode .search-bar input::placeholder {
-      color: #666666;
-    }
-    
-    body.dark-mode .chip {
-      background: #37474f;
-      color: #b0bec5;
-      border-color: #546e7a;
-    }
-    
-    body.dark-mode .chip.active {
-      background: #546e7a;
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .note-card {
-      background: #2c3e50;
-      border-color: #546e7a;
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .note-title {
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .note-category {
-      background: #37474f;
-      color: #81c784;
-    }
-    
-    body.dark-mode .term-tag-display.short {
-      background: #e57373;
-      color: #fff;
-    }
-    
-    body.dark-mode .term-tag-display.medium {
-      background: #ffb74d;
-      color: #fff;
-    }
-    
-    body.dark-mode .term-tag-display.long {
-      background: #81c784;
-      color: #fff;
-    }
-    
-    body.dark-mode .due-date-text {
-      color: #b0bec5;
-    }
-    
-    body.dark-mode .bottom-nav {
-      background: linear-gradient(90deg, #2c3e50 0%, #34495e 100%);
-      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-    }
-    
-    body.dark-mode .fab {
-      background: #546e7a;
-      color: #e0e0e0;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    }
-    
-    body.dark-mode .fab:active {
-      background: #455a64;
-    }
-    
-
-    
-    body.dark-mode .modal {
-      background: #2c3e50;
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .modal h2 {
-      color: #64b5f6;
-    }
-    
-    body.dark-mode .modal label {
-      color: #b0bec5;
-    }
-    
-    body.dark-mode .modal textarea,
-    body.dark-mode .modal input[type="text"],
-    body.dark-mode .modal select,
-    body.dark-mode .modal input[type="date"] {
-      background: #37474f;
-      border-color: #546e7a;
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .modal textarea::placeholder,
-    body.dark-mode .modal input::placeholder {
-      color: #90a4ae;
-    }
-    
-    body.dark-mode .modal-btn {
-      background: #546e7a;
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .modal-btn:hover {
-      background: #455a64;
-    }
-    
-    body.dark-mode .modal-btn.cancel {
-      background: #37474f;
-      color: #b0bec5;
-    }
-    
-    body.dark-mode .modal-btn.delete {
-      background: #e57373;
-      color: #fff;
-    }
-    
-    body.dark-mode .modal-btn.delete:hover {
-      background: #ef5350;
-    }
-    
-    body.dark-mode .urgency-dot {
-      border-color: #00ffff;
-    }
-    
-    body.dark-mode .category-chip {
-      background: #0f3460;
-      color: #00ffff;
-      border-color: #00ffff;
-    }
-    
-    body.dark-mode .category-chip.selected {
-      background: #00ffff;
-      color: #1a1a2e;
-    }
-    
-    body.dark-mode .term-tag {
-      background: #0f3460;
-      color: #00ffff;
-      border-color: #00ffff;
-    }
-    
-    body.dark-mode .term-tag.selected {
-      background: #00ffff;
-      color: #1a1a2e;
-    }
-    
-    body.dark-mode .sort-btn {
-      background: #0f3460;
-      color: #00ffff;
-      border-color: #00ffff;
-    }
-    
-    body.dark-mode .sort-dropdown {
-      background: #16213e;
-      border-color: #00ffff;
-    }
-    
-    body.dark-mode .direction-btn,
-    body.dark-mode .criteria-btn {
-      background: #2d3748;
-      color: #e0e0e0;
-      border-color: #4a5568;
-    }
-    
-    body.dark-mode .direction-btn:hover,
-    body.dark-mode .criteria-btn:hover {
-      border-color: #6C63FF;
-      background: #37474f;
-    }
-    
-    body.dark-mode .direction-btn.selected,
-    body.dark-mode .criteria-btn.selected {
-      border-color: #6C63FF;
-      background: #6C63FF;
-      color: #fff;
-    }
-    
-    body.dark-mode .sort-criteria {
-      border-top-color: #4a5568;
-    }
-    body.dark-mode .note-card[data-urgency="1"] { background: #2D1B1B; border-left: 4px solid #FF4444; color: #fff; }
-    body.dark-mode .note-card[data-urgency="2"] { background: #2D241B; border-left: 4px solid #FF8800; color: #fff; }
-    body.dark-mode .note-card[data-urgency="3"] { background: #2D2A1B; border-left: 4px solid #FFCC00; color: #fff; }
-    body.dark-mode .note-card[data-urgency="4"] { background: #1B2D1B; border-left: 4px solid #00CC44; color: #fff; }
-    body.dark-mode .note-card[data-urgency="5"] { background: #1B1B2D; border-left: 4px solid #0066CC; color: #fff; }
-
     /* Category Management Modal Styles */
     .category-management-section {
       margin-bottom: 1.5rem;
@@ -1743,26 +1868,6 @@
       background: #e55555;
     }
     
-    /* Dark Mode Category Management */
-    body.dark-mode .category-management-section h3 {
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .add-category-form input {
-      background: #37474f;
-      border-color: #546e7a;
-      color: #e0e0e0;
-    }
-    
-    body.dark-mode .category-item {
-      background: #37474f;
-      border-color: #546e7a;
-    }
-    
-    body.dark-mode .category-item span {
-      color: #e0e0e0;
-    }
-    
     /* Calendar Modal Styles */
     .calendar-modal {
       position: fixed;
@@ -1790,6 +1895,14 @@
       flex-direction: column;
       overflow-y: auto;
       overflow-x: hidden;
+    }
+    
+    .calendar-top-section {
+      background: #fff;
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 16px rgba(108,99,255,0.08);
+      overflow: hidden;
+      margin: 1rem;
     }
     
     /* Ensure nav island stays visible in calendar view */
@@ -1825,8 +1938,8 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: #fff;
-      border-radius: 1rem;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+      border-radius: 1.2rem;
+      box-shadow: 0 4px 16px rgba(108,99,255,0.08);
       padding: 1.5rem;
       z-index: 2000;
       min-width: 300px;
@@ -1841,29 +1954,37 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid #eee;
+      padding: 1rem 1.2rem;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      margin: -1.5rem -1.5rem 1rem -1.5rem;
+      border-radius: 1.2rem 1.2rem 0 0;
     }
     
     .selector-header h3 {
       margin: 0;
-      color: #6C63FF;
+      color: #fff;
       font-size: 1.2rem;
+      font-weight: 600;
     }
     
     .close-selector-btn {
-      background: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
       border: none;
-      font-size: 1.5rem;
+      border-radius: 50%;
+      width: 32px;
+      height: 32px;
+      font-size: 1.2rem;
       cursor: pointer;
-      color: #666;
-      padding: 0.2rem;
-      border-radius: 0.3rem;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     
     .close-selector-btn:hover {
-      background: #f0f0f0;
+      background: rgba(255, 255, 255, 0.3);
     }
     
     .selector-content {
@@ -1901,15 +2022,17 @@
       flex: 1;
       padding: 0.5rem 1rem;
       border: none;
-      border-radius: 0.5rem;
+      border-radius: 1rem;
       cursor: pointer;
       font-size: 0.9rem;
-      transition: background 0.2s;
+      font-weight: 500;
+      transition: all 0.2s;
     }
     
     .selector-btn:not(.cancel) {
       background: #6C63FF;
       color: #fff;
+      box-shadow: 0 2px 8px rgba(108,99,255,0.13);
     }
     
     .selector-btn.cancel {
@@ -1918,7 +2041,8 @@
     }
     
     .selector-btn:hover {
-      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(108,99,255,0.25);
     }
     
     /* Dark mode for selector */
@@ -1947,6 +2071,21 @@
     @media (max-width: 768px) {
       .calendar-modal {
         flex-direction: column;
+      }
+      
+      /* Mobile improvements for weekly category tags */
+      .week-category-tag {
+        font-size: 0.65rem;
+        padding: 0.15rem 0.4rem;
+        max-width: 60px;
+      }
+      
+      .week-categories-container {
+        gap: 0.2rem;
+      }
+      
+      .week-note-item .week-categories-container {
+        max-width: 120px;
       }
       
       .calendar-top-section {
@@ -1981,18 +2120,18 @@
     }
       
       .calendar-day {
-        min-height: 60px;
-        padding: 0.3rem;
+        min-height: 50px;
+        padding: 0.25rem;
       }
       
       .calendar-day-number {
         font-size: 0.8rem;
-        top: 0.3rem;
-        left: 0.3rem;
+        top: 0.25rem;
+        left: 0.25rem;
       }
       
       .calendar-day-content {
-        margin-top: 1.5rem;
+        margin-top: 1.2rem;
         gap: 0.2rem;
       }
       
@@ -2024,62 +2163,62 @@
         padding: 0.5rem 0.2rem;
         font-size: 0.8rem;
       }
-    }
-    
-    .calendar-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid #eee;
-      position: relative;
-    }
-    
-    .calendar-nav {
-      position: absolute;
-      top: 1rem;
-      right: 2rem;
-      display: flex;
-      gap: 0.5rem;
-    }
-    
-
-    
-    .calendar-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: #333;
-      margin: 0;
-    }
-    
-    .calendar-nav-btn {
-      background: #6C63FF;
-      color: #fff;
-      border: none;
-      padding: 0.4rem 0.8rem;
-      border-radius: 0.5rem;
-      cursor: pointer;
-      font-size: 1.2rem;
-      font-weight: bold;
-      transition: all 0.2s;
-      min-width: 40px;
-    }
-    
-    .calendar-nav-btn:hover {
-      background: #574fd6;
-      transform: scale(1.05);
-    }
+      
+      .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 1.2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        margin: 0;
+        border-radius: 1.2rem 1.2rem 0 0;
+      }
+      
+      .calendar-nav {
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      .calendar-title {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 0;
+        cursor: pointer;
+        transition: opacity 0.2s;
+      }
+      
+      .calendar-title:hover {
+        opacity: 0.8;
+      }
+      
+      .calendar-nav-btn {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        font-size: 1.2rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .calendar-nav-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+      }
     
     .calendar-grid {
       display: grid;
       grid-template-columns: repeat(7, 1fr);
       gap: 1px;
       background: #f0f0f0;
-      border-radius: 0.5rem;
-      overflow: hidden;
+      padding: 0.5rem;
       flex: 1;
-      margin: 0 2rem 2rem 2rem;
+      margin: 0;
     }
     
     .calendar-day-header {
@@ -2089,16 +2228,21 @@
       font-weight: 600;
       color: #666;
       font-size: 0.9rem;
-      border-bottom: 1px solid #e0e0e0;
+      border-radius: 0.5rem;
     }
     
     .calendar-day {
       background: #fff;
-      min-height: 80px;
-      padding: 0.5rem;
-      border-right: 1px solid #f0f0f0;
-      border-bottom: 1px solid #f0f0f0;
+      min-height: 65px;
+      padding: 0.4rem;
+      border-radius: 0.5rem;
       position: relative;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .calendar-day:hover {
+      box-shadow: 0 4px 12px rgba(108,99,255,0.15);
     }
     
     .calendar-day:last-child {
@@ -2107,15 +2251,15 @@
     
     .calendar-day-number {
       position: absolute;
-      top: 0.5rem;
-      left: 0.5rem;
+      top: 0.4rem;
+      left: 0.4rem;
       font-weight: 500;
       color: #333;
       font-size: 0.9rem;
     }
     
     .calendar-day-content {
-      margin-top: 2rem;
+      margin-top: 1.6rem;
       display: flex;
       flex-direction: column;
       gap: 0.3rem;
@@ -2653,57 +2797,51 @@
     }
     
     .importance-dot {
-      padding: 0.5rem 1rem;
+      padding: 0.4rem 1rem;
       border-radius: 1rem;
       border: 2px solid #e0e0e0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: all 0.2s;
       background: #fff;
       color: #666;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      outline: none;
     }
     
     .importance-dot.selected {
-      border: 3px solid #6C63FF;
-      box-shadow: 0 2px 8px rgba(108,99,255,0.13);
+      border-color: #6C63FF;
+      background: #6C63FF;
+      color: #fff;
     }
     
     .importance-dot[data-level="slightly"] { 
-      background: #e8f5e8; 
-      border-color: #4caf50;
-      color: #2e7d32;
+      border-color: #4caf50; 
+      color: #4caf50; 
+    }
+    .importance-dot[data-level="slightly"].selected { 
+      background: #4caf50; 
+      color: #fff; 
     }
     .importance-dot[data-level="moderately"] { 
-      background: #fff3e0; 
-      border-color: #ff9800;
-      color: #f57c00;
+      border-color: #ff9800; 
+      color: #ff9800; 
+    }
+    .importance-dot[data-level="moderately"].selected { 
+      background: #ff9800; 
+      color: #fff; 
     }
     .importance-dot[data-level="very"] { 
-      background: #ffebee; 
-      border-color: #f44336;
-      color: #d32f2f;
+      border-color: #f44336; 
+      color: #f44336; 
+    }
+    .importance-dot[data-level="very"].selected { 
+      background: #f44336; 
+      color: #fff; 
     }
     
-    /* Dark Mode Importance Dots */
-    body.dark-mode .importance-dot[data-level="slightly"] { 
-      background: #1b5e20; 
-      border-color: #4caf50;
-      color: #81c784;
-    }
-    body.dark-mode .importance-dot[data-level="moderately"] { 
-      background: #e65100; 
-      border-color: #ff9800;
-      color: #ffb74d;
-    }
-    body.dark-mode .importance-dot[data-level="very"] { 
-      background: #b71c1c; 
-      border-color: #f44336;
-      color: #ef5350;
-    }
+
+    
+
     
     /* Done Note Styles */
     .note-card.done {
@@ -2911,6 +3049,194 @@
     }
     
     /* Calendar Modal Styles */
+    
+    /* Tutorial Styles - Updated */
+    .tutorial-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 10000;
+      display: none;
+      pointer-events: none;
+    }
+    
+    .tutorial-overlay.active {
+      display: block;
+    }
+    
+    .tutorial-highlight {
+      position: absolute;
+      border-radius: 8px;
+      background: rgba(108, 99, 255, 0.1);
+      border: 2px solid #6C63FF;
+      z-index: 10001;
+      transition: all 0.3s ease;
+      pointer-events: none;
+    }
+    
+
+    
+    .tutorial-tooltip {
+      position: absolute;
+      background: #2d2d2d;
+      color: white;
+      padding: 1.2rem;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+      max-width: 280px;
+      z-index: 10002;
+      animation: tutorialFadeIn 0.3s ease;
+      pointer-events: auto;
+    }
+    
+    .tutorial-tooltip::before {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 0;
+      border: 8px solid transparent;
+    }
+    
+    .tutorial-tooltip.top::before {
+      border-top-color: #2d2d2d;
+      bottom: -16px;
+      left: var(--arrow-offset, 50%);
+      transform: none;
+    }
+    
+    .tutorial-tooltip.bottom::before {
+      border-bottom-color: #2d2d2d;
+      top: -16px;
+      left: var(--arrow-offset, 50%);
+      transform: none;
+    }
+    
+    .tutorial-tooltip.left::before {
+      border-left-color: #2d2d2d;
+      right: -16px;
+      top: var(--arrow-offset, 50%);
+      transform: none;
+    }
+    
+    .tutorial-tooltip.right::before {
+      border-right-color: #2d2d2d;
+      left: -16px;
+      top: var(--arrow-offset, 50%);
+      transform: none;
+    }
+    
+    .tutorial-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+      color: white;
+    }
+    
+    .tutorial-description {
+      font-size: 0.85rem;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+      color: #e0e0e0;
+    }
+    
+    .tutorial-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .tutorial-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      color: #b0b0b0;
+    }
+    
+    .tutorial-checkbox input {
+      width: 14px;
+      height: 14px;
+      accent-color: #6C63FF;
+    }
+    
+    .tutorial-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+    
+    .tutorial-btn {
+      background: #404040;
+      color: white;
+      border: none;
+      padding: 0.4rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+    
+    .tutorial-btn:hover {
+      background: #505050;
+    }
+    
+    .tutorial-btn.primary {
+      background: #6C63FF;
+      color: white;
+      font-weight: 500;
+    }
+    
+    .tutorial-btn.primary:hover {
+      background: #5a52d5;
+    }
+    
+    .tutorial-progress {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #b0b0b0;
+      padding: 0.3rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.7rem;
+    }
+    
+    .tutorial-close {
+      position: absolute;
+      top: 0.8rem;
+      right: 0.8rem;
+      background: none;
+      border: none;
+      color: #b0b0b0;
+      font-size: 1.2rem;
+      cursor: pointer;
+      padding: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: all 0.2s;
+    }
+    
+    .tutorial-close:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    @keyframes tutorialFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
   </style>
 </head>
 <body>
@@ -2921,11 +3247,37 @@
         <button class="header-ai-btn" id="headerAiBtn" title="AI Assistant" aria-label="Open AI Assistant">AI</button>
       </div>
     </div>
-    <div class="search-bar">
-      <input type="text" id="searchInput" placeholder="Search for notes" />
-      <button id="clearSearchBtn" style="display: none; background: none; border: none; color: #6C63FF; cursor: pointer; padding: 0.5rem; font-size: 1.2rem;" aria-label="Clear search" title="Clear search">✕</button>
+    
+    <!-- This Week Calendar Section -->
+    <div class="this-week-calendar" id="thisWeekCalendar">
+      <div class="this-week-header">
+        <h3 class="this-week-title" id="thisWeekTitle">This Week</h3>
+        <div class="this-week-nav">
+          <button class="week-nav-btn" id="prevWeekBtn">‹</button>
+          <button class="week-nav-btn" id="nextWeekBtn">›</button>
+        </div>
+      </div>
+      <div class="this-week-grid" id="thisWeekGrid">
+        <!-- Week calendar will be generated by JavaScript -->
+      </div>
+      <div class="this-week-notes" id="thisWeekNotes">
+        <!-- Week's notes will be shown here -->
+      </div>
     </div>
+    
+    <!-- Search Icon (replaces search bar) -->
+    <div class="search-icon-container">
+      <button class="search-icon-btn" id="searchIconBtn" title="Search notes" aria-label="Search notes">
+        <span class="search-icon">🔍</span>
+      </button>
+      <div class="search-expanded hidden" id="searchExpanded">
+      <input type="text" id="searchInput" placeholder="Search for notes" />
+        <button id="clearSearchBtn" class="clear-search-btn" style="display: none;" aria-label="Clear search" title="Clear search">✕</button>
+    </div>
+    </div>
+    
     <div id="searchResultsCount" style="display: none; text-align: center; color: #666; font-size: 0.9rem; margin: 0.5rem 0;"></div>
+    
     <div class="filter-chips" id="filterChips" style="position: relative;">
       <div id="chipContainer"></div>
       <button class="sort-btn" id="sortBtn">Sort ▼</button>
@@ -2968,48 +3320,38 @@
   <div class="modal-overlay hidden" id="modalOverlay">
     <form class="modal" id="addNoteModal">
       <h2>Add Note</h2>
-      <label for="noteText">Note</label>
+      <label for="noteTitle">Title</label>
       <div class="voice-row">
-        <textarea id="noteText" rows="3" placeholder="Type your note..."></textarea>
+        <input type="text" id="noteTitle" placeholder="Enter title..." style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;">
         <button type="button" class="voice-btn" id="voiceBtn" title="Record voice note">🎤</button>
       </div>
-      <label for="timeframe">Timeframe</label>
-      <select id="timeframe" onchange="toggleCustomDate()">
-        <option value="1">1 day</option>
-        <option value="5">5 days</option>
-        <option value="10">10 days</option>
-        <option value="30">30 days</option>
-        <option value="90">90 days</option>
-        <option value="custom">Custom date</option>
-      </select>
-      <div id="customDateContainer" style="display: none;">
-        <label for="customDate">Due Date</label>
-        <input type="date" id="customDate" style="box-sizing: border-box;">
+      <label for="noteDescription">Description (Optional)</label>
+      <div class="voice-row">
+        <textarea id="noteDescription" rows="3" placeholder="Add description..."></textarea>
+        <button type="button" class="voice-btn" id="voiceDescBtn" title="Record voice description">🎤</button>
       </div>
-      <label>Term Tags</label>
+      <label for="customDate">Date</label>
+      <input type="date" id="customDate" style="box-sizing: border-box;">
+      <label>Categories <button type="button" class="category-settings-btn" id="categorySettingsBtn" title="Manage categories">⚙️</button></label>
+      <div class="category-row" id="categoryRow">
+        <!-- Categories will be dynamically loaded -->
+      </div>
+      <label>Importance Level</label>
+      <div class="importance-row" id="importanceRow">
+        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
+        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
+        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
+      </div>
+      <label>Term Tags (Optional)</label>
       <div class="term-tags-row" id="termTagsRow">
         <button type="button" class="term-tag" data-term="short">Short-term</button>
         <button type="button" class="term-tag" data-term="medium">Medium-term</button>
         <button type="button" class="term-tag" data-term="long">Long-term</button>
       </div>
-      <label>Importance</label>
-      <div class="importance-row" id="importanceRow">
-        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
-        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
-        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
-      </div>
       <label for="duration">Duration (optional)</label>
       <div class="duration-inputs">
         <input type="number" id="durationHours" placeholder="Hours" min="0" step="1" style="width: 45%; margin-right: 5%;">
         <input type="number" id="durationMinutes" placeholder="Minutes" min="0" max="59" step="1" style="width: 45%;">
-      </div>
-      <label>Categories <button type="button" class="category-settings-btn" id="categorySettingsBtn" title="Manage categories">⚙️</button></label>
-      <div class="category-row" id="categoryRow">
-        <button type="button" class="category-chip" data-category="School">School</button>
-        <button type="button" class="category-chip" data-category="Home">Home</button>
-        <button type="button" class="category-chip" data-category="Work">Work</button>
-        <button type="button" class="category-chip" data-category="Personal">Personal</button>
-        <button type="button" class="category-chip" data-category="Other">Other</button>
       </div>
       <div class="modal-btn-row">
         <button type="button" class="modal-btn cancel" id="cancelModalBtn">Cancel</button>
@@ -3021,48 +3363,38 @@
   <div class="modal-overlay hidden" id="editModalOverlay">
     <form class="modal" id="editNoteModal">
       <h2 id="editModalTitle">Edit Note</h2>
-      <label for="editNoteText">Note</label>
+      <label for="editNoteTitle">Title</label>
       <div class="voice-row">
-        <textarea id="editNoteText" rows="3" placeholder="Type your note..."></textarea>
+        <input type="text" id="editNoteTitle" placeholder="Enter title..." style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;">
         <button type="button" class="voice-btn" id="editVoiceBtn" title="Record voice note">🎤</button>
       </div>
-      <label for="editTimeframe">Timeframe</label>
-      <select id="editTimeframe" onchange="toggleEditCustomDate()">
-        <option value="1">1 day</option>
-        <option value="5">5 days</option>
-        <option value="10">10 days</option>
-        <option value="30">30 days</option>
-        <option value="90">90 days</option>
-        <option value="custom">Custom date</option>
-      </select>
-      <div id="editCustomDateContainer" style="display: none;">
-        <label for="editCustomDate">Due Date</label>
-        <input type="date" id="editCustomDate" style="box-sizing: border-box;">
+      <label for="editNoteDescription">Description (Optional)</label>
+      <div class="voice-row">
+        <textarea id="editNoteDescription" rows="3" placeholder="Add description..."></textarea>
+        <button type="button" class="voice-btn" id="editVoiceDescBtn" title="Record voice description">🎤</button>
       </div>
-      <label>Term Tags</label>
+      <label for="editCustomDate">Date</label>
+      <input type="date" id="editCustomDate" style="box-sizing: border-box;">
+      <label>Categories <button type="button" class="category-settings-btn" id="editCategorySettingsBtn" title="Manage categories">⚙️</button></label>
+      <div class="category-row" id="editCategoryRow">
+        <!-- Categories will be dynamically loaded -->
+      </div>
+      <label>Importance Level</label>
+      <div class="importance-row" id="editImportanceRow">
+        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
+        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
+        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
+      </div>
+      <label>Term Tags (Optional)</label>
       <div class="term-tags-row" id="editTermTagsRow">
         <button type="button" class="term-tag" data-term="short">Short-term</button>
         <button type="button" class="term-tag" data-term="medium">Medium-term</button>
         <button type="button" class="term-tag" data-term="long">Long-term</button>
       </div>
-      <label>Importance</label>
-      <div class="importance-row" id="editImportanceRow">
-        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
-        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
-        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
-      </div>
       <label for="editDuration">Duration (optional)</label>
       <div class="duration-inputs">
         <input type="number" id="editDurationHours" placeholder="Hours" min="0" step="1" style="width: 45%; margin-right: 5%;">
         <input type="number" id="editDurationMinutes" placeholder="Minutes" min="0" max="59" step="1" style="width: 45%;">
-      </div>
-      <label>Categories <button type="button" class="category-settings-btn" id="editCategorySettingsBtn" title="Manage categories">⚙️</button></label>
-      <div class="category-row" id="editCategoryRow">
-        <button type="button" class="category-chip" data-category="School">School</button>
-        <button type="button" class="category-chip" data-category="Home">Home</button>
-        <button type="button" class="category-chip" data-category="Work">Work</button>
-        <button type="button" class="category-chip" data-category="Personal">Personal</button>
-        <button type="button" class="category-chip" data-category="Other">Other</button>
       </div>
       <div class="modal-btn-row">
         <button type="button" class="modal-btn cancel" id="cancelEditModalBtn">Cancel</button>
@@ -3077,65 +3409,11 @@
     <div class="modal" id="settingsModal">
       <h2>Settings</h2>
       
-      <div class="settings-section">
-        <h3>Notifications</h3>
-        <label for="notificationSound">Notification Sound</label>
-        <select id="notificationSound">
-          <option value="default">Default</option>
-          <option value="gentle">Gentle</option>
-          <option value="urgent">Urgent</option>
-          <option value="custom">Custom</option>
-          <option value="mute">Mute</option>
-        </select>
-        
-        <label>Notification Frequency by Urgency</label>
-        <div class="urgency-settings">
-          <div class="urgency-setting">
-            <span>High Urgency (1 day)</span>
-            <select id="highUrgencyFreq">
-              <option value="immediate">Immediate</option>
-              <option value="hourly">Hourly</option>
-              <option value="daily">Daily</option>
-            </select>
-          </div>
-          <div class="urgency-setting">
-            <span>Medium Urgency (5-10 days)</span>
-            <select id="mediumUrgencyFreq">
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-            </select>
-          </div>
-          <div class="urgency-setting">
-            <span>Low Urgency (30+ days)</span>
-            <select id="lowUrgencyFreq">
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-            </select>
-          </div>
-        </div>
-        
-        <div class="setting-group">
-          <button id="testNotificationBtn" type="button" style="background: #6C63FF; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.9rem; margin-top: 1rem;">
-            🔔 Test Notification
-          </button>
-          <button id="testSoundBtn" type="button" style="background: #4CAF50; color: white; border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer; font-size: 0.9rem; margin-top: 0.5rem; margin-left: 0.5rem;">
-            🔊 Test Sound
-          </button>
-          <small style="color: #666; display: block; margin-top: 0.5rem;">
-            Test notification and sound settings
-          </small>
-        </div>
-      </div>
+
       
       <div class="settings-section">
         <h3>Appearance</h3>
-        <div class="theme-toggle">
-          <span>Dark Mode</span>
-          <label class="switch">
-            <input type="checkbox" id="darkModeToggle">
-            <span class="slider"></span>
-          </label>
-        </div>
+
       </div>
       
       <div class="modal-btn-row">
@@ -3262,6 +3540,30 @@
       </div>
     </div>
   </div>
+  
+  <!-- Tutorial Overlay -->
+  <div class="tutorial-overlay" id="tutorialOverlay">
+    <div class="tutorial-highlight" id="tutorialHighlight"></div>
+    <div class="tutorial-tooltip" id="tutorialTooltip">
+      <button class="tutorial-close" id="tutorialClose">×</button>
+      <div class="tutorial-title" id="tutorialTitle">Welcome to EZ Habits!</div>
+      <div class="tutorial-description" id="tutorialDescription">
+        Let's take a quick tour of the app to help you get started.
+      </div>
+      <div class="tutorial-actions">
+        <div class="tutorial-checkbox">
+          <input type="checkbox" id="dontShowAgain">
+          <label for="dontShowAgain">Don't show again</label>
+        </div>
+        <div class="tutorial-nav">
+          <button type="button" class="tutorial-btn" id="tutorialSkip">Skip</button>
+          <button type="button" class="tutorial-btn primary" id="tutorialNext">Next Step</button>
+        </div>
+      </div>
+    </div>
+    <div class="tutorial-progress" id="tutorialProgress">1/8</div>
+  </div>
+  
   <script>
     // Navigation bar hide/show functions
     const navIsland = document.getElementById('navIsland');
@@ -3471,120 +3773,125 @@
     function loadNotes() {
       const savedNotes = localStorage.getItem('eznotes_notes');
       if (savedNotes) {
-        notes = JSON.parse(savedNotes);
-        // Comprehensive data migration for all notes
-        notes.forEach(note => {
-          // Ensure all required fields exist
-          if (!note.id) {
-            note.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
-          }
-          if (!note.createdAt) {
-            note.createdAt = new Date().toISOString();
-          }
-          if (note.done === undefined) {
-            note.done = false;
-          }
-          if (!note.termTags) {
-            note.termTags = [];
-          }
-          if (!note.importance) {
-            note.importance = '3';
-          }
-          if (!note.text) {
-            note.text = note.content || note.note || 'Untitled Note'; // Handle old field names
-          }
-          if (!note.title) {
-            note.title = aiGenerateTitle(note.text);
-          }
-          if (!note.category) {
-            note.category = 'Other';
-          }
-          if (!note.urgency) {
-            note.urgency = 3; // Default to medium urgency
-          }
-          if (!note.timeframe) {
-            note.timeframe = '5 days'; // Default timeframe
+        try {
+          notes = JSON.parse(savedNotes);
+          // Comprehensive data migration for all notes
+          notes.forEach(note => {
+            // Ensure all required fields exist
+            if (!note.id) {
+              note.id = Date.now().toString() + Math.random().toString(36).substr(2, 9);
+            }
+            if (!note.createdAt) {
+              note.createdAt = new Date().toISOString();
+            }
+            if (note.done === undefined) {
+              note.done = false;
+            }
+            if (!note.termTags) {
+              note.termTags = [];
+            }
+            if (!note.importance) {
+              note.importance = 'moderately';
+            }
+            if (!note.text) {
+              note.text = note.content || note.note || 'Untitled Note'; // Handle old field names
+            }
+            if (!note.title) {
+              note.title = note.text || 'Untitled Note';
+            }
+            if (!note.category) {
+              note.category = 'Other';
+            }
+            if (!note.urgency) {
+              note.urgency = 3; // Default to medium urgency
+            }
+            if (!note.timeframe) {
+              note.timeframe = 'custom'; // Default timeframe
+            }
+            
+            // Ensure customDate field exists and is properly handled
+            if (!note.hasOwnProperty('customDate')) {
+              note.customDate = null;
+            }
+            
+            // Ensure all fields are of correct type
+            note.id = String(note.id);
+            note.text = String(note.text);
+            note.title = String(note.title);
+            note.category = String(note.category);
+            note.urgency = parseInt(note.urgency) || 3;
+            note.timeframe = String(note.timeframe);
+            note.termTags = Array.isArray(note.termTags) ? note.termTags : [];
+            note.done = Boolean(note.done);
+            
+            // Validate urgency range
+            if (note.urgency < 1 || note.urgency > 5) {
+              note.urgency = 3;
+            }
+          });
+          
+          // Load manually added categories
+          const savedCategories = localStorage.getItem('eznotes_categories');
+          if (savedCategories) {
+            try {
+              const categoriesArray = JSON.parse(savedCategories);
+              categoriesArray.forEach(cat => categories.add(cat));
+            } catch (e) {
+              console.log('Error loading categories:', e);
+            }
           }
           
-          // Ensure customDate field exists and is properly handled
-          if (!note.hasOwnProperty('customDate')) {
-            note.customDate = null;
-          }
+          // Rebuild categories set from notes (for backward compatibility)
+          notes.forEach(note => {
+            if (note.category && note.category !== '') {
+              categories.add(note.category);
+            }
+          });
           
-          // Ensure all fields are of correct type
-          note.id = String(note.id);
-          note.text = String(note.text);
-          note.title = String(note.title);
-          note.category = String(note.category);
-          note.urgency = parseInt(note.urgency) || 3;
-          note.timeframe = String(note.timeframe);
-          note.termTags = Array.isArray(note.termTags) ? note.termTags : [];
-          note.done = Boolean(note.done);
-          
-          // Validate urgency range
-          if (note.urgency < 1 || note.urgency > 5) {
-            note.urgency = 3;
-          }
-        });
-        
-        // Rebuild categories set
-        categories.clear();
-        notes.forEach(note => {
-          if (note.category && note.category !== '') {
-            categories.add(note.category);
-          }
-        });
-        
-        // Save migrated data
-        saveNotes();
+          // Save migrated data
+          saveNotes();
+          console.log('Notes loaded successfully:', notes.length, 'notes found');
+        } catch (error) {
+          console.error('Error loading notes:', error);
+          notes = [];
+        }
       }
     }
 
     // Save notes to localStorage
     function saveNotes() {
-      localStorage.setItem('eznotes_notes', JSON.stringify(notes));
-      localStorage.setItem('eznotes_version', '1.2'); // Track current data version
+      try {
+        // Ensure notes is an array
+        if (!Array.isArray(notes)) {
+          notes = [];
+        }
+        
+        // Ensure categories is a Set
+        if (!(categories instanceof Set)) {
+          categories = new Set();
+        }
+        
+        localStorage.setItem('eznotes_notes', JSON.stringify(notes));
+        localStorage.setItem('eznotes_categories', JSON.stringify(Array.from(categories)));
+        localStorage.setItem('eznotes_version', '1.3'); // Updated version
+      } catch (error) {
+        console.error('Error saving notes:', error);
+      }
     }
     
     // Check and migrate data version
     function checkDataVersion() {
-      const currentVersion = '1.2';
+      const currentVersion = '1.3';
       const savedVersion = localStorage.getItem('eznotes_version');
       
       if (savedVersion !== currentVersion) {
         console.log(`Migrating data from version ${savedVersion} to ${currentVersion}`);
-        // Future migrations can be added here
+        // Update version without clearing data
         localStorage.setItem('eznotes_version', currentVersion);
       }
     }
 
-    function toggleCustomDate() {
-      console.log('toggleCustomDate called');
-      const timeframe = document.getElementById('timeframe');
-      const customDateContainer = document.getElementById('customDateContainer');
-      console.log('Timeframe value:', timeframe.value);
-      if (timeframe.value === 'custom') {
-        console.log('Showing custom date container');
-        customDateContainer.style.display = 'block';
-      } else {
-        console.log('Hiding custom date container');
-        customDateContainer.style.display = 'none';
-      }
-    }
 
-    function toggleEditCustomDate() {
-      console.log('toggleEditCustomDate called');
-      const timeframe = document.getElementById('editTimeframe');
-      const customDateContainer = document.getElementById('editCustomDateContainer');
-      console.log('Edit timeframe value:', timeframe.value);
-      if (timeframe.value === 'custom') {
-        console.log('Showing edit custom date container');
-        customDateContainer.style.display = 'block';
-      } else {
-        console.log('Hiding edit custom date container');
-        customDateContainer.style.display = 'none';
-      }
-    }
 
     function getImportanceText(importance) {
       switch(importance) {
@@ -3614,7 +3921,7 @@
     
     function formatTimeframe(note) {
       // Handle custom dates
-      if (note.timeframe === 'custom' && note.customDate) {
+      if (note.customDate) {
         const dueDate = new Date(note.customDate);
         const today = new Date();
         const days = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
@@ -3625,23 +3932,7 @@
         return `Due in ${days} days`;
       }
       
-      // Handle regular timeframes
-      const timeframe = note.timeframe;
-      if (timeframe.includes('Due ')) {
-        const dateStr = timeframe.match(/Due (.+?) \(/)[1];
-        const daysStr = timeframe.match(/\((\d+) days?\)/)[1];
-        const days = parseInt(daysStr);
-        
-        if (days === 1) return 'Due tomorrow';
-        if (days === 0) return 'Due today';
-        if (days < 0) return 'Overdue';
-        return `Due in ${days} days`;
-      }
-      
-      const days = parseInt(timeframe);
-      if (days === 1) return 'Due tomorrow';
-      if (days === 0) return 'Due today';
-      return `Due in ${days} days`;
+      return 'No due date';
     }
 
     function aiGenerateTitle(text) {
@@ -3828,11 +4119,32 @@
     }
 
     // Initialize app
+    console.log('Initializing EzNotes app...');
     loadNotes();
+    checkDataVersion();
+    
+    // Ensure clean initialization
+    if (!Array.isArray(notes)) {
+      notes = [];
+    }
+    if (!(categories instanceof Set)) {
+      categories = new Set(['Other']);
+    }
+    
     renderNotes();
     renderChips();
     updateSortButtonText();
-    checkDataVersion();
+    console.log('App initialized successfully with clean data.');
+    
+    // Initialize This Week Calendar
+    let currentWeekStart = getWeekStart(new Date());
+    renderThisWeekCalendar();
+    
+    // Initialize search icon functionality
+    initializeSearchIcon();
+    
+    // Initialize category rendering
+    renderCategories();
     
     // Add search functionality
     const clearSearchBtn = document.getElementById('clearSearchBtn');
@@ -3874,17 +4186,14 @@
       console.log('Setting default selections...');
       
       // Set default selections for add modal
-      const termTagMedium = document.querySelector('#termTagsRow .term-tag[data-term="medium"]');
       const importanceLevelModerately = document.querySelector('#importanceRow .importance-dot[data-level="moderately"]');
       const categoryOther = document.querySelector('#categoryRow .category-chip[data-category="Other"]');
       
       console.log('Found elements:', {
-        termTagMedium: !!termTagMedium,
         importanceLevelModerately: !!importanceLevelModerately,
         categoryOther: !!categoryOther
       });
       
-      if (termTagMedium) termTagMedium.classList.add('selected');
       if (importanceLevelModerately) importanceLevelModerately.classList.add('selected');
       if (categoryOther) categoryOther.classList.add('selected');
     }
@@ -3900,6 +4209,7 @@
       console.log('Opening add modal');
       updateModalZIndex(); // Update z-index for calendar view
       hideNavBar(); // Hide nav bar when modal opens
+      console.log('Nav bar hidden for modal');
       modalOverlay.classList.remove('hidden');
       // Ensure defaults are set when modal opens
       setTimeout(setDefaultSelections, 50);
@@ -4163,26 +4473,23 @@
       console.log('editCustomDateContainer:', !!editCustomDateContainer);
       
       // Set note data
-      editNoteText.value = note.text;
+      const editNoteTitle = document.getElementById('editNoteTitle');
+      const editNoteDescription = document.getElementById('editNoteDescription');
+      
+      editNoteTitle.value = note.title || note.text || '';
+      editNoteDescription.value = note.description || '';
       
       // Handle timeframe and custom date
       console.log('Note timeframe:', note.timeframe);
       console.log('Note customDate:', note.customDate);
       console.log('Note has customDate field:', 'customDate' in note);
+      // Set custom date
       if (note.customDate) {
-        // If note has customDate, it was a custom date
         console.log('Setting custom date:', note.customDate);
-        editTimeframe.value = 'custom';
         editCustomDate.value = note.customDate;
-        editCustomDateContainer.style.display = 'block';
-        console.log('Custom date container display set to:', editCustomDateContainer.style.display);
       } else {
-        // Regular timeframe
-        console.log('Setting regular timeframe:', note.timeframe);
-        editTimeframe.value = note.timeframe || '1';
+        console.log('No custom date found');
         editCustomDate.value = '';
-        editCustomDateContainer.style.display = 'none';
-        console.log('Custom date container display set to:', editCustomDateContainer.style.display);
       }
       
       // Set term tag with fallback (single selection)
@@ -4256,14 +4563,15 @@
     // Add note form submission
     addNoteModal.onsubmit = (e) => {
       e.preventDefault();
+      console.log('Add note form submitted');
       
-      const text = noteText.value.trim();
-      const timeframe = document.getElementById('timeframe').value;
+      const noteTitle = document.getElementById('noteTitle').value.trim();
+      const description = document.getElementById('noteDescription').value.trim();
       const customDate = document.getElementById('customDate').value;
       
-      // Get selected term tag (single selection)
+      // Get selected term tag (optional)
       const selectedTermTag = document.querySelector('#termTagsRow .term-tag.selected');
-      const termTag = selectedTermTag ? selectedTermTag.getAttribute('data-term') : 'medium';
+      const termTag = selectedTermTag ? selectedTermTag.getAttribute('data-term') : null;
       
       // Get selected importance (single selection)
       const selectedImportanceBtn = document.querySelector('#importanceRow .importance-dot.selected');
@@ -4279,14 +4587,14 @@
       const totalMinutes = (durationHours ? parseInt(durationHours) * 60 : 0) + (durationMinutes ? parseInt(durationMinutes) : 0);
       const durationValue = totalMinutes > 0 ? totalMinutes : null;
       
-      if (!text) {
-        alert('Please enter a note.');
+      if (!noteTitle) {
+        alert('Please enter a title.');
         return;
       }
       
-      // Calculate urgency based on timeframe
-      let calculatedUrgency;
-      if (timeframe === 'custom' && customDate) {
+      // Calculate urgency based on custom date
+      let calculatedUrgency = 3; // Default to medium urgency
+      if (customDate) {
         const dueDate = new Date(customDate);
         const today = new Date();
         const days = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
@@ -4295,27 +4603,19 @@
         else if (days <= 10) calculatedUrgency = 3;
         else if (days <= 30) calculatedUrgency = 2;
         else calculatedUrgency = 1;
-      } else {
-        const days = parseInt(timeframe);
-        if (days <= 1) calculatedUrgency = 5;
-        else if (days <= 5) calculatedUrgency = 4;
-        else if (days <= 10) calculatedUrgency = 3;
-        else if (days <= 30) calculatedUrgency = 2;
-        else calculatedUrgency = 1;
       }
-      
-      const title = aiGenerateTitle(text);
       
       const newNote = { 
         id: Date.now().toString(),
-        text, 
-        timeframe, 
-        customDate: timeframe === 'custom' ? customDate : null,
+        text: description || noteTitle, // Use description if available, otherwise use title
+        title: noteTitle,
+        description: description,
+        timeframe: 'custom', 
+        customDate: customDate,
         urgency: calculatedUrgency, 
         importance: importance,
         category: selectedCategory,
         categories: [selectedCategory], 
-        title,
         done: false,
         createdAt: new Date().toISOString(),
         termTag: termTag,
@@ -4325,12 +4625,12 @@
       notes.push(newNote);
       saveNotes();
       renderNotes();
+      renderThisWeekCalendar();
       
       // Reset modal
-      noteText.value = '';
-      document.getElementById('timeframe').value = '1';
+      document.getElementById('noteTitle').value = '';
+      document.getElementById('noteDescription').value = '';
       document.getElementById('customDate').value = '';
-      document.getElementById('customDateContainer').style.display = 'none';
       document.getElementById('durationHours').value = '';
       document.getElementById('durationMinutes').value = '';
       [...categoryRow.children].forEach(chip => chip.classList.remove('selected'));
@@ -4340,22 +4640,35 @@
       // Reset to defaults using the function
       setTimeout(setDefaultSelections, 50);
       
+      console.log('Closing add modal...');
       modalOverlay.classList.add('hidden');
       showNavBar(); // Show nav bar when add modal closes
+      console.log('Add modal closed successfully');
     };
+    
+    // Direct save button click handler as backup
+    const saveBtn = addNoteModal.querySelector('button[type="submit"]');
+    if (saveBtn) {
+      saveBtn.onclick = (e) => {
+        e.preventDefault();
+        console.log('Save button clicked directly');
+        addNoteModal.dispatchEvent(new Event('submit'));
+      };
+    }
     
     // Edit note form submission
     const editNoteModal = document.getElementById('editNoteModal');
     editNoteModal.onsubmit = (e) => {
       e.preventDefault();
+      console.log('Edit note form submitted');
       
-      const text = document.getElementById('editNoteText').value.trim();
-      const timeframe = document.getElementById('editTimeframe').value;
+      const editTitle = document.getElementById('editNoteTitle').value.trim();
+      const editDescription = document.getElementById('editNoteDescription').value.trim();
       const customDate = document.getElementById('editCustomDate').value;
       
-      // Get selected term tag (single selection)
+      // Get selected term tag (optional)
       const selectedTermTag = document.querySelector('#editTermTagsRow .term-tag.selected');
-      const termTag = selectedTermTag ? selectedTermTag.getAttribute('data-term') : 'medium';
+      const termTag = selectedTermTag ? selectedTermTag.getAttribute('data-term') : null;
       
       // Get selected importance (single selection)
       const selectedImportanceBtn = document.querySelector('#editImportanceRow .importance-dot.selected');
@@ -4371,14 +4684,14 @@
       const totalMinutes = (durationHours ? parseInt(durationHours) * 60 : 0) + (durationMinutes ? parseInt(durationMinutes) : 0);
       const durationValue = totalMinutes > 0 ? totalMinutes : null;
       
-      if (!text) {
-        alert('Please enter a note.');
+      if (!editTitle) {
+        alert('Please enter a title.');
         return;
       }
       
-      // Calculate urgency based on timeframe
-      let calculatedUrgency;
-      if (timeframe === 'custom' && customDate) {
+      // Calculate urgency based on custom date
+      let calculatedUrgency = 3; // Default to medium urgency
+      if (customDate) {
         const dueDate = new Date(customDate);
         const today = new Date();
         const days = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
@@ -4387,28 +4700,20 @@
         else if (days <= 10) calculatedUrgency = 3;
         else if (days <= 30) calculatedUrgency = 2;
         else calculatedUrgency = 1;
-      } else {
-        const days = parseInt(timeframe);
-        if (days <= 1) calculatedUrgency = 5;
-        else if (days <= 5) calculatedUrgency = 4;
-        else if (days <= 10) calculatedUrgency = 3;
-        else if (days <= 30) calculatedUrgency = 2;
-        else calculatedUrgency = 1;
       }
-      
-      const title = aiGenerateTitle(text);
       
       // Update note
       const note = notes.find(n => n.id === document.getElementById('editNoteModal').dataset.id);
       if (note) {
-        note.text = text;
-        note.timeframe = timeframe;
-        note.customDate = timeframe === 'custom' ? customDate : null;
+        note.text = editDescription || editTitle; // Use description if available, otherwise use title
+        note.title = editTitle;
+        note.description = editDescription;
+        note.timeframe = 'custom';
+        note.customDate = customDate;
         note.urgency = calculatedUrgency;
         note.importance = importance;
         note.category = selectedCategory;
         note.categories = [selectedCategory];
-        note.title = title;
         note.termTag = termTag; // Update single term tag
         note.termTags = [termTag]; // Update term tags array
         note.duration = durationValue;
@@ -4416,9 +4721,35 @@
       
       saveNotes();
       renderNotes();
+      renderThisWeekCalendar();
+      
+      // Always refresh the week notes dropdown if it's currently showing
+      const weekNotes = document.getElementById('thisWeekNotes');
+      if (weekNotes && weekNotes.classList.contains('show')) {
+        // Find the currently selected day and refresh its details
+        const selectedDay = document.querySelector('.week-day.selected');
+        if (selectedDay) {
+          // Simulate re-clicking the selected day to refresh the dropdown
+          selectedDay.click();
+        }
+        // If no specific day is selected, don't refresh - let the user click a day to see tasks
+      }
+      
+      console.log('Closing edit modal...');
       document.getElementById('editModalOverlay').classList.add('hidden');
       showNavBar(); // Show nav bar when edit modal closes
+      console.log('Edit modal closed successfully');
     };
+    
+    // Direct edit save button click handler as backup
+    const editSaveBtn = editNoteModal.querySelector('button[type="submit"]');
+    if (editSaveBtn) {
+      editSaveBtn.onclick = (e) => {
+        e.preventDefault();
+        console.log('Edit save button clicked directly');
+        editNoteModal.dispatchEvent(new Event('submit'));
+      };
+    }
 
     // Edit importance selection (single selection only)
     document.getElementById('editImportanceRow').onclick = (e) => {
@@ -4727,6 +5058,7 @@
         categories.add(newCategory);
         saveNotes(); // This also saves categories
         renderChips();
+        renderCategories(); // Re-render categories in add/edit modals
         renderExistingCategories();
         newCategoryInput.value = '';
         console.log('Category added:', newCategory);
@@ -4753,6 +5085,7 @@
             categories.delete(categoryToDelete);
             saveNotes();
             renderChips();
+            renderCategories(); // Re-render categories in add/edit modals
             renderExistingCategories();
             console.log('Category deleted:', categoryToDelete);
           }
@@ -4769,6 +5102,20 @@
         note.done = !note.done;
         saveNotes();
         renderNotes();
+        renderThisWeekCalendar();
+        
+        // Always refresh the week notes dropdown if it's currently showing
+        const weekNotes = document.getElementById('thisWeekNotes');
+        if (weekNotes && weekNotes.classList.contains('show')) {
+          // Find the currently selected day and refresh its details
+          const selectedDay = document.querySelector('.week-day.selected');
+          if (selectedDay) {
+            // Simulate re-clicking the selected day to refresh the dropdown
+            selectedDay.click();
+          }
+          // If no specific day is selected, don't refresh - let the user click a day to see tasks
+        }
+        
         document.getElementById('editModalOverlay').classList.add('hidden');
         showNavBar(); // Show nav bar when edit modal closes
         console.log('Note marked as done:', note.done);
@@ -4791,6 +5138,20 @@
               notes.splice(noteIndex, 1);
               saveNotes();
               renderNotes();
+              renderThisWeekCalendar();
+              
+              // Always refresh the week notes dropdown if it's currently showing
+              const weekNotes = document.getElementById('thisWeekNotes');
+              if (weekNotes && weekNotes.classList.contains('show')) {
+                // Find the currently selected day and refresh its details
+                const selectedDay = document.querySelector('.week-day.selected');
+                if (selectedDay) {
+                  // Simulate re-clicking the selected day to refresh the dropdown
+                  selectedDay.click();
+                }
+                // If no specific day is selected, don't refresh - let the user click a day to see tasks
+              }
+              
               document.getElementById('editModalOverlay').classList.add('hidden');
               showNavBar(); // Show nav bar when edit modal closes
               console.log('Note deleted (was marked as done)');
@@ -4825,7 +5186,7 @@
         aiWindow.classList.remove('active');
         mainContent.style.display = 'block';
         
-        // Restore nav island to normal state
+        // Show nav bar when returning to main content
         showNavBar();
         
         console.log('AI window deactivated');
@@ -4838,7 +5199,7 @@
         mainContent.style.display = 'none';
         aiWindow.classList.add('active');
         
-        // Hide nav bar and FAB for AI page
+        // Hide nav bar and FAB when AI window is active
         hideNavBar();
         
         console.log('AI window activated');
@@ -5313,91 +5674,7 @@ CRITICAL REQUIREMENTS:
       return content;
     }
     
-    // Test function to check AI source
-    function testAISource() {
-      console.log('🧪 Testing AI Source...');
-      console.log('AI_CONFIG:', AI_CONFIG);
-      console.log('Will use Douban:', AI_CONFIG.useExternalAI && AI_CONFIG.aiApiKey);
-      handleAIChat("Test message - check console for AI source");
-    }
-    
-    // Comprehensive test for response validation
-    function testResponseValidation() {
-      console.log('🧪 Testing Response Validation...');
-      
-      const testResponses = [
-        "This is a very long response that should be truncated because it exceeds the word limit and doesn't use bullet points at all. It just goes on and on with unnecessary words that make it too verbose for the user to read quickly.",
-        "Short response with bullet points:\n• Point one\n• Point two\n• Point three",
-        "Another long response without bullet points that should be converted to bullet points and truncated to meet the requirements for concise responses.",
-        "Perfect short response with • bullet points and under 100 words.",
-        "Response with inline bullet points • that should be on new lines • and properly formatted • for better readability.",
-        "Mixed format: • First point • Second point\n• Third point on new line",
-        "No bullet points at all but should be converted to bullet points format for better readability and consistency."
-      ];
-      
-      testResponses.forEach((response, index) => {
-        console.log(`\n--- Test ${index + 1} ---`);
-        console.log('Original:', response);
-        const validated = validateAndFormatResponse(response);
-        console.log('Validated:', validated);
-        console.log('Has new lines:', validated.includes('\n'));
-        console.log('Bullet points on new lines:', validated.split('\n').filter(line => line.trim().startsWith('•')).length);
-      });
-      
-      console.log('\n✅ All tests completed!');
-    }
-    
-    // Quick test function for immediate verification
-    function quickTest() {
-      console.log('🚀 Quick Test - Bullet Point Formatting');
-      
-      const testCases = [
-        "• Point one • Point two • Point three",
-        "Response with • inline bullets • that need formatting",
-        "No bullets at all but should get them"
-      ];
-      
-      testCases.forEach((test, i) => {
-        console.log(`\n--- Quick Test ${i + 1} ---`);
-        console.log('Input:', test);
-        const result = validateAndFormatResponse(test);
-        console.log('Output:', result);
-        console.log('Each bullet on new line:', result.split('\n').every(line => !line.includes('•') || line.trim().startsWith('•')));
-      });
-    }
-    
-    // Test settings functionality in calendar view
-    function testSettingsInCalendar() {
-      console.log('🧪 Testing Settings in Calendar View');
-      
-      // Check current view
-      const isCalendarActive = calendarWindow.classList.contains('active');
-      console.log('Calendar active:', isCalendarActive);
-      
-      // Check settings button
-      const settingsBtn = document.querySelector('.nav-btn.settings');
-      console.log('Settings button found:', !!settingsBtn);
-      
-      // Check settings modal
-      const settingsModal = document.getElementById('settingsModalOverlay');
-      console.log('Settings modal found:', !!settingsModal);
-      
-      // Test opening settings
-      if (settingsBtn) {
-        console.log('Testing settings button click...');
-        settingsBtn.click();
-        
-        setTimeout(() => {
-          const isModalVisible = !settingsModal.classList.contains('hidden');
-          console.log('Settings modal visible:', isModalVisible);
-          console.log('Modal z-index:', settingsModal.style.zIndex);
-          
-          // Close modal
-          settingsModal.classList.add('hidden');
-          console.log('Settings modal closed for testing');
-        }, 100);
-      }
-    }
+
     
     // AI input enter key handler
     aiInput.onkeypress = (e) => {
@@ -5831,12 +6108,11 @@ CRITICAL REQUIREMENTS:
     function addNoteWithDate(date) {
       console.log('Adding note for date:', date.toDateString());
       
-      // Add 1 day to the calendar date for the note
-      const adjustedDate = new Date(date);
-      adjustedDate.setDate(adjustedDate.getDate() + 1);
+      // Use the exact date selected (no adjustment needed)
+      const selectedDate = new Date(date);
       
       // Format date for input field (YYYY-MM-DD)
-      const dateStr = adjustedDate.toISOString().split('T')[0];
+      const dateStr = selectedDate.toISOString().split('T')[0];
       
       // Update modal z-index for calendar view
       updateModalZIndex();
@@ -5848,14 +6124,6 @@ CRITICAL REQUIREMENTS:
       const customDateInput = document.getElementById('customDate');
       if (customDateInput) {
         customDateInput.value = dateStr;
-      }
-      
-      // Set timeframe to custom
-      const timeframeSelect = document.getElementById('timeframe');
-      if (timeframeSelect) {
-        timeframeSelect.value = 'custom';
-        // Trigger the custom date toggle to show the date input
-        toggleCustomDate();
       }
       
       // Focus on the note text area
@@ -5908,76 +6176,11 @@ CRITICAL REQUIREMENTS:
       return tasksForDate;
     }
 
-    // Comprehensive functionality test
-    function runComprehensiveTest() {
-      console.log('=== COMPREHENSIVE FUNCTIONALITY TEST ===');
-      
-      // Test 1: Check if all required elements exist
-      const requiredElements = [
-        'openModalBtn', 'modalOverlay', 'addNoteModal', 'noteText',
-        'timeframe', 'customDate', 'termTagsRow', 'importanceRow', 'categoryRow',
-        'editModalOverlay', 'editNoteModal', 'editNoteText', 'editTimeframe',
-        'editCustomDate', 'editTermTagsRow', 'editImportanceRow', 'editCategoryRow',
-        'calendarModalOverlay', 'calendarGrid', 'calendarTitle',
-        'notesGrid', 'searchInput', 'sortBtn', 'sortDropdown'
-      ];
-      
-      const missingElements = [];
-      requiredElements.forEach(id => {
-        const element = document.getElementById(id);
-        if (!element) {
-          missingElements.push(id);
-        }
-      });
-      
-      if (missingElements.length > 0) {
-        console.error('Missing elements:', missingElements);
-      } else {
-        console.log('✅ All required elements found');
-      }
-      
-      // Test 2: Check if functions are defined
-      const requiredFunctions = [
-        'loadNotes', 'saveNotes', 'renderNotes', 'renderChips',
-        'setDefaultSelections', 'openEditModal', 'renderCalendar',
-        'getDueDatesForDate', 'formatTimeframe', 'toggleCustomDate',
-        'toggleEditCustomDate', 'aiGenerateTitle', 'sortNotes'
-      ];
-      
-      const missingFunctions = [];
-      requiredFunctions.forEach(funcName => {
-        if (typeof window[funcName] !== 'function') {
-          missingFunctions.push(funcName);
-        }
-      });
-      
-      if (missingFunctions.length > 0) {
-        console.error('Missing functions:', missingFunctions);
-      } else {
-        console.log('✅ All required functions defined');
-      }
-      
-      // Test 3: Check data state
-      console.log('Notes count:', notes.length);
-      console.log('Categories:', Array.from(categories));
-      console.log('Current sort:', currentSort);
-      console.log('Active category:', activeCategory);
-      
-      // Test 4: Check localStorage
-      const savedNotes = localStorage.getItem('eznotes_notes');
-      const savedSort = localStorage.getItem('currentSort');
-      console.log('Saved notes:', savedNotes ? JSON.parse(savedNotes).length : 0);
-      console.log('Saved sort:', savedSort);
-      
-      console.log('=== TEST COMPLETE ===');
-    }
-    
-    // Run comprehensive test after initialization
-    setTimeout(runComprehensiveTest, 500);
+
     
     // Scroll-based nav bar animations
     let lastScrollTop = 0;
-    let scrollThreshold = 50; // Minimum scroll distance to trigger animation
+    let scrollThreshold = 1; // Minimum scroll distance to trigger animation
     let isNavVisible = true;
     
     window.addEventListener('scroll', () => {
@@ -5986,7 +6189,7 @@ CRITICAL REQUIREMENTS:
       
       // Only trigger animation if scroll distance is significant
       if (scrollDifference > scrollThreshold) {
-        if (currentScrollTop > lastScrollTop && currentScrollTop > 100) {
+        if (currentScrollTop > lastScrollTop) {
           // Scrolling down - hide nav bar
           if (isNavVisible) {
             hideNavBar();
@@ -6065,304 +6268,26 @@ CRITICAL REQUIREMENTS:
     }
     
     // Dark mode functionality
-    const darkModeToggle = document.getElementById('darkModeToggle');
+
     
     // Load saved dark mode preference
-    const savedDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (savedDarkMode) {
-      document.body.classList.add('dark-mode');
-      darkModeToggle.checked = true;
-    }
-    
-    // Dark mode toggle handler
-    darkModeToggle.onchange = () => {
-      const isDarkMode = darkModeToggle.checked;
-      localStorage.setItem('darkMode', isDarkMode);
-      
-      if (isDarkMode) {
-        document.body.classList.add('dark-mode');
-        console.log('Dark mode enabled');
-      } else {
-        document.body.classList.remove('dark-mode');
-        console.log('Dark mode disabled');
-      }
-    };
+
     
     // Save settings functionality
     document.getElementById('saveSettingsBtn').onclick = () => {
-      // Save notification settings
-      const notificationSound = document.getElementById('notificationSound').value;
-      const highUrgencyFreq = document.getElementById('highUrgencyFreq').value;
-      const mediumUrgencyFreq = document.getElementById('mediumUrgencyFreq').value;
-      const lowUrgencyFreq = document.getElementById('lowUrgencyFreq').value;
-      
-      localStorage.setItem('notificationSound', notificationSound);
-      localStorage.setItem('highUrgencyFreq', highUrgencyFreq);
-      localStorage.setItem('mediumUrgencyFreq', mediumUrgencyFreq);
-      localStorage.setItem('lowUrgencyFreq', lowUrgencyFreq);
-      
       console.log('Settings saved');
       settingsModalOverlay.classList.add('hidden');
     };
     
     // Load saved settings
     function loadSettings() {
-      const notificationSound = localStorage.getItem('notificationSound') || 'default';
-      const highUrgencyFreq = localStorage.getItem('highUrgencyFreq') || 'immediate';
-      const mediumUrgencyFreq = localStorage.getItem('mediumUrgencyFreq') || 'daily';
-      const lowUrgencyFreq = localStorage.getItem('lowUrgencyFreq') || 'weekly';
-      
-      document.getElementById('notificationSound').value = notificationSound;
-      document.getElementById('highUrgencyFreq').value = highUrgencyFreq;
-      document.getElementById('mediumUrgencyFreq').value = mediumUrgencyFreq;
-      document.getElementById('lowUrgencyFreq').value = lowUrgencyFreq;
+      // Settings loading logic can be added here if needed
     }
     
     // Load settings on startup
     loadSettings();
     
-    // Notification system
-    let notificationPermission = false;
-    let notificationCheckInterval = null;
-    
-    // Request notification permission
-    async function requestNotificationPermission() {
-      if ('Notification' in window) {
-        const permission = await Notification.requestPermission();
-        notificationPermission = permission === 'granted';
-        console.log('Notification permission:', permission);
-        return notificationPermission;
-      }
-      return false;
-    }
-    
-    // Check if notifications are supported
-    function isNotificationSupported() {
-      return 'Notification' in window;
-    }
-    
-    // Send notification
-    function sendNotification(title, options = {}) {
-      if (!notificationPermission || !isNotificationSupported()) {
-        console.log('Notifications not available');
-        return;
-      }
-      
-      const notificationSound = localStorage.getItem('notificationSound') || 'default';
-      
-      const defaultOptions = {
-        icon: '/favicon.ico',
-        badge: '/favicon.ico',
-        requireInteraction: false,
-        silent: false
-      };
-      
-      const notification = new Notification(title, { ...defaultOptions, ...options });
-      
-      // Play notification sound
-      playNotificationSound(notificationSound);
-      
-      // Auto-close after 5 seconds
-      setTimeout(() => {
-        notification.close();
-      }, 5000);
-      
-      return notification;
-    }
-    
-    // Play notification sound
-    function playNotificationSound(soundType) {
-      try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        // Set sound based on type
-        switch(soundType) {
-          case 'mute':
-            // Don't play any sound
-            return;
-          case 'gentle':
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-            oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.1);
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.2);
-            break;
-          case 'urgent':
-            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.1);
-            oscillator.frequency.setValueAtTime(1200, audioContext.currentTime + 0.2);
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime + 0.3);
-            break;
-          case 'custom':
-            // Custom chime sound
-            oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-            oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.2); // E5
-            oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.4); // G5
-            break;
-          default:
-            // Default notification sound
-            oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-            oscillator.frequency.setValueAtTime(1000, audioContext.currentTime + 0.1);
-            oscillator.frequency.setValueAtTime(600, audioContext.currentTime + 0.2);
-        }
-        
-        // Set volume envelope
-        gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-        gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-        
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.5);
-        
-      } catch (error) {
-        console.log('Could not play notification sound:', error);
-      }
-    }
-    
-    // Check for due notes and send notifications
-    function checkDueNotes() {
-      const now = new Date();
-      const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-      
-      notes.forEach(note => {
-        if (note.done) return; // Skip completed notes
-        
-        let dueDate = null;
-        
-        // Calculate due date based on timeframe
-        if (note.timeframe === 'custom' && note.customDate) {
-          dueDate = new Date(note.customDate);
-        } else if (note.timeframe.includes('Due ')) {
-          const days = parseInt(note.timeframe.match(/\((\d+) days?\)/)[1]);
-          dueDate = new Date(today.getTime() + (days * 24 * 60 * 60 * 1000));
-        } else {
-          const days = parseInt(note.timeframe) || 0;
-          dueDate = new Date(today.getTime() + (days * 24 * 60 * 60 * 1000));
-        }
-        
-        if (!dueDate) return;
-        
-        const daysUntilDue = Math.ceil((dueDate - today) / (1000 * 60 * 60 * 24));
-        
-        // Check if notification should be sent based on urgency and frequency
-        const urgency = note.urgency || 3;
-        const frequency = getNotificationFrequency(urgency);
-        
-        if (shouldSendNotification(note.id, daysUntilDue, frequency)) {
-          const urgencyText = getUrgencyText(urgency);
-          const importanceText = getImportanceText(note.importance || 'moderately');
-          
-          sendNotification(
-            `📝 ${note.title}`,
-            {
-              body: `Due ${daysUntilDue === 0 ? 'today' : daysUntilDue === 1 ? 'tomorrow' : `in ${daysUntilDue} days`}\n${urgencyText} • ${importanceText}`,
-              tag: `note-${note.id}`,
-              data: { noteId: note.id, daysUntilDue }
-            }
-          );
-          
-          // Mark notification as sent
-          markNotificationSent(note.id, daysUntilDue);
-        }
-      });
-    }
-    
-    // Get notification frequency based on urgency
-    function getNotificationFrequency(urgency) {
-      const highFreq = localStorage.getItem('highUrgencyFreq') || 'immediate';
-      const mediumFreq = localStorage.getItem('mediumUrgencyFreq') || 'daily';
-      const lowFreq = localStorage.getItem('lowUrgencyFreq') || 'weekly';
-      
-      if (urgency >= 4) return highFreq;
-      if (urgency >= 3) return mediumFreq;
-      return lowFreq;
-    }
-    
-    // Get urgency text
-    function getUrgencyText(urgency) {
-      switch(urgency) {
-        case 1: return 'Very Low Urgency';
-        case 2: return 'Low Urgency';
-        case 3: return 'Medium Urgency';
-        case 4: return 'High Urgency';
-        case 5: return 'Very High Urgency';
-        default: return 'Medium Urgency';
-      }
-    }
-    
-    // Check if notification should be sent
-    function shouldSendNotification(noteId, daysUntilDue, frequency) {
-      const sentNotifications = JSON.parse(localStorage.getItem('sentNotifications') || '{}');
-      const key = `${noteId}-${daysUntilDue}`;
-      
-      if (sentNotifications[key]) {
-        const lastSent = new Date(sentNotifications[key]);
-        const now = new Date();
-        
-        switch(frequency) {
-          case 'immediate':
-            return false; // Already sent
-          case 'daily':
-            return (now - lastSent) > (24 * 60 * 60 * 1000);
-          case 'weekly':
-            return (now - lastSent) > (7 * 24 * 60 * 60 * 1000);
-          default:
-            return false;
-        }
-      }
-      
-      return true;
-    }
-    
-    // Mark notification as sent
-    function markNotificationSent(noteId, daysUntilDue) {
-      const sentNotifications = JSON.parse(localStorage.getItem('sentNotifications') || '{}');
-      const key = `${noteId}-${daysUntilDue}`;
-      sentNotifications[key] = new Date().toISOString();
-      localStorage.setItem('sentNotifications', JSON.stringify(sentNotifications));
-    }
-    
-    // Start notification checking
-    function startNotificationChecking() {
-      if (notificationCheckInterval) {
-        clearInterval(notificationCheckInterval);
-      }
-      
-      // Check immediately
-      checkDueNotes();
-      
-      // Then check every 30 minutes
-      notificationCheckInterval = setInterval(checkDueNotes, 30 * 60 * 1000);
-    }
-    
-    // Stop notification checking
-    function stopNotificationChecking() {
-      if (notificationCheckInterval) {
-        clearInterval(notificationCheckInterval);
-        notificationCheckInterval = null;
-      }
-    }
-    
-    // Initialize notifications
-    async function initializeNotifications() {
-      if (isNotificationSupported()) {
-        notificationPermission = await requestNotificationPermission();
-        if (notificationPermission) {
-          startNotificationChecking();
-          console.log('Notifications initialized successfully');
-        } else {
-          console.log('Notification permission denied');
-        }
-      } else {
-        console.log('Notifications not supported in this browser');
-      }
-    }
-    
-    // Initialize notifications after page load
-    setTimeout(initializeNotifications, 1000);
+
     
     // Mobile touch improvements
     function addMobileTouchSupport() {
@@ -6449,210 +6374,373 @@ CRITICAL REQUIREMENTS:
     optimizeForTallDisplay();
     window.addEventListener('resize', optimizeForTallDisplay);
     
-    // Comprehensive button testing and accessibility
-    function testAllButtons() {
-      console.log('🧪 Starting comprehensive button test...');
-      
-      const buttonTests = [
-        // Main navigation buttons
-        { id: 'openModalBtn', name: 'Add Note Button' },
-        { id: 'sortBtn', name: 'Sort Button' },
-        { id: 'clearSearchBtn', name: 'Clear Search Button' },
-        
-        // Bottom navigation
-        { selector: '.bottom-nav .nav-btn', name: 'Bottom Nav Buttons' },
-        
-        // Modal buttons
-        { id: 'cancelModalBtn', name: 'Cancel Modal Button' },
-        { id: 'addNoteBtn', name: 'Add Note Submit Button' },
-        { id: 'saveSettingsBtn', name: 'Save Settings Button' },
-        { id: 'cancelSettingsBtn', name: 'Cancel Settings Button' },
-        
-        // Settings buttons
-        { id: 'testNotificationBtn', name: 'Test Notification Button' },
-        { id: 'testSoundBtn', name: 'Test Sound Button' },
-        
-        // AI buttons
-        { id: 'aiSendBtn', name: 'AI Send Button' },
-        { id: 'aiHomeBtn', name: 'AI Home Button' },
-        
-        // Calendar buttons
-        { id: 'prevMonthBtn', name: 'Previous Month Button' },
-        { id: 'nextMonthBtn', name: 'Next Month Button' },
-        { id: 'closeSelectorBtn', name: 'Close Selector Button' },
-        { id: 'applyDateBtn', name: 'Apply Date Button' },
-        { id: 'cancelDateBtn', name: 'Cancel Date Button' },
-        
-        // Category management
-        { id: 'addCategoryBtn', name: 'Add Category Button' },
-        { id: 'cancelCategoryBtn', name: 'Cancel Category Button' }
-      ];
-      
-      let passedTests = 0;
-      let totalTests = 0;
-      
-      buttonTests.forEach(test => {
-        totalTests++;
-        let element;
-        
-        if (test.id) {
-          element = document.getElementById(test.id);
-        } else if (test.selector) {
-          element = document.querySelector(test.selector);
-        }
-        
-        if (element) {
-          // Test if element is visible
-          const isVisible = element.offsetWidth > 0 && element.offsetHeight > 0;
-          
-          // Test if element is clickable (not disabled)
-          const isClickable = !element.disabled && !element.hasAttribute('disabled');
-          
-          // Test touch target size (mobile)
-          const rect = element.getBoundingClientRect();
-          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
-          
-          // Test if element has proper accessibility
-          const hasAccessibility = element.hasAttribute('aria-label') || 
-                                 element.hasAttribute('title') || 
-                                 element.textContent.trim().length > 0;
-          
-          if (isVisible && isClickable && isTouchFriendly && hasAccessibility) {
-            console.log(`✅ ${test.name}: PASSED`);
-            passedTests++;
-          } else {
-            console.log(`❌ ${test.name}: FAILED`);
-            console.log(`   Visible: ${isVisible}, Clickable: ${isClickable}, Touch-friendly: ${isTouchFriendly}, Accessible: ${hasAccessibility}`);
-          }
-        } else {
-          console.log(`⚠️ ${test.name}: NOT FOUND`);
-        }
-      });
-      
-      console.log(`\n📊 Button Test Results: ${passedTests}/${totalTests} passed`);
-      return passedTests === totalTests;
+
+    
+    // This Week Calendar Functions
+    function getWeekStart(date) {
+      const d = new Date(date);
+      const day = d.getDay();
+      const diff = d.getDate() - day; // Start week on Sunday
+      return new Date(d.setDate(diff));
     }
     
-    // Test all interactive elements
-    function testInteractiveElements() {
-      console.log('🔍 Testing all interactive elements...');
+    function renderThisWeekCalendar() {
+      const weekGrid = document.getElementById('thisWeekGrid');
+      const weekTitle = document.getElementById('thisWeekTitle');
       
-      const interactiveElements = [
-        '.chip', '.note-card', '.urgency-dot', '.importance-dot', 
-        '.term-tag', '.category-chip', '.voice-btn', '.calendar-day',
-        '.calendar-task', '.ai-action-btn'
-      ];
+      if (!weekGrid) return;
       
-      let passedTests = 0;
-      let totalTests = 0;
+      // Update title with week range
+      const weekEnd = new Date(currentWeekStart);
+      weekEnd.setDate(weekEnd.getDate() + 6);
+      weekTitle.textContent = `This Week (${currentWeekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })})`;
       
-      interactiveElements.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach((element, index) => {
-          totalTests++;
-          
-          const rect = element.getBoundingClientRect();
-          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
-          const isVisible = rect.width > 0 && rect.height > 0;
-          const isClickable = !element.disabled;
-          
-          if (isVisible && isClickable && isTouchFriendly) {
-            passedTests++;
-          } else {
-            console.log(`❌ ${selector}[${index}]: FAILED - Visible: ${isVisible}, Clickable: ${isClickable}, Touch-friendly: ${isTouchFriendly}`);
-          }
-        });
-      });
+      weekGrid.innerHTML = '';
       
-      console.log(`📊 Interactive Elements: ${passedTests}/${totalTests} passed`);
-      return passedTests === totalTests;
-    }
-    
-    // Test responsive behavior
-    function testResponsiveBehavior() {
-      console.log('📱 Testing responsive behavior...');
+      const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
       
-      const testCases = [
-        { width: 1264, height: 2780, name: 'Phone (1264x2780)' },
-        { width: 1920, height: 1080, name: 'Laptop (1920x1080)' },
-        { width: 768, height: 1024, name: 'Tablet (768x1024)' },
-        { width: 375, height: 812, name: 'Small Phone (375x812)' }
-      ];
-      
-      let passedTests = 0;
-      
-      testCases.forEach(testCase => {
-        // Simulate viewport
-        Object.defineProperty(window, 'innerWidth', { value: testCase.width, configurable: true });
-        Object.defineProperty(window, 'innerHeight', { value: testCase.height, configurable: true });
+      for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(currentWeekStart);
+        currentDate.setDate(currentWeekStart.getDate() + i);
         
-        // Trigger resize event
-        window.dispatchEvent(new Event('resize'));
+        const dayElement = document.createElement('div');
+        dayElement.className = 'week-day';
+        dayElement.dataset.date = currentDate.toISOString().split('T')[0];
         
-        // Check if critical elements are accessible
-        const criticalElements = [
-          '.floating-island', '.nav-island', '.fab', 
-          '#openModalBtn', '.bottom-nav .nav-btn'
-        ];
+        // Check if it's today
+        const today = new Date();
+        const isToday = currentDate.toDateString() === today.toDateString();
+        if (isToday) {
+          dayElement.classList.add('today');
+          // Auto-select today's date on page load
+          dayElement.classList.add('selected');
+        }
         
-        let allAccessible = true;
-        criticalElements.forEach(selector => {
-          const element = document.querySelector(selector);
-          if (element) {
-            const rect = element.getBoundingClientRect();
-            if (rect.width === 0 || rect.height === 0) {
-              allAccessible = false;
-            }
-          } else {
-            allAccessible = false;
+        dayElement.innerHTML = `
+          <div class="week-day-number">${currentDate.getDate()}</div>
+          <div class="week-day-name">${dayNames[i]}</div>
+          <div class="week-day-content"></div>
+        `;
+        
+        // Add tasks for this day as colored dots with counts
+        const tasksForDay = getDueDatesForDate(currentDate).filter(task => !task.done);
+        const dayContent = dayElement.querySelector('.week-day-content');
+        
+        // Group tasks by importance level
+        const tasksByImportance = {
+          'slightly': [],
+          'moderately': [],
+          'very': []
+        };
+        
+        tasksForDay.forEach(task => {
+          const importance = task.importance || 'moderately';
+          if (tasksByImportance[importance]) {
+            tasksByImportance[importance].push(task);
           }
         });
         
-        if (allAccessible) {
-          console.log(`✅ ${testCase.name}: PASSED`);
-          passedTests++;
-        } else {
-          console.log(`❌ ${testCase.name}: FAILED`);
-        }
-      });
-      
-      console.log(`📊 Responsive Test: ${passedTests}/${testCases.length} passed`);
-      return passedTests === testCases.length;
-    }
-    
-    // Run comprehensive tests
-    function runComprehensiveTests() {
-      console.log('🚀 Starting comprehensive accessibility and functionality tests...\n');
-      
-      const tests = [
-        { name: 'Button Accessibility', test: testAllButtons },
-        { name: 'Interactive Elements', test: testInteractiveElements },
-        { name: 'Responsive Behavior', test: testResponsiveBehavior }
-      ];
-      
-      let allPassed = true;
-      
-      tests.forEach(test => {
-        console.log(`\n🧪 Running ${test.name} test...`);
-        const passed = test.test();
-        if (!passed) {
-          allPassed = false;
-        }
-      });
-      
-      console.log('\n' + '='.repeat(50));
-      if (allPassed) {
-        console.log('🎉 ALL TESTS PASSED! App is fully accessible on all devices.');
-      } else {
-        console.log('⚠️ Some tests failed. Check console for details.');
+        // Create importance dots with counts
+        const importanceColors = {
+          'slightly': '#4caf50',
+          'moderately': '#ff9800',
+          'very': '#f44336'
+        };
+        
+        Object.entries(tasksByImportance).forEach(([importance, tasks]) => {
+          if (tasks.length > 0) {
+            const dotElement = document.createElement('div');
+            dotElement.className = 'importance-dot';
+            dotElement.style.cssText = `
+              width: 10px;
+              height: 10px;
+              border-radius: 50%;
+              background-color: ${importanceColors[importance]};
+              display: inline-flex;
+              align-items: center;
+              justify-content: center;
+              color: white;
+              font-size: 7px;
+              font-weight: bold;
+              margin: 0;
+              padding: 0;
+              cursor: pointer;
+              transition: transform 0.2s ease;
+              line-height: 1;
+              text-align: center;
+              overflow: visible;
+              flex-shrink: 0;
+              flex-grow: 0;
+              min-width: 10px;
+              min-height: 10px;
+            `;
+            dotElement.textContent = tasks.length;
+            dotElement.title = `${tasks.length} ${importance} importance task${tasks.length > 1 ? 's' : ''}`;
+            
+            // Make dot clickable to show tasks
+            dotElement.onclick = (e) => {
+              e.stopPropagation();
+              showWeekDayDetails(currentDate, tasks);
+            };
+            
+            dayContent.appendChild(dotElement);
+          }
+        });
+        
+        // Make day clickable
+        dayElement.onclick = () => {
+          // Remove previous selection
+          document.querySelectorAll('.week-day.selected').forEach(day => day.classList.remove('selected'));
+          dayElement.classList.add('selected');
+          
+          // Show day details
+          showWeekDayDetails(currentDate, tasksForDay);
+        };
+        
+        // Double click to add note
+        dayElement.ondblclick = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          
+          // Add visual feedback
+          dayElement.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            dayElement.style.transform = '';
+          }, 150);
+          
+          addNoteWithDate(currentDate);
+        };
+        
+        weekGrid.appendChild(dayElement);
       }
-      console.log('='.repeat(50));
       
-      return allPassed;
+      // Auto-show today's notes on page load
+      const today = new Date();
+      const todayElement = document.querySelector('.week-day.today');
+      if (todayElement) {
+        const todayDate = new Date(todayElement.dataset.date);
+        const todayTasks = getDueDatesForDate(todayDate);
+        showWeekDayDetails(todayDate, todayTasks);
+      }
     }
     
-    // Run tests after page loads
-    setTimeout(runComprehensiveTests, 1000);
+    function showWeekDayDetails(date, tasks) {
+      const weekNotes = document.getElementById('thisWeekNotes');
+      const activeTasks = tasks.filter(task => !task.done);
+          
+      if (activeTasks.length === 0) {
+        weekNotes.innerHTML = '<p style="color: #666; text-align: center; margin: 1rem 0;">No active tasks for this date</p>';
+          } else {
+        // Define importance colors for task list
+        const importanceColors = {
+          'slightly': '#4caf50',
+          'moderately': '#ff9800',
+          'very': '#f44336'
+        };
+        
+        weekNotes.innerHTML = activeTasks.map(task => {
+          const importance = task.importance || 'moderately';
+          const borderColor = importanceColors[importance];
+          const backgroundColor = importance === 'slightly' ? '#e8f5e8' : 
+                                importance === 'moderately' ? '#fff3e0' : '#ffebee';
+          
+          // Handle multiple categories display
+          const taskCategories = task.categories || [task.category || 'Other'];
+          const categoriesDisplay = taskCategories.length > 0 ? 
+            taskCategories.map(cat => `<span class="week-category-tag">${cat}</span>`).join('') : 
+            '<span class="week-category-tag">Other</span>';
+          
+          return `
+            <div class="week-note-item" onclick="openEditModal(${JSON.stringify(task).replace(/"/g, '&quot;')})" 
+                 style="border-left-color: ${borderColor}; background-color: ${backgroundColor};">
+              <div style="font-weight: 600; margin-bottom: 0.3rem; color: #333;">${task.title || task.text}</div>
+              <div style="font-size: 0.8rem; color: #666; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span style="color: ${borderColor}; font-weight: 500;">${getImportanceText(importance)}</span>
+                <div class="week-categories-container">
+                  ${categoriesDisplay}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+      
+      weekNotes.classList.add('show');
+    }
+    
+    // Week navigation
+    document.getElementById('prevWeekBtn').onclick = () => {
+      currentWeekStart.setDate(currentWeekStart.getDate() - 7);
+      renderThisWeekCalendar();
+    };
+    
+    document.getElementById('nextWeekBtn').onclick = () => {
+      currentWeekStart.setDate(currentWeekStart.getDate() + 7);
+      renderThisWeekCalendar();
+    };
+    
+    // This Week title click handler
+    document.getElementById('thisWeekTitle').onclick = () => {
+      const weekNotes = document.getElementById('thisWeekNotes');
+      const weekStart = new Date(currentWeekStart);
+      const weekEnd = new Date(currentWeekStart);
+      weekEnd.setDate(weekEnd.getDate() + 6);
+      
+      // Get all notes for the week
+      const weekNotesList = [];
+      for (let i = 0; i < 7; i++) {
+        const currentDate = new Date(weekStart);
+        currentDate.setDate(weekStart.getDate() + i);
+        const tasksForDay = getDueDatesForDate(currentDate).filter(task => !task.done);
+        weekNotesList.push(...tasksForDay);
+      }
+      
+      // Remove duplicates
+      const uniqueNotes = weekNotesList.filter((note, index, self) => 
+        index === self.findIndex(n => n.id === note.id)
+      );
+      
+      if (uniqueNotes.length === 0) {
+        weekNotes.innerHTML = '<p style="color: #666; text-align: center; margin: 1rem 0;">No active tasks for this week</p>';
+      } else {
+        // Define importance colors for task list
+        const importanceColors = {
+          'slightly': '#4caf50',
+          'moderately': '#ff9800',
+          'very': '#f44336'
+        };
+        
+        weekNotes.innerHTML = uniqueNotes.map(task => {
+          const importance = task.importance || 'moderately';
+          const borderColor = importanceColors[importance];
+          const backgroundColor = importance === 'slightly' ? '#e8f5e8' : 
+                                importance === 'moderately' ? '#fff3e0' : '#ffebee';
+          
+          // Handle multiple categories display
+          const taskCategories = task.categories || [task.category || 'Other'];
+          const categoriesDisplay = taskCategories.length > 0 ? 
+            taskCategories.map(cat => `<span class="week-category-tag">${cat}</span>`).join('') : 
+            '<span class="week-category-tag">Other</span>';
+          
+          return `
+            <div class="week-note-item" onclick="openEditModal(${JSON.stringify(task).replace(/"/g, '&quot;')})" 
+                 style="border-left-color: ${borderColor}; background-color: ${backgroundColor};">
+              <div style="font-weight: 600; margin-bottom: 0.3rem; color: #333;">${task.title || task.text}</div>
+              <div style="font-size: 0.8rem; color: #666; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+                <span style="color: ${borderColor}; font-weight: 500;">${getImportanceText(importance)}</span>
+                <div class="week-categories-container">
+                  ${categoriesDisplay}
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+      }
+      
+      weekNotes.classList.add('show');
+    };
+    
+    // Search Icon Functions
+    function initializeSearchIcon() {
+      const searchIconBtn = document.getElementById('searchIconBtn');
+      const searchExpanded = document.getElementById('searchExpanded');
+      const searchInput = document.getElementById('searchInput');
+      const clearSearchBtn = document.getElementById('clearSearchBtn');
+      
+      searchIconBtn.onclick = () => {
+        searchExpanded.classList.toggle('hidden');
+        if (!searchExpanded.classList.contains('hidden')) {
+          searchInput.focus();
+          }
+      };
+      
+      // Handle search input
+      searchInput.addEventListener('input', () => {
+        renderNotes();
+        
+        // Add visual indicator for search
+        if (searchInput.value.trim()) {
+          searchExpanded.classList.add('has-content');
+          clearSearchBtn.style.display = 'block';
+        } else {
+          searchExpanded.classList.remove('has-content');
+          clearSearchBtn.style.display = 'none';
+        }
+      });
+      
+      // Clear search functionality
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchInput.focus();
+        renderNotes();
+        searchExpanded.classList.remove('has-content');
+        clearSearchBtn.style.display = 'none';
+      });
+      
+      // Close search when clicking outside
+      document.addEventListener('click', (e) => {
+        if (!searchIconBtn.contains(e.target) && !searchExpanded.contains(e.target)) {
+          searchExpanded.classList.add('hidden');
+        }
+      });
+    }
+    
+    // Category Functions
+    function renderCategories() {
+      const categoryRow = document.getElementById('categoryRow');
+      const editCategoryRow = document.getElementById('editCategoryRow');
+      
+      if (!categoryRow || !editCategoryRow) return;
+      
+      // Get all categories from notes AND manually added categories
+      const allCategories = new Set();
+      
+      // Add categories from existing notes
+      notes.forEach(note => {
+        if (note.categories) {
+          note.categories.forEach(cat => allCategories.add(cat));
+        } else if (note.category) {
+          allCategories.add(note.category);
+        }
+      });
+      
+      // Add manually added categories from the categories Set
+      categories.forEach(cat => allCategories.add(cat));
+      
+      // Add "Other" as default if no categories exist
+      if (allCategories.size === 0) {
+        allCategories.add('Other');
+      }
+      
+      const categoriesArray = Array.from(allCategories);
+      
+      // Render for add modal
+      categoryRow.innerHTML = categoriesArray.map(cat => 
+        `<button type="button" class="category-chip" data-category="${cat}">${cat}</button>`
+      ).join('');
+      
+      // Render for edit modal
+      editCategoryRow.innerHTML = categoriesArray.map(cat => 
+        `<button type="button" class="category-chip" data-category="${cat}">${cat}</button>`
+      ).join('');
+      
+      // Add click handlers
+      categoryRow.onclick = (e) => {
+        if (e.target.classList.contains('category-chip')) {
+          [...categoryRow.children].forEach(chip => chip.classList.remove('selected'));
+          e.target.classList.add('selected');
+    }
+      };
+      
+      editCategoryRow.onclick = (e) => {
+        if (e.target.classList.contains('category-chip')) {
+          [...editCategoryRow.children].forEach(chip => chip.classList.remove('selected'));
+          e.target.classList.add('selected');
+        }
+      };
+    }
+    
+
     
     // Keyboard navigation support
     function addKeyboardNavigation() {
@@ -6720,169 +6808,346 @@ CRITICAL REQUIREMENTS:
     // Initialize keyboard navigation
     addKeyboardNavigation();
     
-    // Manual test function for users
-    window.testAllButtonsManually = function() {
-      console.log('🧪 Manual Button Test Started');
-      console.log('Testing all buttons for visibility, clickability, and accessibility...');
-      
-      const testResults = {
-        passed: 0,
-        failed: 0,
-        total: 0,
-        details: []
-      };
-      
-      // Test all buttons by ID
-      const buttonIds = [
-        'openModalBtn', 'sortBtn', 'clearSearchBtn', 'cancelModalBtn', 
-        'addNoteBtn', 'saveSettingsBtn', 'cancelSettingsBtn', 'testNotificationBtn', 
-        'testSoundBtn', 'aiSendBtn', 'aiHomeBtn', 'prevMonthBtn', 'nextMonthBtn',
-        'closeSelectorBtn', 'applyDateBtn', 'cancelDateBtn', 'addCategoryBtn', 
-        'cancelCategoryBtn', 'headerAiBtn'
-      ];
-      
-      buttonIds.forEach(id => {
-        testResults.total++;
-        const button = document.getElementById(id);
+    // Tutorial System
+    class Tutorial {
+      constructor() {
+        this.currentStep = 0;
+        this.steps = [
+          {
+            target: '#openModalBtn',
+            title: 'Add Your First Task',
+            description: 'Click the + button to create your first task or habit',
+            position: 'top',
+            highlight: true
+          },
+          {
+            target: '.notes-grid',
+            title: 'Your Tasks Will Appear Here',
+            description: 'All your tasks and habits will be displayed in this grid',
+            position: 'bottom',
+            highlight: true
+          },
+          {
+            target: '#searchIconBtn',
+            title: 'Search Your Tasks',
+            description: 'Quickly find any task using the search feature',
+            position: 'left',
+            highlight: true
+          },
+          {
+            target: '#thisWeekCalendar',
+            title: 'This Week View',
+            description: 'See your tasks organized by day of the week',
+            position: 'bottom',
+            highlight: true
+          },
+          {
+            target: '#navIsland',
+            title: 'Navigation',
+            description: 'Switch between different views: Calendar, Done tasks, and Settings',
+            position: 'top',
+            highlight: true
+          },
+          {
+            target: '.filter-chips',
+            title: 'Filter & Sort',
+            description: 'Organize your tasks by categories and sort them as needed',
+            position: 'bottom',
+            highlight: true
+          },
+          {
+            target: '#headerAiBtn',
+            title: 'AI Assistant',
+            description: 'Get help with task management and productivity tips',
+            position: 'bottom',
+            highlight: true
+          },
+          {
+            target: '.floating-island',
+            title: 'You\'re All Set!',
+            description: 'Start creating tasks and building better habits. Good luck!',
+            position: 'center',
+            highlight: false
+          }
+        ];
         
-        if (button) {
-          const rect = button.getBoundingClientRect();
-          const isVisible = rect.width > 0 && rect.height > 0;
-          const isClickable = !button.disabled;
-          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
-          const hasAccessibility = button.hasAttribute('aria-label') || 
-                                 button.hasAttribute('title') || 
-                                 button.textContent.trim().length > 0;
-          
-          if (isVisible && isClickable && isTouchFriendly && hasAccessibility) {
-            testResults.passed++;
-            console.log(`✅ ${id}: PASSED`);
-          } else {
-            testResults.failed++;
-            console.log(`❌ ${id}: FAILED`);
-            testResults.details.push({
-              id,
-              visible: isVisible,
-              clickable: isClickable,
-              touchFriendly: isTouchFriendly,
-              accessible: hasAccessibility
-            });
+        this.overlay = document.getElementById('tutorialOverlay');
+        this.highlight = document.getElementById('tutorialHighlight');
+        this.tooltip = document.getElementById('tutorialTooltip');
+        
+
+        this.title = document.getElementById('tutorialTitle');
+        this.description = document.getElementById('tutorialDescription');
+        this.progress = document.getElementById('tutorialProgress');
+        this.nextBtn = document.getElementById('tutorialNext');
+        this.skipBtn = document.getElementById('tutorialSkip');
+        this.closeBtn = document.getElementById('tutorialClose');
+        this.dontShowAgain = document.getElementById('dontShowAgain');
+        
+        this.bindEvents();
+        this.checkFirstTime();
+      }
+      
+      bindEvents() {
+        this.nextBtn.addEventListener('click', () => this.nextStep());
+        this.skipBtn.addEventListener('click', () => this.endTutorial());
+        this.closeBtn.addEventListener('click', () => this.endTutorial());
+        
+        // Close on overlay click (but not on tooltip)
+        this.overlay.addEventListener('click', (e) => {
+          if (e.target === this.overlay) {
+            this.endTutorial();
+          }
+        });
+        
+        // Handle scroll events to reposition tooltip
+        window.addEventListener('scroll', () => {
+          if (this.overlay.classList.contains('active')) {
+            this.updatePosition();
+          }
+        });
+        
+        // Handle resize events
+        window.addEventListener('resize', () => {
+          if (this.overlay.classList.contains('active')) {
+            this.updatePosition();
+          }
+        });
+      }
+      
+      checkFirstTime() {
+        const hasSeenTutorial = localStorage.getItem('ezHabitsTutorialSeen');
+        if (!hasSeenTutorial) {
+          setTimeout(() => this.startTutorial(), 1000);
+        }
+      }
+      
+      startTutorial() {
+        this.currentStep = 0;
+        this.showStep();
+      }
+      
+      showStep() {
+        const step = this.steps[this.currentStep];
+        if (!step) return;
+        
+        this.title.textContent = step.title;
+        this.description.textContent = step.description;
+        this.progress.textContent = `${this.currentStep + 1}/${this.steps.length}`;
+        
+        // Update button text for last step
+        if (this.currentStep === this.steps.length - 1) {
+          this.nextBtn.textContent = 'Finish';
+        } else {
+          this.nextBtn.textContent = 'Next Step';
+        }
+        
+        if (step.highlight && step.target !== '.floating-island') {
+          const target = document.querySelector(step.target);
+          if (target) {
+            // Ensure target is visible by scrolling to it if needed
+            this.ensureElementVisible(target);
+            
+            const rect = target.getBoundingClientRect();
+            
+            // Update highlight
+            this.highlight.style.display = 'block';
+            this.highlight.style.left = rect.left + 'px';
+            this.highlight.style.top = rect.top + 'px';
+            this.highlight.style.width = rect.width + 'px';
+            this.highlight.style.height = rect.height + 'px';
+            
+
+            
+            // Show overlay first, then position tooltip
+            this.overlay.classList.add('active');
+            
+            // Small delay to ensure overlay is visible before positioning
+            setTimeout(() => {
+              this.positionTooltip(rect, step.position);
+            }, 10);
           }
         } else {
-          testResults.failed++;
-          console.log(`⚠️ ${id}: NOT FOUND`);
-        }
-      });
-      
-      // Test interactive elements
-      const interactiveSelectors = ['.chip', '.note-card', '.urgency-dot', '.importance-dot'];
-      interactiveSelectors.forEach(selector => {
-        const elements = document.querySelectorAll(selector);
-        elements.forEach((element, index) => {
-          testResults.total++;
-          const rect = element.getBoundingClientRect();
-          const isTouchFriendly = rect.width >= 44 && rect.height >= 44;
+          this.highlight.style.display = 'none';
+          this.overlay.classList.add('active');
           
-          if (isTouchFriendly) {
-            testResults.passed++;
-          } else {
-            testResults.failed++;
-            console.log(`❌ ${selector}[${index}]: TOO SMALL (${rect.width}x${rect.height})`);
-          }
-        });
-      });
-      
-      console.log('\n📊 MANUAL TEST RESULTS:');
-      console.log(`✅ Passed: ${testResults.passed}`);
-      console.log(`❌ Failed: ${testResults.failed}`);
-      console.log(`📊 Success Rate: ${((testResults.passed / testResults.total) * 100).toFixed(1)}%`);
-      
-      if (testResults.failed > 0) {
-        console.log('\n🔍 FAILED TESTS DETAILS:');
-        testResults.details.forEach(detail => {
-          console.log(`  ${detail.id}: Visible=${detail.visible}, Clickable=${detail.clickable}, TouchFriendly=${detail.touchFriendly}, Accessible=${detail.accessible}`);
-        });
+          // Center tooltip for final step
+          setTimeout(() => {
+            this.tooltip.style.left = '50%';
+            this.tooltip.style.top = '50%';
+            this.tooltip.style.transform = 'translate(-50%, -50%)';
+            this.tooltip.classList.remove('top', 'bottom', 'left', 'right');
+          }, 10);
+        }
       }
       
-      return testResults.passed === testResults.total;
-    };
-    
-    // Add test button to page for manual testing
-    function addTestButton() {
-      const testButton = document.createElement('button');
-      testButton.textContent = '🧪 Test All Buttons';
-      testButton.style.cssText = `
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 10000;
-        background: #6C63FF;
-        color: white;
-        border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 0.5rem;
-        font-size: 0.8rem;
-        cursor: pointer;
-        opacity: 0.8;
-      `;
-      testButton.onclick = () => {
-        window.testAllButtonsManually();
-        testButton.textContent = '✅ Test Complete';
-        setTimeout(() => {
-          testButton.textContent = '🧪 Test All Buttons';
-        }, 2000);
-      };
-      document.body.appendChild(testButton);
+      positionTooltip(rect, position) {
+        const padding = 20;
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        const scrollX = window.pageXOffset || document.documentElement.scrollLeft;
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Reset classes and styles
+        this.tooltip.classList.remove('top', 'bottom', 'left', 'right');
+        this.tooltip.style.transform = '';
+        
+        // Get tooltip dimensions after it's visible
+        this.tooltip.style.visibility = 'hidden';
+        this.tooltip.style.display = 'block';
+        const tooltipRect = this.tooltip.getBoundingClientRect();
+        this.tooltip.style.visibility = 'visible';
+        
+        let left, top, arrowClass;
+        
+        switch (position) {
+          case 'top':
+            left = rect.left + (rect.width / 2);
+            top = rect.top - tooltipRect.height - padding;
+            arrowClass = 'top';
+            break;
+          case 'bottom':
+            left = rect.left + (rect.width / 2);
+            top = rect.bottom + padding;
+            arrowClass = 'bottom';
+            break;
+          case 'left':
+            left = rect.left - tooltipRect.width - padding;
+            top = rect.top + (rect.height / 2);
+            arrowClass = 'left';
+            break;
+          case 'right':
+            left = rect.right + padding;
+            top = rect.top + (rect.height / 2);
+            arrowClass = 'right';
+            break;
+          default:
+            left = rect.left + (rect.width / 2);
+            top = rect.bottom + padding;
+            arrowClass = 'bottom';
+        }
+        
+        // Ensure tooltip stays within viewport (accounting for scroll)
+        if (left < padding) left = padding;
+        if (left + tooltipRect.width > viewportWidth - padding) {
+          left = viewportWidth - tooltipRect.width - padding;
+        }
+        if (top < padding) top = padding;
+        if (top + tooltipRect.height > viewportHeight - padding) {
+          top = viewportHeight - tooltipRect.height - padding;
+        }
+        
+        // Apply positioning
+        this.tooltip.style.left = left + 'px';
+        this.tooltip.style.top = top + 'px';
+        this.tooltip.classList.add(arrowClass);
+        
+        // Calculate arrow position to point at the center of the highlighted element
+        if (arrowClass === 'top' || arrowClass === 'bottom') {
+          // For top/bottom arrows, position horizontally to point at element center
+          const elementCenterX = rect.left + rect.width / 2;
+          const tooltipLeft = left; // This is the final position after viewport adjustments
+          
+          // The arrow should point directly at the element center
+          const arrowOffset = elementCenterX - tooltipLeft;
+          
+          // Ensure arrow stays within tooltip bounds with some padding
+          const minOffset = 16;
+          const maxOffset = tooltipRect.width - 16;
+          const clampedOffset = Math.max(minOffset, Math.min(maxOffset, arrowOffset));
+          this.tooltip.style.setProperty('--arrow-offset', clampedOffset + 'px');
+        } else if (arrowClass === 'left' || arrowClass === 'right') {
+          // For left/right arrows, position vertically to point at element center
+          const elementCenterY = rect.top + rect.height / 2;
+          const tooltipTop = top;
+          // Calculate the distance from tooltip top edge to element center
+          const arrowOffset = elementCenterY - tooltipTop;
+          // Ensure arrow stays within tooltip bounds with some padding
+          const minOffset = 16;
+          const maxOffset = tooltipRect.height - 16;
+          const clampedOffset = Math.max(minOffset, Math.min(maxOffset, arrowOffset));
+          this.tooltip.style.setProperty('--arrow-offset', clampedOffset + 'px');
+          
+
+        }
+      }
+      
+      updatePosition() {
+        const step = this.steps[this.currentStep];
+        if (!step || !step.highlight || step.target === '.floating-island') return;
+        
+        const target = document.querySelector(step.target);
+        if (target) {
+          const rect = target.getBoundingClientRect();
+          
+          // Update highlight position
+          this.highlight.style.left = rect.left + 'px';
+          this.highlight.style.top = rect.top + 'px';
+          this.highlight.style.width = rect.width + 'px';
+          this.highlight.style.height = rect.height + 'px';
+          
+
+          
+          // Reposition tooltip
+          this.positionTooltip(rect, step.position);
+        }
+      }
+      
+      ensureElementVisible(element) {
+        const rect = element.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        const viewportWidth = window.innerWidth;
+        
+        // Check if element is fully visible
+        const isFullyVisible = 
+          rect.top >= 0 && 
+          rect.bottom <= viewportHeight && 
+          rect.left >= 0 && 
+          rect.right <= viewportWidth;
+        
+        if (!isFullyVisible) {
+          // Calculate scroll position to center the element
+          const elementCenter = rect.top + rect.height / 2;
+          const viewportCenter = viewportHeight / 2;
+          const scrollOffset = elementCenter - viewportCenter;
+          
+          // Smooth scroll to element
+          window.scrollTo({
+            top: window.pageYOffset + scrollOffset,
+            behavior: 'smooth'
+          });
+        }
+      }
+      
+      nextStep() {
+        this.currentStep++;
+        if (this.currentStep >= this.steps.length) {
+          this.endTutorial();
+        } else {
+          this.showStep();
+        }
+      }
+      
+      endTutorial() {
+        this.overlay.classList.remove('active');
+        if (this.dontShowAgain.checked) {
+          localStorage.setItem('ezHabitsTutorialSeen', 'true');
+        }
+      }
+      
+      // Method to reset tutorial (for testing)
+      resetTutorial() {
+        localStorage.removeItem('ezHabitsTutorialSeen');
+        this.startTutorial();
+      }
     }
     
-    // Add test button after page loads
-    setTimeout(addTestButton, 2000);
+    // Initialize tutorial
+    const tutorial = new Tutorial();
     
-    // Test notification button
-    document.getElementById('testNotificationBtn').addEventListener('click', () => {
-      if (notificationPermission) {
-        sendNotification(
-          '🔔 Test Notification',
-          {
-            body: 'This is a test notification from EzNotes! If you can see this, notifications are working properly.',
-            tag: 'test-notification',
-            requireInteraction: true
-          }
-        );
-      } else {
-        alert('Please enable notifications in your browser settings to test this feature.');
-      }
-    });
-    
-    // Test sound button
-    document.getElementById('testSoundBtn').addEventListener('click', () => {
-      const currentSound = document.getElementById('notificationSound').value;
-      const button = document.getElementById('testSoundBtn');
-      
-      if (currentSound === 'mute') {
-        // Visual feedback for mute
-        button.textContent = '🔇 Muted';
-        button.style.background = '#9E9E9E';
-        
-        setTimeout(() => {
-          button.textContent = '🔊 Test Sound';
-          button.style.background = '#4CAF50';
-        }, 600);
-        return;
-      }
-      
-      // Visual feedback
-      button.textContent = '🔊 Playing...';
-      button.style.background = '#FF9800';
-      
-      playNotificationSound(currentSound);
-      
-      // Reset button after sound finishes
-      setTimeout(() => {
-        button.textContent = '🔊 Test Sound';
-        button.style.background = '#4CAF50';
-      }, 600);
-    });
+    // Make tutorial accessible for testing
+    window.tutorial = tutorial;
+    console.log('🎯 Tutorial system loaded. Use tutorial.resetTutorial() to restart the tutorial.');
   </script>
 </body>
 </html>
