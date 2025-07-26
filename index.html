@@ -2,12 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>EZ Habits</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>EZ Habits</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
   <style>
+    /* Mobile-first CSS fixes */
+    * {
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      touch-action: manipulation;
+    }
+    
+    /* Allow text selection in inputs and textareas */
+    input, textarea, [contenteditable] {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+      touch-action: auto;
+    }
+    
     body {
       margin: 0;
       padding: 0;
@@ -16,6 +36,9 @@
       color: #222;
       min-height: 100vh;
       box-sizing: border-box;
+      overflow-x: hidden;
+      position: relative;
+      -webkit-overflow-scrolling: touch;
     }
     .floating-island {
       max-width: 500px;
@@ -606,7 +629,7 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      z-index: 100;
+      z-index: 1000;
       opacity: 1;
       pointer-events: auto;
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -665,7 +688,7 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      z-index: 100;
+      z-index: 1001;
       outline: none;
       transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
@@ -726,6 +749,8 @@
         left: 0;
         right: 0;
         bottom: 0;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       
       .modal-overlay {
@@ -746,6 +771,7 @@
         margin: 1rem auto 0 auto;
         padding: 1rem 0.8rem 1rem 0.8rem;
         border-radius: 1.5rem;
+        overflow-x: hidden;
       }
       
       .notes-grid {
@@ -756,22 +782,27 @@
       .note-card {
         min-height: 100px;
         padding: 0.8rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .nav-island {
         width: 280px;
         height: 80px;
         bottom: 15px;
+        touch-action: manipulation;
       }
       
       .fab {
         width: 60px;
         height: 60px;
         font-size: 1.5rem;
+        touch-action: manipulation;
       }
       
       .this-week-calendar {
         margin: 0.8rem 0 1rem 0;
+        overflow-x: hidden;
       }
       
       .this-week-header {
@@ -786,15 +817,21 @@
         width: 28px;
         height: 28px;
         font-size: 1rem;
+        touch-action: manipulation;
+        min-height: 44px;
+        min-width: 44px;
       }
       
       .this-week-grid {
         padding: 0.3rem;
+        overflow-x: hidden;
       }
       
       .week-day {
         min-height: 60px;
         padding: 0.3rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .week-day.today .week-day-number {
@@ -816,12 +853,16 @@
       .week-task {
         font-size: 0.6rem;
         padding: 0.1rem 0.3rem;
+        touch-action: manipulation;
       }
       
       .search-icon-btn {
         width: 44px;
         height: 44px;
         font-size: 1rem;
+        touch-action: manipulation;
+        min-height: 44px;
+        min-width: 44px;
       }
       
       .search-expanded {
@@ -830,11 +871,15 @@
       
       .search-expanded input {
         font-size: 0.9rem;
+        touch-action: auto;
       }
       
       .filter-chips {
         gap: 0.4rem;
         margin: 0 0 1rem 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0.5rem 0;
       }
       
       .chip {
@@ -845,6 +890,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        touch-action: manipulation;
+        cursor: pointer;
+        flex-shrink: 0;
       }
       
       #chipContainer {
@@ -852,10 +900,13 @@
         display: flex;
         flex-wrap: wrap;
         gap: 0.4rem;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
       }
       
       .calendar-window {
         flex-direction: column;
+        overflow-x: hidden;
       }
       
       /* Mobile button improvements */
@@ -867,6 +918,7 @@
         margin: 0.3rem;
         border-radius: 0.8rem;
         touch-action: manipulation;
+        cursor: pointer;
       }
       
       .sort-btn {
@@ -874,6 +926,8 @@
         min-width: 44px;
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .header-ai-btn {
@@ -881,6 +935,8 @@
         min-width: 44px;
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .ai-action-btn {
@@ -889,18 +945,24 @@
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
         margin: 0.3rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .ai-send-btn {
         min-height: 48px;
         min-width: 48px;
         font-size: 1.2rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .ai-home-btn {
         min-height: 48px;
         min-width: 48px;
         font-size: 1.2rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .calendar-nav-btn {
@@ -908,6 +970,8 @@
         min-width: 44px;
         padding: 0.6rem 0.8rem;
         font-size: 1rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .selector-btn {
@@ -915,12 +979,16 @@
         min-width: 44px;
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .close-selector-btn {
         min-height: 44px;
         min-width: 44px;
         font-size: 1.2rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .urgency-dot, .importance-dot {
@@ -928,6 +996,8 @@
         min-width: 44px;
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .term-tag {
@@ -935,6 +1005,8 @@
         min-width: 44px;
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .category-chip {
@@ -942,12 +1014,16 @@
         min-width: 44px;
         padding: 0.6rem 1rem;
         font-size: 0.9rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       .voice-btn {
         min-height: 48px;
         min-width: 48px;
         font-size: 1.2rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       /* Settings buttons */
@@ -957,6 +1033,8 @@
         padding: 0.8rem 1.2rem;
         font-size: 0.9rem;
         margin: 0.3rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       /* Clear search button */
@@ -965,6 +1043,8 @@
         min-width: 44px;
         font-size: 1.2rem;
         padding: 0.5rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       /* Bottom nav buttons */
@@ -973,6 +1053,8 @@
         min-width: 48px;
         font-size: 1.5rem;
         padding: 0.5rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       /* Ensure all buttons are clickable */
@@ -1034,12 +1116,15 @@
       .calendar-day {
         min-height: 60px;
         cursor: pointer;
+        touch-action: manipulation;
       }
       
       .calendar-task {
         min-height: 24px;
         padding: 0.4rem 0.6rem;
         font-size: 0.7rem;
+        touch-action: manipulation;
+        cursor: pointer;
       }
       
       /* Improve AI chat interaction */
@@ -1070,6 +1155,55 @@
       }
       
       .nav-island {
+        z-index: 1000;
+      }
+      
+      .fab {
+        z-index: 1001;
+      }
+      
+      /* Fix horizontal scrolling issues */
+      .floating-island, .modal, .calendar-window, .ai-window {
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      
+      /* Ensure proper touch scrolling */
+      .notes-grid, .filter-chips, .modal, .calendar-window, .ai-window {
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+      }
+      
+      /* Fix calendar grid overflow */
+      .calendar-grid {
+        overflow-x: hidden;
+        max-width: 100%;
+      }
+      
+      /* Ensure week calendar doesn't overflow */
+      .this-week-grid {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      
+      /* Fix search expansion */
+      .search-expanded {
+        max-width: 100%;
+        overflow-x: hidden;
+      }
+      
+      /* Ensure all interactive elements have proper touch targets */
+      .week-day, .calendar-day, .note-card, .chip, button, [role="button"] {
+        position: relative;
+        z-index: 1;
+      }
+      
+      /* Prevent buttons from being hidden behind other elements */
+      .modal-overlay {
+        z-index: 1000;
+      }
+      
+      .nav-island {
         z-index: 999;
       }
       
@@ -1077,7 +1211,29 @@
         z-index: 998;
       }
       
-    /* Calendar window uses the same nav island as main dashboard */
+      /* Ensure buttons are always clickable */
+      button:not([disabled]), [role="button"]:not([disabled]) {
+        pointer-events: auto;
+        cursor: pointer;
+      }
+      
+      /* High contrast for better accessibility */
+      button:focus, [role="button"]:focus {
+        outline: 2px solid #6C63FF;
+        outline-offset: 2px;
+      }
+      
+      /* Ensure proper contrast ratios */
+      .modal-btn, .sort-btn, .header-ai-btn {
+        color: white;
+        background: #6C63FF;
+      }
+      
+      .modal-btn.cancel {
+        color: #666;
+        background: #f0f0f0;
+        border: 1px solid #ddd;
+      }
     }
     
     /* Extra small screens (phones) */
@@ -1085,6 +1241,8 @@
       .floating-island {
         margin: 0.5rem auto 0 auto;
         padding: 0.8rem 0.6rem 0.8rem 0.6rem;
+        max-width: 100vw;
+        overflow-x: hidden;
       }
       
       .header-title {
@@ -1094,6 +1252,9 @@
       .header-ai-btn {
         padding: 0.5rem 0.8rem;
         font-size: 0.8rem;
+        min-height: 44px;
+        min-width: 44px;
+        touch-action: manipulation;
       }
       
       .search-bar {
@@ -1109,11 +1270,13 @@
         font-size: 0.85rem;
         min-height: 40px;
         min-width: 40px;
+        touch-action: manipulation;
       }
       
       .note-card {
         padding: 0.6rem;
         min-height: 80px;
+        touch-action: manipulation;
       }
       
       .note-title {
@@ -1124,6 +1287,7 @@
         width: 260px;
         height: 70px;
         bottom: 10px;
+        touch-action: manipulation;
       }
       
       .bottom-nav {
@@ -1136,6 +1300,7 @@
         font-size: 1.3rem;
         min-height: 44px;
         min-width: 44px;
+        touch-action: manipulation;
       }
       
       .fab {
@@ -1143,10 +1308,13 @@
         height: 55px;
         font-size: 1.3rem;
         bottom: 15px;
+        touch-action: manipulation;
       }
       
       .modal {
         padding: 0.8rem;
+        max-width: 100vw;
+        overflow-x: hidden;
       }
       
       .modal h2 {
@@ -1157,6 +1325,7 @@
         padding: 0.7rem 1rem;
         font-size: 0.9rem;
         min-height: 44px;
+        touch-action: manipulation;
       }
       
       /* Ensure buttons don't overlap */
@@ -1685,20 +1854,25 @@
     }
     .modal-btn-row {
       display: flex;
-      justify-content: flex-end;
-      gap: 1rem;
+      justify-content: space-between;
+      gap: 0.8rem;
       margin-top: 1.2rem;
+      flex-wrap: wrap;
     }
     .modal-btn {
-      padding: 0.7rem 1.5rem;
+      padding: 0.7rem 1.2rem;
       border-radius: 1.2rem;
       border: none;
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-family: inherit;
       cursor: pointer;
       background: #6C63FF;
       color: #fff;
       transition: background 0.2s;
+      white-space: nowrap;
+      min-width: fit-content;
+      flex: 1;
+      text-align: center;
     }
     .modal-btn.cancel {
       background: #e0e0e0;
@@ -1718,6 +1892,20 @@
     }
     .modal-btn:active {
       background: #574fd6;
+    }
+    
+    /* Responsive modal button layout */
+    @media (max-width: 480px) {
+      .modal-btn-row {
+        flex-direction: column;
+        gap: 0.6rem;
+      }
+      
+      .modal-btn {
+        width: 100%;
+        padding: 0.8rem 1rem;
+        font-size: 1rem;
+      }
     }
     /* Settings Modal Styles */
     .settings-section {
@@ -3237,6 +3425,65 @@
         transform: translateY(0);
       }
     }
+    
+    /* Additional mobile fixes */
+    /* Fix for iOS Safari 100vh issue */
+    @supports (-webkit-touch-callout: none) {
+      .modal, .ai-window, .calendar-window {
+        height: -webkit-fill-available;
+      }
+    }
+    
+    /* Ensure proper touch targets on all devices */
+    button, [role="button"], .chip, .note-card, .week-day, .calendar-day {
+      min-height: 44px;
+      min-width: 44px;
+      touch-action: manipulation;
+      cursor: pointer;
+      -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+    }
+    
+    /* Fix for Android Chrome touch issues */
+    @media (hover: none) and (pointer: coarse) {
+      button:hover, [role="button"]:hover, .chip:hover, .note-card:hover {
+        transform: none;
+      }
+      
+      button:active, [role="button"]:active, .chip:active, .note-card:active {
+        transform: scale(0.98);
+      }
+    }
+    
+    /* Ensure proper scrolling on all mobile devices */
+    .modal, .ai-content, .calendar-bottom-section, .notes-grid, .filter-chips {
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    
+    /* Fix for horizontal scrolling issues */
+    .floating-island, .modal, .calendar-window, .ai-window, .notes-grid, .filter-chips {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+    
+          /* Ensure proper z-index stacking */
+      .modal-overlay {
+        z-index: 1000;
+      }
+      
+      .nav-island {
+        z-index: 1000;
+      }
+      
+      .fab {
+        z-index: 1001;
+      }
+    
+    /* Fix for iOS Safari momentum scrolling */
+    .modal, .ai-content, .calendar-bottom-section {
+      -webkit-overflow-scrolling: touch;
+    }
   </style>
 </head>
 <body>
@@ -4540,14 +4787,14 @@
       // Only show delete button if note is done
       if (note.done) {
         deleteBtn.style.display = 'inline-block';
-        deleteBtn.textContent = 'Delete Note';
+        deleteBtn.textContent = 'Delete';
         deleteBtn.style.background = '#FF6B6B';
       } else {
         deleteBtn.style.display = 'none';
       }
       
       // Update button text based on current state
-      markDoneBtn.textContent = note.done ? 'Mark as Undone' : 'Mark as Done';
+      markDoneBtn.textContent = note.done ? 'Undo' : 'Mark Done';
       
       // Ensure modal appears above calendar if in calendar view
       if (calendarWindow.classList.contains('active')) {
@@ -6331,6 +6578,74 @@ CRITICAL REQUIREMENTS:
           e.preventDefault();
         }, { passive: false });
       });
+      
+      // Fix touch scrolling for all scrollable elements
+      const scrollableElements = document.querySelectorAll('.modal, .ai-content, .calendar-bottom-section, .notes-grid, .filter-chips');
+      scrollableElements.forEach(element => {
+        element.addEventListener('touchstart', function(e) {
+          // Allow touch scrolling
+          e.stopPropagation();
+        });
+        
+        element.addEventListener('touchmove', function(e) {
+          // Allow touch scrolling
+          e.stopPropagation();
+        });
+      });
+      
+      // Prevent horizontal scrolling on body
+      document.body.addEventListener('touchmove', function(e) {
+        if (e.touches.length === 1) {
+          const touch = e.touches[0];
+          const startX = touch.clientX;
+          const startY = touch.clientY;
+          
+          // If horizontal movement is greater than vertical, prevent default
+          if (Math.abs(touch.clientX - startX) > Math.abs(touch.clientY - startY)) {
+            e.preventDefault();
+          }
+        }
+      }, { passive: false });
+      
+      // Fix for iOS Safari viewport issues
+      function fixIOSViewport() {
+        const viewport = document.querySelector('meta[name="viewport"]');
+        if (viewport) {
+          viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover');
+        }
+        
+        // Fix for iOS Safari 100vh issue
+        const vh = window.innerHeight * 0.01;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      }
+      
+      // Run on load and resize
+      fixIOSViewport();
+      window.addEventListener('resize', fixIOSViewport);
+      window.addEventListener('orientationchange', fixIOSViewport);
+      
+      // Fix for Android Chrome touch issues
+      if (navigator.userAgent.includes('Android')) {
+        document.body.style.touchAction = 'manipulation';
+        
+        // Prevent pull-to-refresh
+        document.body.addEventListener('touchstart', function(e) {
+          if (e.touches.length === 1) {
+            const touch = e.touches[0];
+            if (touch.clientY <= 0) {
+              e.preventDefault();
+            }
+          }
+        }, { passive: false });
+      }
+      
+      // Fix for iOS Safari momentum scrolling
+      if (navigator.userAgent.includes('iPhone') || navigator.userAgent.includes('iPad')) {
+        const scrollableElements = document.querySelectorAll('.modal, .ai-content, .calendar-bottom-section');
+        scrollableElements.forEach(element => {
+          element.style.webkitOverflowScrolling = 'touch';
+        });
+      }
     }
     
     // Initialize mobile touch support
