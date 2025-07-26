@@ -238,14 +238,35 @@
       padding: 1rem;
       background: #f8f9fa;
       border-top: 1px solid #e0e0e0;
-      max-height: 200px;
+      max-height: 300px;
       overflow-y: auto;
       display: none;
     }
     
     .this-week-notes.show {
-      display: block;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
       animation: slideDown 0.3s ease-out;
+    }
+    
+    /* Mobile responsiveness for daily notes */
+    @media (max-width: 768px) {
+      .this-week-notes.show {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+      }
+      
+      .week-note-item {
+        min-height: 60px;
+        padding: 0.6rem;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .this-week-notes.show {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
     
     @keyframes slideDown {
@@ -262,17 +283,23 @@
     .week-note-item {
       background: #fff;
       padding: 0.8rem;
-      margin: 0.5rem 0;
+      margin: 0;
       border-radius: 0.5rem;
       border-left: 3px solid #6C63FF;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
       cursor: pointer;
       transition: all 0.2s;
+      min-height: 80px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
     }
     
     .week-note-item:hover {
       box-shadow: 0 4px 8px rgba(0,0,0,0.15);
     }
+    
+
     
     /* Weekly Calendar Category Tags */
     .week-categories-container {
@@ -390,10 +417,10 @@
       display: flex;
       flex-wrap: wrap;
       gap: 0.5rem;
-      margin: 0 0 1.5rem 0;
+      margin: 0;
       align-items: center;
-      justify-content: space-between;
-      position: relative;
+      flex: 1;
+      min-width: 0;
     }
     .chip {
       padding: 0.4rem 1rem;
@@ -417,7 +444,6 @@
       gap: 0.5rem;
     }
     .sort-btn {
-      margin-left: auto;
       padding: 0.4rem 1rem;
       border-radius: 1rem;
       background: #6C63FF;
@@ -443,9 +469,12 @@
       border-radius: 0.8rem;
       box-shadow: 0 4px 16px rgba(108,99,255,0.15);
       padding: 0.5rem 0;
-      z-index: 10;
-      min-width: 150px;
+      z-index: 1000;
+      min-width: 180px;
+      max-height: 300px;
+      overflow-y: auto;
       display: none;
+      border: 1px solid #e0e0e0;
     }
     .sort-dropdown.show {
       display: block;
@@ -461,13 +490,14 @@
     .direction-buttons {
       display: flex;
       gap: 0.5rem;
+      margin: 0.5rem;
       margin-bottom: 1rem;
     }
     
     .direction-btn,
     .criteria-btn {
       flex: 1;
-      padding: 0.5rem;
+      padding: 0.8rem;
       border: 2px solid #e0e0e0;
       border-radius: 0.5rem;
       background: #fff;
@@ -475,6 +505,7 @@
       cursor: pointer;
       font-size: 0.9rem;
       transition: all 0.2s;
+      margin: 0.2rem;
     }
     
     .direction-btn:hover,
@@ -492,11 +523,23 @@
     
     .sort-criteria {
       border-top: 1px solid #e0e0e0;
-      padding-top: 1rem;
+      padding: 1rem 0.5rem 0.5rem 0.5rem;
+      margin: 0;
+    }
+    
+    .criteria-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .criteria-buttons .criteria-btn {
+      margin: 0;
+      flex: none;
     }
     .notes-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
       gap: 1rem;
       margin: 0 0 2rem 0;
     }
@@ -1907,6 +1950,68 @@
         font-size: 1rem;
       }
     }
+    
+    /* Desktop modal condensed layout */
+    @media (min-width: 769px) {
+      .modal {
+        max-width: 700px;
+        max-height: 85vh;
+        overflow-y: auto;
+      }
+      
+      .modal h2 {
+        margin-bottom: 1rem;
+      }
+      
+      .modal-form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+      
+      .modal-form-grid .full-width {
+        grid-column: 1 / -1;
+      }
+      
+      .modal-form-grid .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3rem;
+      }
+      
+      .modal-form-grid label {
+        margin-bottom: 0.2rem;
+        font-size: 0.9rem;
+      }
+      
+      .modal-form-grid input,
+      .modal-form-grid textarea,
+      .modal-form-grid select {
+        padding: 0.6rem;
+        margin-bottom: 0.3rem;
+      }
+      
+      .modal-form-grid .voice-row {
+        margin-bottom: 0.3rem;
+      }
+      
+      .modal-form-grid .category-row,
+      .modal-form-grid .importance-row,
+      .modal-form-grid .term-tags-row {
+        margin-bottom: 0.3rem;
+      }
+      
+      .modal-form-grid .duration-inputs {
+        display: flex;
+        gap: 0.5rem;
+      }
+      
+      .modal-form-grid .duration-inputs input {
+        flex: 1;
+        margin-right: 0;
+      }
+    }
     /* Settings Modal Styles */
     .settings-section {
       margin-bottom: 1.5rem;
@@ -3054,6 +3159,17 @@
       color: #90a4ae;
     }
     
+    /* Desktop Importance Dots */
+    @media (min-width: 769px) {
+      .week-day-content .importance-dot {
+        width: 25px !important;
+        height: 25px !important;
+        font-size: 15px !important;
+        min-width: 25px !important;
+        min-height: 25px !important;
+      }
+    }
+    
     /* Delete hint for done notes */
     .note-delete-hint {
       font-size: 0.75rem;
@@ -3525,23 +3641,30 @@
     
     <div id="searchResultsCount" style="display: none; text-align: center; color: #666; font-size: 0.9rem; margin: 0.5rem 0;"></div>
     
-    <div class="filter-chips" id="filterChips" style="position: relative;">
-      <div id="chipContainer"></div>
-      <button class="sort-btn" id="sortBtn">Sort ▼</button>
-      <div class="sort-dropdown" id="sortDropdown">
-        <div class="sort-direction">
-          <h4>Sort Direction</h4>
-          <div class="direction-buttons">
-            <button class="direction-btn" data-direction="asc">Ascending</button>
-            <button class="direction-btn" data-direction="desc">Descending</button>
+    <div class="filter-sort-row" style="display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin: 0 0 1.5rem 0;">
+      <div class="filter-chips" id="filterChips">
+        <div id="chipContainer"></div>
+      </div>
+      
+      <div class="sort-container" style="position: relative; flex-shrink: 0;">
+        <button class="sort-btn" id="sortBtn">Sort ▼</button>
+        <div class="sort-dropdown" id="sortDropdown">
+          <div class="sort-direction">
+            <h4>Sort Direction</h4>
+            <div class="direction-buttons">
+              <button class="direction-btn" data-direction="asc">Ascending</button>
+              <button class="direction-btn" data-direction="desc">Descending</button>
+            </div>
           </div>
-        </div>
-        <div class="sort-criteria hidden" id="sortCriteria">
-          <h4>Sort By</h4>
-          <button class="criteria-btn" data-criteria="date">Due Date</button>
-          <button class="criteria-btn" data-criteria="added">Date Added</button>
-          <button class="criteria-btn" data-criteria="importance">Importance</button>
-          <button class="criteria-btn" data-criteria="duration">Duration</button>
+          <div class="sort-criteria hidden" id="sortCriteria">
+            <h4>Sort By</h4>
+            <div class="criteria-buttons">
+              <button class="criteria-btn" data-criteria="date">Due Date</button>
+              <button class="criteria-btn" data-criteria="added">Date Added</button>
+              <button class="criteria-btn" data-criteria="importance">Importance</button>
+              <button class="criteria-btn" data-criteria="duration">Duration</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -3567,39 +3690,62 @@
   <div class="modal-overlay hidden" id="modalOverlay">
     <form class="modal" id="addNoteModal">
       <h2>Add Note</h2>
-      <label for="noteTitle">Title</label>
-      <div class="voice-row">
-        <input type="text" id="noteTitle" placeholder="Enter title..." style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;">
-        <button type="button" class="voice-btn" id="voiceBtn" title="Record voice note">🎤</button>
+      <div class="modal-form-grid">
+        <div class="form-group full-width">
+          <label for="noteTitle">Title</label>
+          <div class="voice-row">
+            <input type="text" id="noteTitle" placeholder="Enter title..." style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;">
+            <button type="button" class="voice-btn" id="voiceBtn" title="Record voice note">🎤</button>
+          </div>
+        </div>
+        
+        <div class="form-group full-width">
+          <label for="noteDescription">Description (Optional)</label>
+          <div class="voice-row">
+            <textarea id="noteDescription" rows="2" placeholder="Add description..."></textarea>
+            <button type="button" class="voice-btn" id="voiceDescBtn" title="Record voice description">🎤</button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="customDate">Date</label>
+          <input type="date" id="customDate" style="box-sizing: border-box;">
+        </div>
+        
+        <div class="form-group">
+          <label for="duration">Duration (optional)</label>
+          <div class="duration-inputs">
+            <input type="number" id="durationHours" placeholder="Hours" min="0" step="1">
+            <input type="number" id="durationMinutes" placeholder="Minutes" min="0" max="59" step="1">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Categories <button type="button" class="category-settings-btn" id="categorySettingsBtn" title="Manage categories">⚙️</button></label>
+          <div class="category-row" id="categoryRow">
+            <!-- Categories will be dynamically loaded -->
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Importance Level</label>
+          <div class="importance-row" id="importanceRow">
+            <div class="importance-dot" data-level="very" title="Very Important">Very</div>
+            <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
+            <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
+          </div>
+        </div>
+        
+        <div class="form-group full-width">
+          <label>Term Tags (Optional)</label>
+          <div class="term-tags-row" id="termTagsRow">
+            <button type="button" class="term-tag" data-term="short">Short-term</button>
+            <button type="button" class="term-tag" data-term="medium">Medium-term</button>
+            <button type="button" class="term-tag" data-term="long">Long-term</button>
+          </div>
+        </div>
       </div>
-      <label for="noteDescription">Description (Optional)</label>
-      <div class="voice-row">
-        <textarea id="noteDescription" rows="3" placeholder="Add description..."></textarea>
-        <button type="button" class="voice-btn" id="voiceDescBtn" title="Record voice description">🎤</button>
-      </div>
-      <label for="customDate">Date</label>
-      <input type="date" id="customDate" style="box-sizing: border-box;">
-      <label>Categories <button type="button" class="category-settings-btn" id="categorySettingsBtn" title="Manage categories">⚙️</button></label>
-      <div class="category-row" id="categoryRow">
-        <!-- Categories will be dynamically loaded -->
-      </div>
-      <label>Importance Level</label>
-      <div class="importance-row" id="importanceRow">
-        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
-        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
-        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
-      </div>
-      <label>Term Tags (Optional)</label>
-      <div class="term-tags-row" id="termTagsRow">
-        <button type="button" class="term-tag" data-term="short">Short-term</button>
-        <button type="button" class="term-tag" data-term="medium">Medium-term</button>
-        <button type="button" class="term-tag" data-term="long">Long-term</button>
-      </div>
-      <label for="duration">Duration (optional)</label>
-      <div class="duration-inputs">
-        <input type="number" id="durationHours" placeholder="Hours" min="0" step="1" style="width: 45%; margin-right: 5%;">
-        <input type="number" id="durationMinutes" placeholder="Minutes" min="0" max="59" step="1" style="width: 45%;">
-      </div>
+      
       <div class="modal-btn-row">
         <button type="button" class="modal-btn cancel" id="cancelModalBtn">Cancel</button>
         <button type="submit" class="modal-btn">Save</button>
@@ -3610,39 +3756,62 @@
   <div class="modal-overlay hidden" id="editModalOverlay">
     <form class="modal" id="editNoteModal">
       <h2 id="editModalTitle">Edit Note</h2>
-      <label for="editNoteTitle">Title</label>
-      <div class="voice-row">
-        <input type="text" id="editNoteTitle" placeholder="Enter title..." style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;">
-        <button type="button" class="voice-btn" id="editVoiceBtn" title="Record voice note">🎤</button>
+      <div class="modal-form-grid">
+        <div class="form-group full-width">
+          <label for="editNoteTitle">Title</label>
+          <div class="voice-row">
+            <input type="text" id="editNoteTitle" placeholder="Enter title..." style="width: 100%; padding: 0.8rem; border: 1px solid #ccc; border-radius: 0.5rem; font-size: 1rem; box-sizing: border-box;">
+            <button type="button" class="voice-btn" id="editVoiceBtn" title="Record voice note">🎤</button>
+          </div>
+        </div>
+        
+        <div class="form-group full-width">
+          <label for="editNoteDescription">Description (Optional)</label>
+          <div class="voice-row">
+            <textarea id="editNoteDescription" rows="2" placeholder="Add description..."></textarea>
+            <button type="button" class="voice-btn" id="editVoiceDescBtn" title="Record voice description">🎤</button>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="editCustomDate">Date</label>
+          <input type="date" id="editCustomDate" style="box-sizing: border-box;">
+        </div>
+        
+        <div class="form-group">
+          <label for="editDuration">Duration (optional)</label>
+          <div class="duration-inputs">
+            <input type="number" id="editDurationHours" placeholder="Hours" min="0" step="1">
+            <input type="number" id="editDurationMinutes" placeholder="Minutes" min="0" max="59" step="1">
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Categories <button type="button" class="category-settings-btn" id="editCategorySettingsBtn" title="Manage categories">⚙️</button></label>
+          <div class="category-row" id="editCategoryRow">
+            <!-- Categories will be dynamically loaded -->
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label>Importance Level</label>
+          <div class="importance-row" id="editImportanceRow">
+            <div class="importance-dot" data-level="very" title="Very Important">Very</div>
+            <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
+            <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
+          </div>
+        </div>
+        
+        <div class="form-group full-width">
+          <label>Term Tags (Optional)</label>
+          <div class="term-tags-row" id="editTermTagsRow">
+            <button type="button" class="term-tag" data-term="short">Short-term</button>
+            <button type="button" class="term-tag" data-term="medium">Medium-term</button>
+            <button type="button" class="term-tag" data-term="long">Long-term</button>
+          </div>
+        </div>
       </div>
-      <label for="editNoteDescription">Description (Optional)</label>
-      <div class="voice-row">
-        <textarea id="editNoteDescription" rows="3" placeholder="Add description..."></textarea>
-        <button type="button" class="voice-btn" id="editVoiceDescBtn" title="Record voice description">🎤</button>
-      </div>
-      <label for="editCustomDate">Date</label>
-      <input type="date" id="editCustomDate" style="box-sizing: border-box;">
-      <label>Categories <button type="button" class="category-settings-btn" id="editCategorySettingsBtn" title="Manage categories">⚙️</button></label>
-      <div class="category-row" id="editCategoryRow">
-        <!-- Categories will be dynamically loaded -->
-      </div>
-      <label>Importance Level</label>
-      <div class="importance-row" id="editImportanceRow">
-        <div class="importance-dot" data-level="very" title="Very Important">Very</div>
-        <div class="importance-dot" data-level="moderately" title="Moderately Important">Moderately</div>
-        <div class="importance-dot" data-level="slightly" title="Slightly Important">Slightly</div>
-      </div>
-      <label>Term Tags (Optional)</label>
-      <div class="term-tags-row" id="editTermTagsRow">
-        <button type="button" class="term-tag" data-term="short">Short-term</button>
-        <button type="button" class="term-tag" data-term="medium">Medium-term</button>
-        <button type="button" class="term-tag" data-term="long">Long-term</button>
-      </div>
-      <label for="editDuration">Duration (optional)</label>
-      <div class="duration-inputs">
-        <input type="number" id="editDurationHours" placeholder="Hours" min="0" step="1" style="width: 45%; margin-right: 5%;">
-        <input type="number" id="editDurationMinutes" placeholder="Minutes" min="0" max="59" step="1" style="width: 45%;">
-      </div>
+      
       <div class="modal-btn-row">
         <button type="button" class="modal-btn cancel" id="cancelEditModalBtn">Cancel</button>
         <button type="button" class="modal-btn delete" id="deleteNoteBtn" style="display: none;">Delete</button>
@@ -4803,9 +4972,43 @@
         editModal.style.zIndex = '201';
       }
       
-      hideNavBar(); // Hide nav bar when edit modal opens
       editModal.classList.remove('hidden');
+      hideNavBar();
     }
+    
+    // Helper function to generate week note HTML
+    function generateWeekNoteHTML(task) {
+      const importance = task.importance || 'moderately';
+      const importanceColors = {
+        'slightly': '#4caf50',
+        'moderately': '#ff9800',
+        'very': '#f44336'
+      };
+      const borderColor = importanceColors[importance];
+      const backgroundColor = importance === 'slightly' ? '#e8f5e8' : 
+                            importance === 'moderately' ? '#fff3e0' : '#ffebee';
+      
+      // Handle multiple categories display
+      const taskCategories = task.categories || [task.category || 'Other'];
+      const categoriesDisplay = taskCategories.length > 0 ? 
+        taskCategories.map(cat => `<span class="week-category-tag">${cat}</span>`).join('') : 
+        '<span class="week-category-tag">Other</span>';
+      
+      return `
+        <div class="week-note-item" onclick="openEditModal(${JSON.stringify(task).replace(/"/g, '&quot;')})" 
+             style="border-left-color: ${borderColor}; background-color: ${backgroundColor}; position: relative; ${task.done ? 'opacity: 0.6;' : ''}">
+          <div style="font-weight: 600; margin-bottom: 0.3rem; color: #333; ${task.done ? 'text-decoration: line-through;' : ''}">${task.title || task.text}</div>
+          <div style="font-size: 0.8rem; color: #666; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+            <span style="color: ${borderColor}; font-weight: 500;">${getImportanceText(importance)}</span>
+            <div class="week-categories-container">
+              ${categoriesDisplay}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+    
+
     
     // Add note form submission
     addNoteModal.onsubmit = (e) => {
@@ -6792,6 +6995,15 @@ CRITICAL REQUIREMENTS:
             dotElement.textContent = tasks.length;
             dotElement.title = `${tasks.length} ${importance} importance task${tasks.length > 1 ? 's' : ''}`;
             
+            // Add desktop-specific styling for larger dots
+            if (window.innerWidth > 768) {
+              dotElement.style.width = '25px';
+              dotElement.style.height = '25px';
+              dotElement.style.fontSize = '15px';
+              dotElement.style.minWidth = '25px';
+              dotElement.style.minHeight = '25px';
+            }
+            
             // Make dot clickable to show tasks
             dotElement.onclick = (e) => {
               e.stopPropagation();
@@ -6841,10 +7053,10 @@ CRITICAL REQUIREMENTS:
     
     function showWeekDayDetails(date, tasks) {
       const weekNotes = document.getElementById('thisWeekNotes');
-      const activeTasks = tasks.filter(task => !task.done);
+      const allTasks = tasks; // Show all tasks, not just active ones
           
-      if (activeTasks.length === 0) {
-        weekNotes.innerHTML = '<p style="color: #666; text-align: center; margin: 1rem 0;">No active tasks for this date</p>';
+      if (allTasks.length === 0) {
+        weekNotes.innerHTML = '<p style="color: #666; text-align: center; margin: 1rem 0;">No tasks for this date</p>';
           } else {
         // Define importance colors for task list
         const importanceColors = {
@@ -6853,31 +7065,7 @@ CRITICAL REQUIREMENTS:
           'very': '#f44336'
         };
         
-        weekNotes.innerHTML = activeTasks.map(task => {
-          const importance = task.importance || 'moderately';
-          const borderColor = importanceColors[importance];
-          const backgroundColor = importance === 'slightly' ? '#e8f5e8' : 
-                                importance === 'moderately' ? '#fff3e0' : '#ffebee';
-          
-          // Handle multiple categories display
-          const taskCategories = task.categories || [task.category || 'Other'];
-          const categoriesDisplay = taskCategories.length > 0 ? 
-            taskCategories.map(cat => `<span class="week-category-tag">${cat}</span>`).join('') : 
-            '<span class="week-category-tag">Other</span>';
-          
-          return `
-            <div class="week-note-item" onclick="openEditModal(${JSON.stringify(task).replace(/"/g, '&quot;')})" 
-                 style="border-left-color: ${borderColor}; background-color: ${backgroundColor};">
-              <div style="font-weight: 600; margin-bottom: 0.3rem; color: #333;">${task.title || task.text}</div>
-              <div style="font-size: 0.8rem; color: #666; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                <span style="color: ${borderColor}; font-weight: 500;">${getImportanceText(importance)}</span>
-                <div class="week-categories-container">
-                  ${categoriesDisplay}
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
+        weekNotes.innerHTML = allTasks.map(task => generateWeekNoteHTML(task)).join('');
       }
       
       weekNotes.classList.add('show');
@@ -6906,7 +7094,7 @@ CRITICAL REQUIREMENTS:
       for (let i = 0; i < 7; i++) {
         const currentDate = new Date(weekStart);
         currentDate.setDate(weekStart.getDate() + i);
-        const tasksForDay = getDueDatesForDate(currentDate).filter(task => !task.done);
+        const tasksForDay = getDueDatesForDate(currentDate);
         weekNotesList.push(...tasksForDay);
       }
       
@@ -6916,7 +7104,7 @@ CRITICAL REQUIREMENTS:
       );
       
       if (uniqueNotes.length === 0) {
-        weekNotes.innerHTML = '<p style="color: #666; text-align: center; margin: 1rem 0;">No active tasks for this week</p>';
+        weekNotes.innerHTML = '<p style="color: #666; text-align: center; margin: 1rem 0;">No tasks for this week</p>';
       } else {
         // Define importance colors for task list
         const importanceColors = {
@@ -6925,31 +7113,7 @@ CRITICAL REQUIREMENTS:
           'very': '#f44336'
         };
         
-        weekNotes.innerHTML = uniqueNotes.map(task => {
-          const importance = task.importance || 'moderately';
-          const borderColor = importanceColors[importance];
-          const backgroundColor = importance === 'slightly' ? '#e8f5e8' : 
-                                importance === 'moderately' ? '#fff3e0' : '#ffebee';
-          
-          // Handle multiple categories display
-          const taskCategories = task.categories || [task.category || 'Other'];
-          const categoriesDisplay = taskCategories.length > 0 ? 
-            taskCategories.map(cat => `<span class="week-category-tag">${cat}</span>`).join('') : 
-            '<span class="week-category-tag">Other</span>';
-          
-          return `
-            <div class="week-note-item" onclick="openEditModal(${JSON.stringify(task).replace(/"/g, '&quot;')})" 
-                 style="border-left-color: ${borderColor}; background-color: ${backgroundColor};">
-              <div style="font-weight: 600; margin-bottom: 0.3rem; color: #333;">${task.title || task.text}</div>
-              <div style="font-size: 0.8rem; color: #666; display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
-                <span style="color: ${borderColor}; font-weight: 500;">${getImportanceText(importance)}</span>
-                <div class="week-categories-container">
-                  ${categoriesDisplay}
-                </div>
-              </div>
-            </div>
-          `;
-        }).join('');
+        weekNotes.innerHTML = uniqueNotes.map(task => generateWeekNoteHTML(task)).join('');
       }
       
       weekNotes.classList.add('show');
